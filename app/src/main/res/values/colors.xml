@@ -3,4 +3,21 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="transparent">#01000000</color>
+
+    <!-- White Series -->
+    <color name="white">#ffffff</color>
+
+    <!-- Black Series -->
+    <color name="black">#000000</color>
+    <color name="black_3f3a3a">#3F3A3A</color>
+
+    <!-- Bottom Navigation -->
+    <color name="bottom_navigation_item_normal">#999999</color>
+    <color name="bottom_navigation_item_selected">@color/black_3f3a3a</color>
+
+    <!-- Blue Series -->
+    <color name="blue_facebook">#3b5998</color>
+
+
 </resources>

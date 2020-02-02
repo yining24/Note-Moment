@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_list"
+        android:icon="@drawable/icon_listbook_gray"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/icon_locate_earth"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/icon_profile_gray"
+        android:title=""
+        app:showAsAction="always" />
+
+</menu>

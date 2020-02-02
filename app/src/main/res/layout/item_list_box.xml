@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="box"
+            type="com.angela.notemoment.data.Box" />
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.list.ListViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
+
+        <ImageView
+            android:id="@+id/list_box_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/com_facebook_button_like_background" />
+
+        <TextView
+            android:id="@+id/list_box_title"
+            style="@style/boxTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一個人的日本"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/list_box_image"
+            app:layout_constraintStart_toStartOf="@+id/list_box_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/list_box_date"
+            style="@style/boxTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/20 - 1/22"
+            app:layout_constraintBottom_toTopOf="@+id/list_box_title"
+            app:layout_constraintEnd_toEndOf="@+id/list_box_image"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
