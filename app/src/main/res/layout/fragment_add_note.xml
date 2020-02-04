@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.addnote.AddNoteViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/upload_image"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/blue_facebook"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/upload_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/upload_image"
+            app:layout_constraintEnd_toEndOf="@+id/upload_image"
+            app:srcCompat="@drawable/icon_photo_gray" />
+
+        <ImageButton
+            android:id="@+id/camera_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/upload_image"
+            app:layout_constraintEnd_toStartOf="@+id/upload_button"
+            app:srcCompat="@drawable/icon_camera_gray" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/title_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="請輸入筆記名稱"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upload_image">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/location_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="請輸入景點"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/select_date"
+            style="@style/boxTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_text_frame"
+            android:text="請點選開始日期"
+            app:layout_constraintEnd_toEndOf="@+id/location_text"
+            app:layout_constraintStart_toStartOf="@+id/location_text"
+            app:layout_constraintTop_toBottomOf="@+id/location_text" />
+
+        <TextView
+            android:id="@+id/select_time"
+            style="@style/boxTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_text_frame"
+            android:text="請點選時間"
+            app:layout_constraintEnd_toEndOf="@+id/location_text"
+            app:layout_constraintStart_toStartOf="@+id/location_text"
+            app:layout_constraintTop_toBottomOf="@+id/select_date" />
+
+        <Spinner
+            android:id="@+id/select_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/location_text"
+            app:layout_constraintStart_toStartOf="@+id/location_text"
+            app:layout_constraintTop_toBottomOf="@+id/select_time"
+            android:spinnerMode="dialog" />
+
+        <Spinner
+            android:id="@+id/select_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/location_text"
+            app:layout_constraintStart_toStartOf="@+id/location_text"
+            app:layout_constraintTop_toBottomOf="@+id/select_tag"
+            android:spinnerMode="dialog"
+            android:prompt="@string/app_name" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/write_note"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:hint="請輸入筆記"
+            app:layout_constraintBottom_toTopOf="@+id/save_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/select_box">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_text_frame"
+            android:letterSpacing="0.15"
+            android:text="儲存"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

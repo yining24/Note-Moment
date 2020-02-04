@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.MainViewModel" />
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,12 +41,12 @@
                     android:textStyle="bold"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton"
+                    app:layout_constraintEnd_toStartOf="@+id/search_button"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/imageButton"
+                    android:id="@+id/search_button"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginEnd="16dp"
@@ -97,7 +100,8 @@
             app:layout_constraintTop_toTopOf="@+id/fab"
             app:layout_constraintEnd_toEndOf="@+id/fab"
             app:layout_constraintStart_toStartOf="@+id/fab"
-            app:srcCompat="@drawable/icon_addfolder_black" />
+            app:srcCompat="@drawable/icon_addfolder_black"
+            android:onClick="@{() -> viewModel.navigateToAddBox()}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_note"
@@ -109,7 +113,8 @@
             app:layout_constraintEnd_toEndOf="@+id/fab"
             app:layout_constraintStart_toStartOf="@+id/fab"
             app:layout_constraintTop_toTopOf="@+id/fab"
-            app:srcCompat="@drawable/icon_writenote_black" />
+            app:srcCompat="@drawable/icon_writenote_black"
+            android:onClick="@{() -> viewModel.navigateToAddNote()}"/>
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -119,6 +124,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
+            android:elevation="6dp"
             app:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/myNavHostFragment"
             app:layout_constraintEnd_toEndOf="parent"

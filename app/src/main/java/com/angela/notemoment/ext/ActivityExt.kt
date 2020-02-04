@@ -7,10 +7,10 @@ import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.factory.ViewModelFactory
 
 
-//fun Activity.getVmFactory(): ViewModelFactory {
-//    val repository = (applicationContext as NoteApplication).noteRepository
-//    return ViewModelFactory(repository)
-//}
+fun Activity.getVmFactory(): ViewModelFactory {
+    val repository = (applicationContext as NoteApplication).noteRepository
+    return ViewModelFactory(repository)
+}
 
 fun Activity?.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {

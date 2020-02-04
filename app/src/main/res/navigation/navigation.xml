@@ -36,6 +36,22 @@
         android:id="@+id/homeFragment"
         android:name="com.angela.notemoment.HomeFragment"
         android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/addboxFragment"
+        android:name="com.angela.notemoment.addbox.AddBoxFragment"
+        android:label="AddboxFragment" />
+    <action android:id="@+id/action_global_addboxFragment"
+        app:destination="@id/addboxFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/addNoteFragment"
+        android:name="com.angela.notemoment.addnote.AddNoteFragment"
+        android:label="AddNoteFragment" />
+    <action android:id="@+id/action_global_addNoteFragment"
+        app:destination="@id/addNoteFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="false" />
 
 
 </navigation>
