@@ -7,7 +7,7 @@ import kotlin.properties.Delegates
 class NoteApplication : Application() {
 
     val noteRepository: NoteRepository
-        get() = ServiceLocator.provideTasksRepository(this)
+        get() = ServiceLocator.provideRepository(this)
 
     companion object {
         var instance: NoteApplication by Delegates.notNull()

@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/upload_image"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="150dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
@@ -56,14 +56,18 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="請輸入筆記名稱"
+            app:hintTextAppearance="@style/TextInputHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/upload_image">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,16 +77,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="請輸入景點"
+            app:hintTextAppearance="@style/TextInputHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_text">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,11 +98,13 @@
             style="@style/boxTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_text_frame"
             android:text="請點選開始日期"
-            app:layout_constraintEnd_toEndOf="@+id/location_text"
-            app:layout_constraintStart_toStartOf="@+id/location_text"
+            app:layout_constraintEnd_toStartOf="@+id/select_time"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/location_text" />
 
         <TextView
@@ -103,31 +112,58 @@
             style="@style/boxTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/bg_text_frame"
             android:text="請點選時間"
-            app:layout_constraintEnd_toEndOf="@+id/location_text"
-            app:layout_constraintStart_toStartOf="@+id/location_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/select_date"
+            app:layout_constraintTop_toTopOf="@+id/select_date" />
+
+        <DatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="212dp"
+            android:layout_height="79dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            app:layout_constraintStart_toStartOf="@+id/select_date"
             app:layout_constraintTop_toBottomOf="@+id/select_date" />
 
-        <Spinner
+        <TimePicker
+            android:id="@+id/time_picker"
+            android:layout_width="157dp"
+            android:layout_height="79dp"
+            android:timePickerMode="spinner"
+            android:transformPivotX="10dp"
+            app:layout_constraintStart_toEndOf="@+id/date_picker"
+            app:layout_constraintTop_toBottomOf="@+id/select_time" />
+
+
+        <TextView
             android:id="@+id/select_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_text_frame"
+            android:text="tag : super"
             app:layout_constraintEnd_toEndOf="@+id/location_text"
-            app:layout_constraintStart_toStartOf="@+id/location_text"
-            app:layout_constraintTop_toBottomOf="@+id/select_time"
-            android:spinnerMode="dialog" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_picker" />
 
         <Spinner
             android:id="@+id/select_box"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_text_frame"
+            android:prompt="@string/app_name"
+            android:spinnerMode="dialog"
             app:layout_constraintEnd_toEndOf="@+id/location_text"
             app:layout_constraintStart_toStartOf="@+id/location_text"
-            app:layout_constraintTop_toBottomOf="@+id/select_tag"
-            android:spinnerMode="dialog"
-            android:prompt="@string/app_name" />
+            app:layout_constraintTop_toBottomOf="@+id/select_tag" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/write_note"

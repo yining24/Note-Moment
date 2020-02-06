@@ -1,10 +1,10 @@
 package com.angela.notemoment.addbox
 
 import android.app.DatePickerDialog
+import android.icu.text.DateFormat
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +14,9 @@ import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentAddBoxBinding
 import com.hbb20.CountryCodePicker
 import java.util.*
+import com.savvi.rangedatepicker.CalendarPickerView
+import android.net.ParseException
+import com.savvi.rangedatepicker.SubTitle
 
 
 class AddBoxFragment : Fragment() {
@@ -68,33 +71,10 @@ class AddBoxFragment : Fragment() {
 
         return binding.root
     }
+
+
+
+
 }
 
 
-
-
-//
-//fun setupRangePickerDialog() {
-//    val builder: MaterialDatePicker.Builder<*> = MaterialDatePicker.Builder.dateRangePicker()
-//    val constraintsBuilder = CalendarConstraints.Builder()
-//    try {
-//        builder.setCalendarConstraints(constraintsBuilder.build())
-//        val picker: MaterialDatePicker<*> = builder.build()
-//        getDateRange(picker)
-//        picker.show(FragmentManager, picker.toString())
-//    } catch (e: IllegalArgumentException) {
-//
-//    }
-
-
-//
-//fun getDateRange(materialCalendarPicker: MaterialDatePicker<out Any>) {
-//    materialCalendarPicker.addOnPositiveButtonClickListener { selection: Any? ->
-//        Log.e("DateRangeText",materialCalendarPicker.headerText)
-//
-//    }
-//    materialCalendarPicker.addOnNegativeButtonClickListener { dialog: View? ->
-//    }
-//    materialCalendarPicker.addOnCancelListener { dialog: DialogInterface? ->
-//    }
-//}

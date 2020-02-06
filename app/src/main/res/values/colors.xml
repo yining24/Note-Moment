@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#0ea8b9</color>
     <color name="transparent">#01000000</color>
 
     <!-- White Series -->
@@ -13,11 +13,14 @@
     <color name="black_3f3a3a">#3F3A3A</color>
 
     <!-- Bottom Navigation -->
-    <color name="bottom_navigation_item_normal">#999999</color>
+    <color name="bottom_navigation_item_normal">#90FFFFFF</color>
     <color name="bottom_navigation_item_selected">@color/black_3f3a3a</color>
 
     <!-- Blue Series -->
     <color name="blue_facebook">#7B9DE6</color>
+    <color name="com_facebook_button_background_color_focused_disabled">#7B9DE6</color>
+    <color name="com_facebook_button_background_color_focused">#7B9DE6</color>
+    <color name="com_facebook_button_border_color_focused">#7B9DE6</color>
 
 
 </resources>

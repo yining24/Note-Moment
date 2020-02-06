@@ -2,12 +2,15 @@ package com.angela.notemoment.addnote
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.TimePicker
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.angela.notemoment.R
@@ -60,6 +63,19 @@ class AddNoteFragment  : Fragment() {
             }, hour, minute, true).show()
         }
 
-    return binding.root
+        val timePicker = binding.timePicker as TimePicker
+        timePicker.setIs24HourView(true)
+
+
+        // spinner box need to get firebase data
+        val spinnerBox = binding.selectBox
+        val box = arrayListOf("1/20 日本行", "1/22 一個人的旅行")
+        val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_dropdown_item, box)
+        spinnerBox.adapter = adapter
+
+
+
+
+        return binding.root
     }
 }

@@ -4,28 +4,28 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.angela.notemoment.data.source.DefaultNoteRepository
 import com.angela.notemoment.data.source.NoteDataSource
-import com.angela.notemoment.data.source.NoteRemoteDataSource
+import com.angela.notemoment.data.source.remote.NoteRemoteDataSource
 import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.data.source.local.NoteLocalDataSource
 
 object ServiceLocator {
 
     @Volatile
-    var noteRepository: NoteRepository? = null
+    var repository: NoteRepository? = null
         @VisibleForTesting set
 
-    fun provideTasksRepository(context: Context): NoteRepository {
+    fun provideRepository(context: Context): NoteRepository {
         synchronized(this) {
-            return noteRepository
-                ?: noteRepository
+            return repository
+                ?: repository
                 ?: createNoteRepository(context)
         }
     }
 
     private fun createNoteRepository(context: Context): NoteRepository {
         return DefaultNoteRepository(
-            NoteRemoteDataSource
-//            createLocalDataSource(context)
+            NoteRemoteDataSource,
+            createLocalDataSource(context)
         )
     }
 
