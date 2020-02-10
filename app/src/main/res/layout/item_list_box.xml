@@ -36,7 +36,8 @@
             style="@style/boxTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="一個人的日本"
+            android:text="@{box.title}"
+            tools:text="一個人的日本"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/list_box_image"
             app:layout_constraintStart_toStartOf="@+id/list_box_image"
@@ -47,7 +48,8 @@
             style="@style/boxTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1/20 - 1/22"
+            android:text='@{viewModel.displayDate(box.startDate, box.endDate)}'
+            android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/list_box_title"
             app:layout_constraintEnd_toEndOf="@+id/list_box_image"
             app:layout_constraintStart_toStartOf="parent" />

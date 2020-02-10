@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.addbox.AddBoxViewModel" />
 
     </data>
 
@@ -65,7 +68,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.box.title}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,7 +90,9 @@
             app:ccp_showPhoneCode="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            app:ccp_countryPreference="TW,US,JP"
+            app:ccp_defaultLanguage="CHINESE_TRADITIONAL" />
 
         <TextView
             android:id="@+id/select_start_date"
@@ -95,7 +101,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="請點選開始日期"
+            android:text="@{viewModel.boxStartDate}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ccp"
@@ -111,7 +117,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_text_frame"
-            android:text="請點選結束日期"
+            android:text="@{viewModel.boxEndDate}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select_start_date" />
@@ -132,7 +138,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> viewModel.publishBoxResult(viewModel.box)}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

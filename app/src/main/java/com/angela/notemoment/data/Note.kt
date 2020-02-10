@@ -6,12 +6,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Note(
-    val title: String,
-    val date: String,
-    val time: String,
-    val content: String,
-    val location: String,
-    val tags: List<String>,
-    val images: List<String>,
-    val boxId : String
+    var title:      String          = "",
+    var time:       Long            = 1,
+    var content:    String          = "",
+    var location:   String          = "",
+    var tags:       String          = "",
+    var images:     List<String>    = listOf(),
+    var boxId :     String          = ""
 ): Parcelable

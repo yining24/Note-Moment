@@ -60,6 +60,12 @@
     <action android:id="@+id/action_global_loginFragment"
         app:destination="@id/loginFragment"
         app:popUpToInclusive="true"/>
+    <fragment
+        android:id="@+id/listNoteFragment"
+        android:name="com.angela.notemoment.listnote.ListNoteFragment"
+        android:label="ListNoteFragment" />
+    <action android:id="@+id/action_global_listNoteFragment"
+        app:destination="@id/listNoteFragment"/>
 
 
 </navigation>

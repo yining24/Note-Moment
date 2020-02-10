@@ -1,6 +1,5 @@
-package com.angela.notemoment.list
+package com.angela.notemoment.listnote
 
-import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,19 +8,27 @@ import com.angela.notemoment.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.data.Box
+import com.angela.notemoment.data.ListNoteSorted
+import com.angela.notemoment.data.Note
+import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import com.angela.notemoment.data.Result
 
-class ListViewModel(private val repository: NoteRepository) : ViewModel() {
+class ListNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
-    private val _boxes = MutableLiveData<List<Box>>()
+    private val _noteSorted = MutableLiveData<List<ListNoteSorted>>()
 
-    val boxes: LiveData<List<Box>>
-        get() = _boxes
+    val noteSorted: LiveData<List<ListNoteSorted>>
+        get() = _noteSorted
+
+
+    private val _note = MutableLiveData<List<Note>>()
+
+    val note: LiveData<List<Note>>
+        get() = _note
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -38,7 +45,6 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
 
     private var viewModelJob = Job()
 
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
@@ -53,20 +59,19 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getBoxesResult()
-
+        getNoteResult()
     }
 
 
-    private fun getBoxesResult() {
+    private fun getNoteResult() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getBox()
+            val result = repository.getNote("wvUso5zz0qndvRPMmspR")
 
-            _boxes.value = when (result) {
+            _note.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -88,17 +93,9 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
                     null
                 }
             }
-//            _refreshStatus.value = false
         }
     }
 
-
-    fun displayDate(startDate: Long, endDate: Long): String {
-        val sdf = SimpleDateFormat("MM/dd/yyyy")
-        val start = sdf.format(startDate)
-        val end = sdf.format(endDate)
-        return "$start\n|\n$end"
-    }
 
 
 

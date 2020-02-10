@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.data.User
 import com.angela.notemoment.databinding.ActivityMainBinding
 import com.angela.notemoment.ext.getVmFactory
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_map -> {
 
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalMapFragment())
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalListNoteFragment())
+//                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalMapFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
@@ -87,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         FirebaseAuth.getInstance().addAuthStateListener(authListener)
-        
+
 
 
         //fab setting
@@ -153,15 +155,6 @@ class MainActivity : AppCompatActivity() {
         fabNote.animate().translationY(0F).withEndAction {
             fabNote.visibility = View.GONE
         }
-    }
-
-
-    private fun signOut() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnSuccessListener {
-                Toast.makeText(this, "已登出", Toast.LENGTH_SHORT).show()
-            }
     }
 
 
