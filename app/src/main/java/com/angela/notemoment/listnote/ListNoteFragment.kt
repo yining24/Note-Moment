@@ -14,7 +14,7 @@ import com.angela.notemoment.databinding.FragmentListNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 
 class ListNoteFragment : Fragment() {
-    private val viewModel by viewModels<ListNoteViewModel> { getVmFactory() }
+    private val viewModel by viewModels<ListNoteViewModel> { getVmFactory (ListNoteFragmentArgs.fromBundle(arguments!!).BoxKey) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,63 +26,61 @@ class ListNoteFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_list_note, container, false)
         binding.viewModel = viewModel
 
-        val adapter = ListNoteAdapter(viewModel)
+        val adapter = ListNoteSortedAdapter(viewModel)
         binding.recyclerListNoteDetail.adapter = adapter
 
         binding.lifecycleOwner = this
 
 
+//        val listNote = listOf(
+//            ListNoteSorted(
+//                12345,
+//                listOf(Note(
+//                    "",
+//                    22222,
+//                    "",
+//                    "",
+//                    "",
+//                    listOf(),
+//                    ""
+//                )
+//                )
+//            ), ListNoteSorted(
+//                12112,
+//                listOf(Note(
+//            "",
+//            11111,
+//            "",
+//            "",
+//            "",
+//            listOf(),
+//            ""
+//            )
+//        )
+//            )
+//        )
 
-
-        val listNote = listOf(
-            ListNoteSorted(
-                12345,
-                listOf(Note(
-                    "",
-                    22222,
-                    "",
-                    "",
-                    "",
-                    listOf(),
-                    ""
-                )
-                )
-            ), ListNoteSorted(
-                12112,
-                listOf(Note(
-            "",
-            11111,
-            "",
-            "",
-            "",
-            listOf(),
-            ""
-            )
-        )
-            )
-        )
-
-        val note = listOf(Note(
-            "",
-            11111,
-            "",
-            "",
-            "",
-            listOf(),
-            ""
-        ),
-            Note(
-                "",
-                22222,
-                "",
-                "",
-                "",
-                listOf(),
-                ""
-            ))
-
-
-        adapter.submitList(listNote)
+//        val note = listOf(Note(
+//            "",
+//            11111,
+//            "",
+//            "",
+//            "",
+//            listOf(),
+//            ""
+//        ),
+//            Note(
+//                "",
+//                22222,
+//                "",
+//                "",
+//                "",
+//                listOf(),
+//                ""
+//            ))
+//
+//
+//        adapter.submitList(note)
 
 
         return binding.root

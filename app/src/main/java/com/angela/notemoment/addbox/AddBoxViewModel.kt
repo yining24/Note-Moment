@@ -92,6 +92,8 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
     }
 
 
+
+
     fun publishBoxResult(box: Box) {
 
         Logger.i("publishBoxResult, canAddbox=$canAddbox")

@@ -5,11 +5,14 @@
 
     <data>
         <variable
-            name="listNote"
+            name="listNoteSorted"
             type="com.angela.notemoment.data.ListNoteSorted" />
         <variable
             name="viewModel"
             type="com.angela.notemoment.listnote.ListNoteViewModel" />
+        <variable
+            name="note"
+            type="com.angela.notemoment.data.Note" />
 
     </data>
 
@@ -21,7 +24,7 @@
             android:id="@+id/text_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2020/1/20"
+            android:text="@{listNoteSorted.date}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +37,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_date"
             tools:listitem="@layout/item_list_note">
-            <!--            app:boxes="@{viewModel.boxes}"-->
 
         </androidx.recyclerview.widget.RecyclerView>
 

@@ -9,42 +9,20 @@ import com.angela.notemoment.data.ListNoteSorted
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.databinding.ItemListNoteSortedBinding
 
-class ListNoteAdapter (val viewModel: ListNoteViewModel) : ListAdapter<ListNoteSorted, ListNoteAdapter.ListNoteViewHolder>(DiffCallback) {
+class ListNoteSortedAdapter (val viewModel: ListNoteViewModel) : ListAdapter<ListNoteSorted, ListNoteSortedAdapter.ListNoteViewHolder>(DiffCallback) {
 
 
 
     class ListNoteViewHolder(private var binding: ItemListNoteSortedBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(listNote: ListNoteSorted, viewModel: ListNoteViewModel) {
-            binding.listNote = listNote
+        fun bind(listNoteSorted: ListNoteSorted, viewModel: ListNoteViewModel) {
+            binding.listNoteSorted = listNoteSorted
             binding.viewModel = viewModel
 
             val adapter= ListNoteItemAdapter(viewModel)
             binding.recyclerListNote.adapter = adapter
 
-
-            val note = listOf(
-                Note(
-                    "",
-                    11111,
-                    "",
-                    "",
-                    "",
-                    listOf(),
-                    ""
-                ),
-                Note(
-                    "",
-                    22222,
-                    "",
-                    "",
-                    "",
-                    listOf(),
-                    ""
-                )
-            )
-
-            adapter.submitList(note)
+            adapter.submitList(listNoteSorted.notes)
 
             binding.executePendingBindings()
         }

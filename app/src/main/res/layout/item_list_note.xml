@@ -10,6 +10,9 @@
         <variable
             name="note"
             type="com.angela.notemoment.data.Note" />
+        <variable
+            name="listNoteSorted"
+            type="com.angela.notemoment.data.ListNoteSorted" />
 
     </data>
 

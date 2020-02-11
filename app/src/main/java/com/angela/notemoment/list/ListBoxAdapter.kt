@@ -43,6 +43,9 @@ class ListBoxAdapter(val viewModel: ListViewModel) : ListAdapter<Box, ListBoxAda
         val item = getItem(position)
         holder.itemView.layoutParams.height = getRandomIntInRange(550, 400)
         holder.bind(item, viewModel)
+        holder.itemView.setOnClickListener {
+            viewModel.selectBox(item)
+        }
     }
 
     private fun getRandomIntInRange(max: Int, min: Int): Int {

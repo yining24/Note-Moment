@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.angela.notemoment.Logger
@@ -55,7 +56,12 @@ class ListFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-//    findNavController().navigate(NavigationDirections.actionGlobalListNoteFragment())
+        listViewModel.navigateToListNote.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.actionGlobalListNoteFragment(it))
+                listViewModel.notSelectBox()
+            }
+        })
 
 
 

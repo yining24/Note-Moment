@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.angela.notemoment.data.ListNoteSorted
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.databinding.ItemListNoteBinding
 
@@ -14,9 +15,8 @@ class ListNoteItemAdapter (val viewModel: ListNoteViewModel) : ListAdapter<Note,
 
     class ListNoteItemViewHolder(private var binding: ItemListNoteBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: Note, viewModel: ListNoteViewModel) {
+        fun bind(note: Note) {
             binding.note = note
-            binding.viewModel = viewModel
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -40,7 +40,7 @@ class ListNoteItemAdapter (val viewModel: ListNoteViewModel) : ListAdapter<Note,
 
     override fun onBindViewHolder(holder: ListNoteItemViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, viewModel)
+        holder.bind(item)
     }
 
 }

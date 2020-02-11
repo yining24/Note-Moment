@@ -23,6 +23,14 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
     val boxes: LiveData<List<Box>>
         get() = _boxes
 
+
+    private val _navigateToListNote = MutableLiveData<Box>()
+
+    val navigateToListNote: LiveData<Box>
+        get() = _navigateToListNote
+
+
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -99,6 +107,16 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
         val end = sdf.format(endDate)
         return "$start\n|\n$end"
     }
+
+
+    fun selectBox(box: Box) {
+        _navigateToListNote.value = box
+    }
+
+    fun notSelectBox() {
+        _navigateToListNote.value = null
+    }
+
 
 
 

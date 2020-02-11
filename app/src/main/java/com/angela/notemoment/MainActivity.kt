@@ -47,8 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_map -> {
 
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalListNoteFragment())
-//                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalMapFragment())
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalMapFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {

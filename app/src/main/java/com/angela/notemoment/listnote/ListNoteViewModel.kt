@@ -1,5 +1,6 @@
 package com.angela.notemoment.listnote
 
+import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,8 +17,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
-class ListNoteViewModel (private val repository: NoteRepository) : ViewModel() {
+class ListNoteViewModel (private val repository: NoteRepository,
+                         private val arguments: Box
+) : ViewModel() {
+
+    private val _box = MutableLiveData<Box>().apply {
+        value = arguments
+    }
+    val box: LiveData<Box>
+        get() = _box
+
 
     private val _noteSorted = MutableLiveData<List<ListNoteSorted>>()
 
@@ -60,6 +71,7 @@ class ListNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         Logger.i("------------------------------------")
 
         getNoteResult()
+
     }
 
 
@@ -69,12 +81,13 @@ class ListNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getNote("wvUso5zz0qndvRPMmspR")
+            val result = repository.getNote(_box.value!!.id)
 
             _note.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    _noteSorted.value = result.data.toListNoteSorted()
                     result.data
                 }
                 is Result.Fail -> {
@@ -97,7 +110,45 @@ class ListNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     }
 
 
-
-
+    fun convertTime (time : Long){
+        val myFormat = "MM/dd/yyyy"
+            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+        val date = sdf.format(time)
+    }
 
 }
+
+// sort notes by date
+    fun List<Note>?.toListNoteSorted(): List<ListNoteSorted> {
+
+        val sortedNotes = mutableListOf<ListNoteSorted>()
+        var tempObj = ListNoteSorted()
+
+        this?.let {
+
+            for (note in it) {
+
+                fun getDateByTime(time: Long): String {
+                    val myFormat = "yyyy/MM/dd"
+                    val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+
+                    return sdf.format(time)
+                }
+
+                val date = getDateByTime(note.time)
+                Logger.i("date=$date")
+
+                if (date != tempObj.date) {
+                    Logger.i("create ListNoteSorted")
+                    tempObj = ListNoteSorted()
+                    tempObj.date = date
+                    sortedNotes.add(tempObj)
+                }
+                tempObj.notes.add(note)
+                Logger.i("sortedNotes=$sortedNotes")
+
+            }
+        }
+
+        return sortedNotes
+    }
