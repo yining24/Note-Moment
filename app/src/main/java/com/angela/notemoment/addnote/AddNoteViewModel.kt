@@ -140,10 +140,13 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         boxTitleList
     }
 
-    fun selectedBox(postion : Int){
+    fun selectedBox(postion : Int) : Box{
         note.value?.boxId = boxes.value!![postion].id
         Logger.i("box id value = ${boxes.value}")
+
+        return boxes.value!![postion]
     }
+
 
 
     val canAddNote

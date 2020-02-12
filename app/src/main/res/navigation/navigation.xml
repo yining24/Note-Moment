@@ -14,7 +14,7 @@
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.angela.notemoment.map.MapFragment"
+        android:name="com.angela.notemoment.map.MyMapFragment"
         android:label="MapFragment" />
     <action android:id="@+id/action_global_listFragment"
         app:destination="@id/listFragment"

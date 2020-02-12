@@ -21,6 +21,8 @@ import com.angela.notemoment.Logger
 
 
 
+
+
 class AddNoteFragment  : Fragment() {
 
     private val viewModel by viewModels<AddNoteViewModel> { getVmFactory() }
@@ -68,6 +70,7 @@ class AddNoteFragment  : Fragment() {
         val timePicker = binding.timePicker as TimePicker
         timePicker.setIs24HourView(true)
 
+
         val calendar = Calendar.getInstance()
 
         calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
@@ -102,8 +105,14 @@ class AddNoteFragment  : Fragment() {
 
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                viewModel.selectedBox(pos)
+                val selectedBox = viewModel.selectedBox(pos)
                 Logger.i("pos = $pos")
+
+                //set limit with box date
+                datePicker.maxDate = selectedBox.endDate
+                datePicker.minDate = selectedBox.startDate
+
+
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
@@ -122,7 +131,7 @@ class AddNoteFragment  : Fragment() {
     }
 
 
-
-
 }
+
+
 

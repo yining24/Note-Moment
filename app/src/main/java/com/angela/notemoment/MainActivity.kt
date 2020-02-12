@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.data.User
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabBox : FloatingActionButton
     private lateinit var fabNote : FloatingActionButton
 
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -133,7 +135,29 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 //        val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
 //        val itemView = menuView.getChildAt(2) as BottomNavigationItemView
+
     }
+
+//    private fun setupNavController() {
+//        findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener {
+//                navController: NavController, _: NavDestination, _: Bundle? ->
+//
+//            viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
+//                R.id.homeFragment -> CurrentFragmentType.HOME
+//                R.id.catalogFragment -> CurrentFragmentType.CATALOG
+//                R.id.cartFragment -> CurrentFragmentType.CART
+//                R.id.profileFragment -> CurrentFragmentType.PROFILE
+//                R.id.detailFragment -> CurrentFragmentType.DETAIL
+//                R.id.paymentFragment -> CurrentFragmentType.PAYMENT
+//                R.id.checkoutSuccessFragment -> CurrentFragmentType.CHECKOUT_SUCCESS
+//                R.id.commentMainPageFragment -> CurrentFragmentType.COMMENT
+//                R.id.myorderFragment -> CurrentFragmentType.MYORDER
+//                R.id.socketIoFragment -> CurrentFragmentType.CHAT_SERVICE
+//
+//                else -> viewModel.currentFragmentType.value
+//            }
+//        }
+//    }
 
 
     @SuppressLint("RestrictedApi")

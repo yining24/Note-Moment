@@ -55,6 +55,38 @@ object NoteRemoteDataSource : NoteDataSource {
             }
     }
 
+//    override suspend fun getNote(boxId:String): Result<List<Note>> =
+//        suspendCoroutine { continuation ->
+//            FirebaseFirestore.getInstance()
+//                .collection("users")
+//                .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+//                .collection(PATH_BOX)
+//                .document(boxId)
+//                .collection(PATH_NOTE)
+//                .orderBy("time", Query.Direction.ASCENDING)
+//                .get()
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        val list = mutableListOf<Note>()
+//                        for (document in task.result!!) {
+//                            Logger.d(document.id + " => " + document.data)
+//                            val note = document.toObject(Note::class.java)
+//                            list.add(note)
+//                        }
+//                        continuation.resume(Result.Success(list))
+//                    } else {
+//                        task.exception?.let {
+//                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+//                            continuation.resume(Result.Error(it))
+//                            return@addOnCompleteListener
+//                        }
+//                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.app_name)))
+//                    }
+//                }
+//        }
+
+
+    // modify data structure
     override suspend fun getNote(boxId:String): Result<List<Note>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
@@ -84,6 +116,7 @@ object NoteRemoteDataSource : NoteDataSource {
                     }
                 }
         }
+
 
 
 

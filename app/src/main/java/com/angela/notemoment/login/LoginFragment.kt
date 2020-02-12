@@ -6,16 +6,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.angela.notemoment.Logger
-import com.angela.notemoment.MainActivity
-import com.angela.notemoment.R
+import androidx.test.core.app.ActivityScenario.launch
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.angela.notemoment.*
+import com.angela.notemoment.ServiceLocator.repository
+import com.angela.notemoment.addbox.AddBoxViewModel
+import com.angela.notemoment.data.Box
+import kotlinx.android.synthetic.main.fragment_add_note.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
+
+
+
+
 
 
 class LoginFragment : Fragment() {
@@ -29,7 +40,7 @@ class LoginFragment : Fragment() {
     ): View? {
 
 
-        //fb login
+        //fb and google login
         val authProvider: List<AuthUI.IdpConfig> = listOf(
             AuthUI.IdpConfig.FacebookBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build()
@@ -67,6 +78,19 @@ class LoginFragment : Fragment() {
                     (activity as? MainActivity)?.finish()
                 }
             } else {
+                if(IdpResponse.fromResultIntent(data)?.isNewUser == true) {
+                    GlobalScope.launch (Dispatchers.Main) {
+                        val defaultBox = Box(
+                            title = "未分類",
+                            startDate = -2208988800000,
+                            endDate = 4133980799000,
+                            country = "未選擇",
+                            image = "")
+
+                        repository?.publishBox(defaultBox)
+                        Logger.i("new user add $defaultBox")
+                    }
+                }
                 // Successfully signed in
                 Toast.makeText(context, "登入成功", Toast.LENGTH_SHORT).show()
                 val user = FirebaseAuth.getInstance().currentUser
@@ -74,8 +98,31 @@ class LoginFragment : Fragment() {
                 findNavController().navigateUp()
             }
         }
-    }
 
+//        val metadata = FirebaseAuth.getInstance().currentUser?.metadata
+//        if (metadata?.creationTimestamp == metadata?.lastSignInTimestamp) {
+//        Logger.i("metadata?.creationTimestamp = ${metadata?.creationTimestamp}")
+//        Logger.i("metadata?.lastSignInTimestamp = ${metadata?.lastSignInTimestamp}")
+//
+//            // The user is new, show them a fancy intro screen!
+//            CoroutineScope(Dispatchers.Default).launch {
+//
+//                val defaultBox = Box(
+//                    "",
+//                    "未分類",
+//                    -2208988800000,
+//                    4133980799000,
+//                    "未選擇",
+//                    "")
+//
+//                repository?.publishBox(defaultBox)
+//                Logger.i("new user add $defaultBox")
+//            }
+//        } else {
+//            // This is an existing user, show them a welcome back screen.
+//            Logger.i("already sign up :: welcome back")
+//        }
+    }
     private fun signOut() {
         AuthUI.getInstance()
             .signOut(context!!)
