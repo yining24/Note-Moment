@@ -7,6 +7,8 @@
         <variable
             name="viewModel"
             type="com.angela.notemoment.MainViewModel" />
+        <import type="com.angela.notemoment.util.CurrentFragmentType"/>
+        <import type="android.view.View"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,6 +131,7 @@
             android:background="@drawable/bg_text_frame"
             app:layout_constraintBottom_toBottomOf="@+id/myNavHostFragment"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP ? View.GONE : View.VISIBLE}"
             app:srcCompat="@drawable/icon_writepencil2" />
 
 

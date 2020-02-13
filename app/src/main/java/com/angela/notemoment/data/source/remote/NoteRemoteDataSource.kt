@@ -17,8 +17,10 @@ import kotlin.coroutines.suspendCoroutine
 
 object NoteRemoteDataSource : NoteDataSource {
 
-    private const val PATH_BOX = "My boxes"
-    private const val PATH_NOTE = "Notes"
+
+    private const val PATH_USER = "users"
+    private const val PATH_BOX = "boxes"
+    private const val PATH_NOTE = "notes"
     private const val KEY_CREATED_TIME = "createdTime"
 
 
@@ -29,7 +31,7 @@ object NoteRemoteDataSource : NoteDataSource {
     override suspend fun getBox(): Result<List<Box>> =
         suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
-            .collection("users")
+            .collection(PATH_USER)
             .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
             .collection(PATH_BOX)
             .orderBy("startDate", Query.Direction.DESCENDING)
@@ -86,14 +88,14 @@ object NoteRemoteDataSource : NoteDataSource {
 //        }
 
 
-    // modify data structure
+    // modify note date structure
     override suspend fun getNote(boxId:String): Result<List<Note>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
-                .collection("users")
+                .collection(PATH_USER)
                 .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-                .collection(PATH_BOX)
-                .document(boxId)
+//                .collection(PATH_BOX)
+//                .document(boxId)
                 .collection(PATH_NOTE)
                 .orderBy("time", Query.Direction.ASCENDING)
                 .get()
@@ -122,7 +124,7 @@ object NoteRemoteDataSource : NoteDataSource {
 
     override suspend fun publishBox(box: Box): Result<Boolean> =
         suspendCoroutine { continuation ->
-            val boxes = FirebaseFirestore.getInstance().collection("users")
+            val boxes = FirebaseFirestore.getInstance().collection(PATH_USER)
             val document = boxes.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
             Logger.w("publish box uid::::${FirebaseAuth.getInstance().currentUser!!.uid}")
             val boxDocument = document
@@ -149,14 +151,17 @@ object NoteRemoteDataSource : NoteDataSource {
                 }
         }
 
+
+
+    // modify note date structure
     override suspend fun publishNote(note: Note, boxId:String): Result<Boolean> =
         suspendCoroutine { continuation ->
-        val boxes = FirebaseFirestore.getInstance().collection("users")
+        val boxes = FirebaseFirestore.getInstance().collection(PATH_USER)
         val document = boxes.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
         document
-            .collection(PATH_BOX)
-            .document(boxId)
-            .collection("Notes")
+//            .collection(PATH_BOX)
+//            .document(boxId)
+            .collection(PATH_NOTE)
             .add(note)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

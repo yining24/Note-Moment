@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.angela.notemoment.R
-import com.angela.notemoment.databinding.FragmentListBinding
 import com.angela.notemoment.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment() {
-//    private val listViewModel by viewModels<ListViewModel> { getVmFactory() }
 
+class ProfileFragment : Fragment() {
+
+//    private val listViewModel by viewModels<ListViewModel> { getVmFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,4 +33,11 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
+
+
 }
+
+
+
+

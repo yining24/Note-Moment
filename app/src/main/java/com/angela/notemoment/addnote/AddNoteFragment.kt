@@ -17,13 +17,15 @@ import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentAddNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.Logger
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 
 
-
-
-
-
-class AddNoteFragment  : Fragment() {
+class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
     private val viewModel by viewModels<AddNoteViewModel> { getVmFactory() }
 
@@ -126,8 +128,44 @@ class AddNoteFragment  : Fragment() {
             }
         })
 
+
+
+
+        //place AutocompleteSupportFragment
+
+        val apiKey = getString(R.string.google_map_api)
+
+        if (!Places.isInitialized()) {
+            Places.initialize(context!!, apiKey)
+        }
+        val placesClient = Places.createClient(context!!)
+
+        val autocompleteFragment =
+            childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment) as AutocompleteSupportFragment
+
+
+        /*AutocompleteFilter filter = new AutocompleteFilter.Builder()
+                .setCountry("IN")
+                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+                .build();
+        autocompleteFragment.setFilter(filter);*/
+
+        autocompleteFragment.setHint("請輸入景點")
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ADDRESS, Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+        autocompleteFragment.setOnPlaceSelectedListener(this)
+
+
         return binding.root
 
+    }
+    override fun onError(status: Status) {
+        Logger.i("An error occurred:  $status")
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onPlaceSelected(p0: Place) {
+        viewModel.selectedPlace(p0.name?:"" , p0.latLng?: LatLng(0.0,0.0))
+        Logger.i("selected place :: ${p0.latLng}")
     }
 
 

@@ -18,6 +18,7 @@ import com.angela.notemoment.data.User
 import com.angela.notemoment.databinding.ActivityMainBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.login.LoginFragment
+import com.angela.notemoment.util.CurrentFragmentType
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -125,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
+        setupNavController()
 
 
     }
@@ -138,26 +139,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    private fun setupNavController() {
-//        findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener {
-//                navController: NavController, _: NavDestination, _: Bundle? ->
-//
-//            viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
-//                R.id.homeFragment -> CurrentFragmentType.HOME
-//                R.id.catalogFragment -> CurrentFragmentType.CATALOG
-//                R.id.cartFragment -> CurrentFragmentType.CART
-//                R.id.profileFragment -> CurrentFragmentType.PROFILE
-//                R.id.detailFragment -> CurrentFragmentType.DETAIL
-//                R.id.paymentFragment -> CurrentFragmentType.PAYMENT
-//                R.id.checkoutSuccessFragment -> CurrentFragmentType.CHECKOUT_SUCCESS
-//                R.id.commentMainPageFragment -> CurrentFragmentType.COMMENT
-//                R.id.myorderFragment -> CurrentFragmentType.MYORDER
-//                R.id.socketIoFragment -> CurrentFragmentType.CHAT_SERVICE
-//
-//                else -> viewModel.currentFragmentType.value
-//            }
-//        }
-//    }
+    private fun setupNavController() {
+        findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener {
+                navController: NavController, _: NavDestination, _: Bundle? ->
+
+            viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
+                R.id.homeFragment -> CurrentFragmentType.HOME
+                R.id.addNoteFragment -> CurrentFragmentType.ADDNOTE
+                R.id.addboxFragment -> CurrentFragmentType.ADDBOX
+                R.id.profileFragment -> CurrentFragmentType.PROFILE
+                R.id.listFragment -> CurrentFragmentType.LIST
+                R.id.listNoteFragment -> CurrentFragmentType.LISTNOTE
+                R.id.mapFragment -> CurrentFragmentType.MAP
+
+                else -> viewModel.currentFragmentType.value
+            }
+        }
+    }
 
 
     @SuppressLint("RestrictedApi")

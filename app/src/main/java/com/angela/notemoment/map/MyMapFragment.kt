@@ -39,7 +39,6 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mymap, container, false)
-        (activity as MainActivity).binding.fab.hide()
 
         binding.lifecycleOwner = this
 
