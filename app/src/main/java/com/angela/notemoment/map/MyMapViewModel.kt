@@ -1,6 +1,5 @@
-package com.angela.notemoment.listnote
+package com.angela.notemoment.map
 
-import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,37 +8,26 @@ import com.angela.notemoment.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.data.Box
-import com.angela.notemoment.data.ListNoteSorted
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
+import com.angela.notemoment.listnote.toListNoteSorted
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
 
-class ListNoteViewModel (private val repository: NoteRepository,
-                         private val arguments: Box
-) : ViewModel() {
+class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
-    private val _box = MutableLiveData<Box>().apply {
-        value = arguments
-    }
-    val box: LiveData<Box>
-        get() = _box
+    private val _notes = MutableLiveData<List<Note>>()
+
+    val notes: LiveData<List<Note>>
+        get() = _notes
 
 
-    private val _noteSorted = MutableLiveData<List<ListNoteSorted>>()
+    var latLngList = mutableListOf<LatLng>()
 
-    val noteSorted: LiveData<List<ListNoteSorted>>
-        get() = _noteSorted
-
-
-    private val _note = MutableLiveData<List<Note>>()
-
-    val note: LiveData<List<Note>>
-        get() = _note
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -56,6 +44,7 @@ class ListNoteViewModel (private val repository: NoteRepository,
 
     private var viewModelJob = Job()
 
+    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
@@ -70,24 +59,23 @@ class ListNoteViewModel (private val repository: NoteRepository,
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getNoteResult()
-
+        getAllNoteResult()
     }
 
 
-    private fun getNoteResult() {
+    private fun getAllNoteResult() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getNote(_box.value!!.id)
+            val result = repository.getAllNote()
 
-            _note.value = when (result) {
+            _notes.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    _noteSorted.value = result.data.toListNoteSorted()
+                    setNoteMarker(result.data)
                     result.data
                 }
                 is Result.Fail -> {
@@ -110,39 +98,14 @@ class ListNoteViewModel (private val repository: NoteRepository,
     }
 
 
-}
+    fun setNoteMarker(notesList : List<Note>) {
 
-// sort notes by date
-    fun List<Note>?.toListNoteSorted(): List<ListNoteSorted> {
-
-        val sortedNotes = mutableListOf<ListNoteSorted>()
-        var tempObj = ListNoteSorted()
-
-        this?.let {
-
-            for (note in it) {
-
-                fun getDateByTime(time: Long): String {
-                    val myFormat = "yyyy/MM/dd"
-                    val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-
-                    return sdf.format(time)
-                }
-
-                val date = getDateByTime(note.time)
-                Logger.i("date=$date")
-
-                if (date != tempObj.date) {
-                    Logger.i("create ListNoteSorted")
-                    tempObj = ListNoteSorted()
-                    tempObj.date = date
-                    sortedNotes.add(tempObj)
-                }
-                tempObj.notes.add(note)
-                Logger.i("sortedNotes=$sortedNotes")
-
-            }
+        notesList.forEach {
+            latLngList.add(LatLng(it.lat, it.lng))
         }
-
-        return sortedNotes
+        Logger.i("latLngList = $latLngList")
     }
+
+
+
+}

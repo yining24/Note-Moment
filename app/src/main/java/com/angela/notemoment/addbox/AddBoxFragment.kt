@@ -1,8 +1,12 @@
 package com.angela.notemoment.addbox
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +21,25 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.Logger
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import kotlinx.android.synthetic.main.fragment_add_box.*
+import java.io.IOException
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class AddBoxFragment : Fragment() {
 
     lateinit var ccp: CountryCodePicker
+    private var filePath: Uri? = null
+    private var firebaseStore: FirebaseStorage? = null
+    private var storageReference: StorageReference? = null
 
     private val viewModel by viewModels<AddBoxViewModel> { getVmFactory() }
 
@@ -99,8 +117,92 @@ class AddBoxFragment : Fragment() {
             }
         })
 
+        viewModel.photoUrl.observe(this, Observer {
+            Logger.d("photo uri :: $it")
+        })
+
+
+
+        //upload photo
+
+        binding.uploadImage.setOnClickListener { launchGallery() }
+
+
         return binding.root
     }
+
+
+    private fun launchGallery() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+            if(data == null || data.data == null){
+                return
+            }
+            viewModel.photoUrl.value = data.data
+
+            try {
+                filePath = data.data
+                Glide.with(this).load(filePath)
+                    .into(upload_image)
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+//    private fun uploadImage(){
+//        if(filePath != null){
+//            val ref = storageReference?.child("uploads/" + UUID.randomUUID().toString())
+//            val uploadTask = ref?.putFile(filePath!!)
+//            val urlTask = uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+//                if (!task.isSuccessful) {
+//                    task.exception?.let {
+//                        Logger.i("task is not successful")
+//                        throw it
+//                    }
+//                }
+//                return@Continuation ref.downloadUrl
+//            })?.addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    Logger.i("task is successful")
+//
+//                    //save to firestore
+//                    Logger.i(" viewModel.photoUrl.value = ${task.result}")
+//                    viewModel.addUploadRecordToDb(task.result.toString())
+//
+//                } else {
+//// Handle failures
+//                }
+//            }?.addOnFailureListener{
+//            }
+//        }else{
+//            Logger.i("Please Upload an Image")
+//            Toast.makeText(context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+
+
+//    private fun addUploadRecordToDb(uri: String){
+//        val db = FirebaseFirestore.getInstance()
+//        val data = HashMap<String, Any>()
+//        data["imageUrl"] = uri
+//        db.collection("posts")
+//            .add(data)
+//            .addOnSuccessListener { documentReference ->
+//                Toast.makeText(context, "Saved to DB", Toast.LENGTH_LONG).show()
+//            }
+//            .addOnFailureListener { e ->
+//                Toast.makeText(context, "Error saving to DB", Toast.LENGTH_LONG).show()
+//            }
+//    }
 
 
 }

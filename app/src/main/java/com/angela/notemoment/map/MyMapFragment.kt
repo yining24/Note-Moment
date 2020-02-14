@@ -6,23 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.angela.notemoment.Logger
 import com.angela.notemoment.MainActivity
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentMymapBinding
+import com.angela.notemoment.ext.getVmFactory
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.GoogleMap
+
+
 
 
 
 
 class MyMapFragment : Fragment(), OnMapReadyCallback {
 
-//    private val listViewModel by viewModels<ListViewModel> { getVmFactory() }
+    private val viewModel by viewModels<MyMapViewModel> { getVmFactory() }
 
     lateinit var mapView: MapView
     lateinit var myGoogleMap: GoogleMap
@@ -41,6 +47,7 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mymap, container, false)
 
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         // Gets the MapView from the XML layout and creates it
         mapView = binding.mapView
@@ -59,6 +66,7 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 //            LatLng(43.1, -87.9), 10F
 //        )
 //        myGoogleMap.animateCamera(cameraUpdate)
+
 
 
         return binding.root
@@ -95,22 +103,47 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         myGoogleMap = googleMap
         val lan1 = LatLng(25.039321, 121.567173)  //50嵐 微風松高店
-        val lan2 = LatLng(25.049595, 121.559667)  //50嵐 八德店
 
-        val lan3 = LatLng(25.028835, 121.565513)  //50嵐 莊敬店
         myGoogleMap.uiSettings.isZoomControlsEnabled = true
 //        myGoogleMap.uiSettings.isMyLocationButtonEnabled=true
         myGoogleMap.uiSettings.isMapToolbarEnabled = true
 
-        myGoogleMap.addMarker(MarkerOptions().position(lan1).title("50 Lan"))
+        viewModel.latLngList.forEach {
+            myGoogleMap.addMarker(MarkerOptions().position(it).title(it.toString()))
+        }
 
 //        val location: LatLng? = LatLng(myLocation!!.latitude,myLocation.longitude)
 //        val location: LatLng? = lan1
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient((activity as MainActivity) )
         fusedLocationProviderClient.lastLocation.addOnSuccessListener {
             Logger.d("fusedLocationProviderClient = ${it.latitude}")
+
         }
     }
+
+
+//            myGoogleMap.setOnMarkerClickListener { marker ->
+//                val locAddress = marker.title
+//
+//                if (previousMarker != null) {
+//                    previousMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+//
+//                    marker.isInfoWindowShown()
+//                }
+//                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+//                previousMarker = marker
+//
+//                marker.isInfoWindowShown()
+//
+//                true
+//            }
+//
+//            google.maps.event.addListener(infowindow, 'closeclick', function(){
+//                a = a * -1;
+//            });
+
+
+
 
 
 //    private fun queryMapNear(myLocation: LatLng?, queryRadius: Int, googleMap: GoogleMap) {

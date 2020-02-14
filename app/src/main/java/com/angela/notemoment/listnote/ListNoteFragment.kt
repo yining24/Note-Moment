@@ -32,57 +32,6 @@ class ListNoteFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-//        val listNote = listOf(
-//            ListNoteSorted(
-//                12345,
-//                listOf(Note(
-//                    "",
-//                    22222,
-//                    "",
-//                    "",
-//                    "",
-//                    listOf(),
-//                    ""
-//                )
-//                )
-//            ), ListNoteSorted(
-//                12112,
-//                listOf(Note(
-//            "",
-//            11111,
-//            "",
-//            "",
-//            "",
-//            listOf(),
-//            ""
-//            )
-//        )
-//            )
-//        )
-
-//        val note = listOf(Note(
-//            "",
-//            11111,
-//            "",
-//            "",
-//            "",
-//            listOf(),
-//            ""
-//        ),
-//            Note(
-//                "",
-//                22222,
-//                "",
-//                "",
-//                "",
-//                listOf(),
-//                ""
-//            ))
-//
-//
-//        adapter.submitList(note)
-
-
         return binding.root
     }
 

@@ -2,6 +2,7 @@ package com.angela.notemoment.addbox
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -38,6 +39,8 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
             value = "請點選結束日期"
         }
 
+    var photoUrl = MutableLiveData<Uri>()
+
 
     private val _navigateToList = MutableLiveData<Boolean>()
 
@@ -72,6 +75,9 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+
+
+        publishBoxResult(Box())
     }
 
     fun setStartDate(date: Date) {
@@ -85,7 +91,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
 
     fun setEndDate(date: Date) {
         val myFormat = "MM/dd/yyyy"
-        val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+        val sdf = SimpleDateFormat(myFormat)
         _box.value?.endDate = date.time
         _box.value = _box.value
         boxEndDate.value = sdf.format(date)
@@ -94,7 +100,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
 
 
 
-    fun publishBoxResult(box: Box) {
+    fun publishBoxResult(box: Box, photoUrl: Uri? = null) {
 
         Logger.i("publishBoxResult, canAddbox=$canAddbox")
         if (canAddbox) {
@@ -103,7 +109,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
 
                 _status.value = LoadApiStatus.LOADING
 
-                when (val result = repository.publishBox(box)) {
+                when (val result = repository.publishBox(box, photoUrl)) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
@@ -127,6 +133,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
 
     }
 
+
     val canAddbox
         get() = !box.value?.title.isNullOrEmpty() && box.value?.startDate != 1L && box.value?.endDate != 1L
 
@@ -138,4 +145,5 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
     fun onListNavigated() {
         _navigateToList.value = null
     }
+
 }

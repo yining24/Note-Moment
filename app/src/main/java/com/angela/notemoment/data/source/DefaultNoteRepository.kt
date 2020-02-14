@@ -1,5 +1,6 @@
 package com.angela.notemoment.data.source
 
+import android.net.Uri
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
@@ -24,9 +25,14 @@ class DefaultNoteRepository (private val remoteDataSource: NoteDataSource,
         return remoteDataSource.getNote(boxId)
     }
 
-    override suspend fun publishBox(box: Box): Result<Boolean> {
-        return remoteDataSource.publishBox(box)
+    override suspend fun getAllNote(): Result<List<Note>>{
+        return remoteDataSource.getAllNote()
     }
+
+    override suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean>{
+        return remoteDataSource.publishBox(box, uri)
+    }
+
 
     override suspend fun publishNote(note: Note, boxId:String): Result<Boolean> {
         return remoteDataSource.publishNote(note, boxId)

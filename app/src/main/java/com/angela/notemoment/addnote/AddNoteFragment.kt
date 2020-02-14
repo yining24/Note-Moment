@@ -18,7 +18,6 @@ import com.angela.notemoment.databinding.FragmentAddNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.Logger
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -75,10 +74,31 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
         val calendar = Calendar.getInstance()
 
-        calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
-            timePicker.hour, timePicker.minute, 0
-        )
-        viewModel.onChangeNoteTime(calendar.timeInMillis)
+        // spinner listener
+        val spinner = binding.selectBox
+
+        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+                val selectedBox = viewModel.selectBoxPosition(pos)
+                Logger.i("pos = $pos")
+
+                //set limit with box date
+                datePicker.maxDate = selectedBox.endDate
+                datePicker.minDate = selectedBox.startDate
+
+
+                    calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
+                        timePicker.hour, timePicker.minute, 0)
+
+                    Logger.i("set date is :${datePicker.year} / ${datePicker.month} / ${datePicker.dayOfMonth}")
+                    Logger.i("calendar.timeInMillis=${calendar.timeInMillis}")
+
+                    viewModel.onChangeNoteTime(calendar.timeInMillis)
+
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
 
 
         timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
@@ -99,25 +119,6 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
             Logger.i("calendar.timeInMillis=${calendar.timeInMillis}")
 
             viewModel.onChangeNoteTime(calendar.timeInMillis)
-        }
-
-
-        // spinner listener
-        val spinner = binding.selectBox
-
-        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                val selectedBox = viewModel.selectedBox(pos)
-                Logger.i("pos = $pos")
-
-                //set limit with box date
-                datePicker.maxDate = selectedBox.endDate
-                datePicker.minDate = selectedBox.startDate
-
-
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
         }
 
 
@@ -164,7 +165,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
     }
 
     override fun onPlaceSelected(p0: Place) {
-        viewModel.selectedPlace(p0.name?:"" , p0.latLng?: LatLng(0.0,0.0))
+        viewModel.selectedPlace(p0.name?:"" , p0.latLng?.latitude?: 0.0,  p0.latLng?.longitude?: 0.0)
         Logger.i("selected place :: ${p0.latLng}")
     }
 

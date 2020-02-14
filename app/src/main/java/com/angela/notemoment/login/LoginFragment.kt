@@ -87,7 +87,7 @@ class LoginFragment : Fragment() {
                             country = "未選擇",
                             image = "")
 
-                        repository?.publishBox(defaultBox)
+                        repository?.publishBox(defaultBox, null)
                         Logger.i("new user add $defaultBox")
                     }
                 }

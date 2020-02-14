@@ -9,8 +9,6 @@ import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.model.Place
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -142,18 +140,17 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         boxTitleList
     }
 
-    fun selectedBox(postion : Int) : Box{
-        note.value?.boxId = boxes.value!![postion].id
+    fun selectBoxPosition(position : Int) : Box{
+        note.value?.boxId = boxes.value!![position].id
         Logger.i("box id value = ${boxes.value}")
-
-        return boxes.value!![postion]
+        return boxes.value!![position]
     }
 
 
-    fun selectedPlace(name : String, latLng: LatLng) {
+    fun selectedPlace(name : String, lat: Double, lng: Double) {
         note.value?.locateName = name
-        note.value?.locateLatLng = latLng
-
+        note.value?.lat = lat
+        note.value?.lng = lng
     }
 
 
@@ -170,6 +167,6 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     }
 
     fun onChangeNoteTime(time: Long) {
-        note.value?.time = time
+        _note.value?.time = time
     }
 }

@@ -2,6 +2,7 @@ package com.angela.notemoment.data.source.local
 
 import com.angela.notemoment.data.Result
 import android.content.Context
+import android.net.Uri
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.User
@@ -34,7 +35,11 @@ class NoteLocalDataSource (val context: Context) : NoteDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun publishBox(box: Box): Result<Boolean>{
+    override suspend fun getAllNote(): Result<List<Note>>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
