@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.angela.notemoment.Logger
 import com.angela.notemoment.MainActivity
 import com.angela.notemoment.R
+import com.angela.notemoment.data.Note
 import com.angela.notemoment.databinding.FragmentMymapBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -69,6 +71,17 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 
 
 
+        //map marker
+        viewModel.notes.observe(this, Observer { list ->
+            list?.let { notesList ->
+                notesList.forEach {
+                    val latlng = LatLng(it.lat, it.lng)
+                    myGoogleMap.addMarker(MarkerOptions().position(latlng).title(it.locateName))
+                    Logger.i("marker latlng = $latlng")
+                }
+            }
+        })
+
         return binding.root
     }
 
@@ -102,23 +115,19 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         myGoogleMap = googleMap
-        val lan1 = LatLng(25.039321, 121.567173)  //50嵐 微風松高店
+//        val lan1 = LatLng(25.039321, 121.567173)  //50嵐 微風松高店
 
         myGoogleMap.uiSettings.isZoomControlsEnabled = true
 //        myGoogleMap.uiSettings.isMyLocationButtonEnabled=true
         myGoogleMap.uiSettings.isMapToolbarEnabled = true
 
-        viewModel.latLngList.forEach {
-            myGoogleMap.addMarker(MarkerOptions().position(it).title(it.toString()))
-        }
-
 //        val location: LatLng? = LatLng(myLocation!!.latitude,myLocation.longitude)
-//        val location: LatLng? = lan1
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient((activity as MainActivity) )
-        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-            Logger.d("fusedLocationProviderClient = ${it.latitude}")
 
-        }
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient((activity as MainActivity) )
+//        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+//            Logger.d("fusedLocationProviderClient = ${it.latitude}")
+//        }
+
     }
 
 

@@ -7,11 +7,9 @@ import com.angela.notemoment.LoadApiStatus
 import com.angela.notemoment.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
-import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
-import com.angela.notemoment.listnote.toListNoteSorted
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,9 +22,6 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
     val notes: LiveData<List<Note>>
         get() = _notes
-
-
-    var latLngList = mutableListOf<LatLng>()
 
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -75,7 +70,6 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    setNoteMarker(result.data)
                     result.data
                 }
                 is Result.Fail -> {
@@ -96,16 +90,6 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
             }
         }
     }
-
-
-    fun setNoteMarker(notesList : List<Note>) {
-
-        notesList.forEach {
-            latLngList.add(LatLng(it.lat, it.lng))
-        }
-        Logger.i("latLngList = $latLngList")
-    }
-
 
 
 }
