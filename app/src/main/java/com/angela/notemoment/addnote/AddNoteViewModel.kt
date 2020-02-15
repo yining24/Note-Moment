@@ -1,5 +1,6 @@
 package com.angela.notemoment.addnote
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -35,6 +36,8 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     val navigateToList: LiveData<Boolean>
         get() = _navigateToList
 
+    var photoUrl = MutableLiveData<Uri>()
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -66,14 +69,14 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         getBoxesResult()
     }
 
-    fun publishNoteResult(note: Note) {
+    fun publishNoteResult(note: Note, photoUrl: Uri? = null) {
 
         if (canAddNote) {
             coroutineScope.launch {
 
                 _status.value = LoadApiStatus.LOADING
 
-                when (val result = repository.publishNote(note, note.boxId)) {
+                when (val result = repository.publishNote(note, note.boxId, photoUrl)) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE

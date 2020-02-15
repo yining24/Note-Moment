@@ -29,8 +29,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/list_note_title"/>
-<!--            app:imageUrl="@{note.images}"/>-->
+            app:layout_constraintTop_toBottomOf="@+id/list_note_title"
+            app:imageUrl="@{note.images}"/>
 
         <TextView
             android:id="@+id/list_note_title"

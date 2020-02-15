@@ -15,6 +15,6 @@ data class Note(
     var lat:        Double          = 0.0,
     var lng:        Double          = 0.0,
     var tags:       String          = "",
-    var images:     List<String>    = listOf(),
+    var images:     String          = "",
     var boxId :     String          = ""
 ): Parcelable

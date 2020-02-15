@@ -49,11 +49,3 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-
-
-
-
-//@BindingAdapter("showNoteDate")
-//fun bindNoteDate(textView: TextView, time: Long?) {
-//    time?.let { textView.text = "$it" }
-//}

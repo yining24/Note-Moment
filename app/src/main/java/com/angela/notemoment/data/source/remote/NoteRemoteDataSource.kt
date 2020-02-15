@@ -71,6 +71,7 @@ object NoteRemoteDataSource : NoteDataSource {
                 .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
                 .collection(PATH_NOTE)
                 .whereEqualTo("boxId",boxId)
+                .orderBy("time", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -122,37 +123,6 @@ object NoteRemoteDataSource : NoteDataSource {
 
 
 
-//    //publishBox no photo
-//    override suspend fun publishBox(box: Box): Result<Boolean> =
-//        suspendCoroutine { continuation ->
-//            val boxes = FirebaseFirestore.getInstance().collection(PATH_USER)
-//            val document = boxes.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-//            Logger.w("publish box uid::::${FirebaseAuth.getInstance().currentUser!!.uid}")
-//            val boxDocument = document
-//                .collection(PATH_BOX)
-//                .document()
-//
-//            box.id = boxDocument.id
-//
-//            boxDocument.set(box)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//
-//                        Logger.i("Publish box success : $box")
-//                        continuation.resume(Result.Success(true))
-//
-//                    } else {
-//                        task.exception?.let {
-//                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-//                            continuation.resume(Result.Error(it))
-//                            return@addOnCompleteListener
-//                        }
-//                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
-//                    }
-//                }
-//        }
-
-
     override suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean> =
         suspendCoroutine { continuation ->
 
@@ -183,7 +153,7 @@ object NoteRemoteDataSource : NoteDataSource {
                     .addOnCompleteListener { taskImage ->
                         if (taskImage.isSuccessful) {
                             Logger.i("task is successful")
-                            Logger.i(" viewModel.photoUrl.value = ${taskImage.result}")
+                            Logger.i(" box taskImage = ${taskImage.result}")
 
                             box.image = taskImage.result.toString()
 
@@ -229,30 +199,82 @@ object NoteRemoteDataSource : NoteDataSource {
 
 
 
-
-    // modify note date structure
-    override suspend fun publishNote(note: Note, boxId:String): Result<Boolean> =
+    override suspend fun publishNote(note: Note, boxId:String, uri: Uri?): Result<Boolean> =
         suspendCoroutine { continuation ->
-        val boxes = FirebaseFirestore.getInstance().collection(PATH_USER)
-        val document = boxes.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-            document
-            .collection(PATH_NOTE)
-            .add(note)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Logger.i("Publish note success : $note")
-                    continuation.resume(Result.Success(true))
 
-                } else {
-                    task.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                        return@addOnCompleteListener
+            val storageReference = FirebaseStorage.getInstance().reference
+            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
+
+        val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            val noteDocument =
+                document
+                .collection(PATH_NOTE)
+
+            if (uri != null) {
+                val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
+                val uploadTask = ref.putFile(uri)
+                uploadTask.continueWithTask(
+                    Continuation<UploadTask.TaskSnapshot, Task<Uri>> { taskImage ->
+                        if (!taskImage.isSuccessful) {
+                            taskImage.exception?.let {
+                                Logger.i("task is not successful")
+                                throw it
+                            }
+                        }
+                        return@Continuation ref.downloadUrl
+                    })
+                    .addOnCompleteListener { taskImage ->
+                        if (taskImage.isSuccessful) {
+                            Logger.i("task is successful")
+                            Logger.i(" note taskImage = ${taskImage.result}")
+
+                            note.images = taskImage.result.toString()
+
+                            noteDocument.add(note)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Logger.i("Publish note success : $note")
+                                        continuation.resume(Result.Success(true))
+
+                                    } else {
+                                        task.exception?.let {
+                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                            return@addOnCompleteListener
+                                        }
+                                        continuation.resume(
+                                            Result.Fail(
+                                                NoteApplication.instance.getString(
+                                                    R.string.fail
+                                                )
+                                            )
+                                        )
+                                    }
+                                }
+                        }
+                    }.addOnFailureListener{
+                        Logger.i("task is Failure")
                     }
-                    continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
-                }
+            } else {
+                noteDocument.add(note)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            Logger.i("Publish note success : $note")
+                            continuation.resume(Result.Success(true))
+
+                        } else {
+                            task.exception?.let {
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                        }
+                    }
             }
-    }
+        }
+
 
 
 

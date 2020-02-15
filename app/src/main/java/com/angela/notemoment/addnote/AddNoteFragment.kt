@@ -1,6 +1,9 @@
 package com.angela.notemoment.addnote
 
+import android.app.Activity
+import android.content.Intent
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,14 +20,19 @@ import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentAddNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.Logger
+import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import kotlinx.android.synthetic.main.fragment_add_note.*
+import java.io.IOException
 
 
 class AddNoteFragment  : Fragment() , PlaceSelectionListener {
+
+    private var filePath: Uri? = null
 
     private val viewModel by viewModels<AddNoteViewModel> { getVmFactory() }
 
@@ -156,6 +164,12 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         autocompleteFragment.setOnPlaceSelectedListener(this)
 
 
+
+        //upload photo
+
+        binding.uploadImage.setOnClickListener { launchGallery() }
+
+
         return binding.root
 
     }
@@ -167,6 +181,32 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
     override fun onPlaceSelected(p0: Place) {
         viewModel.selectedPlace(p0.name?:"" , p0.latLng?.latitude?: 0.0,  p0.latLng?.longitude?: 0.0)
         Logger.i("selected place :: ${p0.latLng}")
+    }
+
+    private fun launchGallery() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+            if(data == null || data.data == null){
+                return
+            }
+            viewModel.photoUrl.value = data.data
+
+            try {
+                filePath = data.data
+                Glide.with(this).load(filePath)
+                    .into(upload_image)
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
     }
 
 

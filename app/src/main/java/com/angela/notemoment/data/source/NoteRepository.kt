@@ -18,7 +18,7 @@ interface NoteRepository {
 
     suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean>
 
-    suspend fun publishNote(note: Note, boxId:String): Result<Boolean>
+    suspend fun publishNote(note: Note, boxId:String, uri: Uri?): Result<Boolean>
 
     suspend fun delete(box: Box): Result<Boolean>
 
