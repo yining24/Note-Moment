@@ -39,7 +39,7 @@ object NoteRemoteDataSource : NoteDataSource {
             .collection(PATH_USER)
             .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
             .collection(PATH_BOX)
-            .orderBy("startDate", Query.Direction.DESCENDING)
+            .orderBy("endDate", Query.Direction.DESCENDING)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

@@ -16,45 +16,65 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp">
+        android:background="@drawable/bg_list_box_frame"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:elevation="5dp">
+
+
+        <TextView
+            android:id="@+id/list_box_title"
+            style="@style/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:elevation="12dp"
+            android:fontFamily="@font/noto_sans"
+            android:shadowColor="#ff000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="10"
+            android:text="@{box.title}"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/list_box_date"
+            app:layout_constraintStart_toStartOf="@+id/list_box_image"
+            tools:text="一個人的日本" />
+
+        <TextView
+            android:id="@+id/list_box_date"
+            style="@style/textGeneral12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:elevation="12dp"
+            android:shadowColor="#ff000000"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="6"
+            android:text='@{viewModel.displayDate(box.startDate, box.endDate)}'
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/list_box_image"
+            app:layout_constraintStart_toStartOf="@+id/list_box_title"
+            tools:text="2020/01/01 - 2020/01/01" />
+
 
         <ImageView
             android:id="@+id/list_box_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="fitXY"
+            app:imageUrlBox="@{box.image}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/icon_photo_gray"
-            android:color="@color/bottom_navigation_item_normal"
-            app:imageUrl="@{box.image}"/>
-
-        <TextView
-            android:id="@+id/list_box_title"
-            style="@style/boxTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{box.title}"
-            tools:text="一個人的日本"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/list_box_image"
-            app:layout_constraintStart_toStartOf="@+id/list_box_image"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/list_box_date"
-            style="@style/boxTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='@{viewModel.displayDate(box.startDate, box.endDate)}'
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/list_box_title"
-            app:layout_constraintEnd_toEndOf="@+id/list_box_image"
-            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

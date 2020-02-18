@@ -30,14 +30,12 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
         get() = _box
 
     var boxStartDate = MutableLiveData<String>()
-        .apply {
-        value = "請點選開始日期"
-    }
+
 
     var boxEndDate = MutableLiveData<String>()
-        .apply {
-            value = "請點選結束日期"
-        }
+//        .apply {
+//            value = "請點選結束日期"
+//        }
 
     var photoUrl = MutableLiveData<Uri>()
 

@@ -17,128 +17,155 @@
         <ImageView
             android:id="@+id/upload_image"
             android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/blue_facebook"
-            android:scaleType="centerCrop"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#EEEEEE"
+            android:scaleType="centerInside"
+            app:layout_constraintDimensionRatio="1.5:1"
+            app:srcCompat="@drawable/icon_photo_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/upload_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/transparent"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/upload_image"
-            app:layout_constraintEnd_toEndOf="@+id/upload_image"
-            app:srcCompat="@drawable/icon_photo_gray" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/upload_button"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:backgroundTint="@color/transparent"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/upload_image"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/upload_image"-->
+<!--            app:srcCompat="@drawable/icon_photo_gray" />-->
 
-        <ImageButton
-            android:id="@+id/camera_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/transparent"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/upload_image"
-            app:layout_constraintEnd_toStartOf="@+id/upload_button"
-            app:srcCompat="@drawable/icon_camera_gray" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/camera_button"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:backgroundTint="@color/transparent"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/upload_image"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/upload_button"-->
+<!--            app:srcCompat="@drawable/icon_camera_gray" />-->
 
 
-        <com.google.android.material.textfield.TextInputLayout
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/title_text"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:focusable="true"-->
+<!--            android:focusableInTouchMode="true"-->
+<!--            android:hint="請輸入筆記名稱"-->
+<!--            app:hintTextAppearance="@style/TextInputHint"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/upload_image">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="14sp"-->
+<!--                android:text="@={viewModel.note.title}"/>-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+
+        <EditText
             android:id="@+id/title_text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:hint="請輸入筆記名稱"
-            app:hintTextAppearance="@style/TextInputHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upload_image">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="@={viewModel.note.title}"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toBottomOf="@+id/upload_image"
+            app:hintTextAppearance="@style/TextInputHint"
+            android:focusable="true"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/icon_writenote_32"
+            android:focusableInTouchMode="true"
+            android:text="@={viewModel.note.title}"
+            android:textSize="14sp" />
 
 
         <fragment
             android:id="@+id/place_autocomplete_fragment"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_text"/>
 
 
-        <TextView
-            android:id="@+id/select_date"
-            style="@style/boxTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_text_frame"
-            android:text="請點選開始日期"
-            app:layout_constraintEnd_toStartOf="@+id/select_time"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
+<!--        <TextView-->
+<!--            android:id="@+id/select_date"-->
+<!--            style="@style/textGeneral"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:background="@drawable/bg_text_frame"-->
+<!--            android:text="請點選開始日期"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/select_time"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />-->
 
-        <TextView
-            android:id="@+id/select_time"
-            style="@style/boxTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_text_frame"
-            android:text="請點選時間"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/select_date"
-            app:layout_constraintTop_toTopOf="@+id/select_date" />
+<!--        <TextView-->
+<!--            android:id="@+id/select_time"-->
+<!--            style="@style/textGeneral"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:background="@drawable/bg_text_frame"-->
+<!--            android:text="請點選時間"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/select_date"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/select_date" />-->
 
         <DatePicker
             android:id="@+id/date_picker"
-            android:layout_width="212dp"
-            android:layout_height="79dp"
+            android:layout_width="227dp"
+            android:layout_height="90dp"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
-            app:layout_constraintStart_toStartOf="@+id/select_date"
-            app:layout_constraintTop_toBottomOf="@+id/select_date" />
+            app:layout_constraintStart_toStartOf="@+id/title_text"
+            app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
+
 
         <TimePicker
             android:id="@+id/time_picker"
-            android:layout_width="157dp"
-            android:layout_height="79dp"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
             android:timePickerMode="spinner"
-            android:transformPivotX="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/date_picker"
+            app:layout_constraintEnd_toEndOf="@+id/title_text"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/date_picker"
-            app:layout_constraintTop_toBottomOf="@+id/select_time" />
+            app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
 
-
-        <TextView
+        <EditText
             android:id="@+id/select_tag"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_text_frame"
-            android:hint="tag : travel"
+            android:hint="Tag : travel"
+            android:textSize="14sp"
+            app:hintTextAppearance="@style/TextInputHint"
             android:text="@={viewModel.note.tags}"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/icon_left_tag32"
             app:layout_constraintEnd_toEndOf="@+id/place_autocomplete_fragment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date_picker" />
@@ -146,53 +173,54 @@
         <Spinner
             android:id="@+id/select_box"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_text_frame"
-            android:prompt="@string/app_name"
-            android:spinnerMode="dialog"
             android:entries="@{viewModel.boxList}"
+            android:prompt="@string/spinner_select_box"
+            android:spinnerMode="dialog"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/place_autocomplete_fragment"
             app:layout_constraintStart_toStartOf="@+id/place_autocomplete_fragment"
             app:layout_constraintTop_toBottomOf="@+id/select_tag" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
             android:id="@+id/write_note"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:background="@drawable/bg_text_frame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:hint="請輸入筆記"
-            app:layout_constraintBottom_toTopOf="@+id/save_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_box">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@={viewModel.note.content}"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_text_frame"
-            android:letterSpacing="0.15"
-            android:text="儲存"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            android:paddingLeft="15dp"
+            app:hintTextAppearance="@style/TextInputHint"
+            android:text="@={viewModel.note.content}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> viewModel.publishNoteResult(viewModel.note, viewModel.photoUrl)}"/>
+            app:layout_constraintTop_toBottomOf="@+id/select_box" />
+
+<!--        <Button-->
+<!--            android:id="@+id/save_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:background="@drawable/bg_text_frame"-->
+<!--            android:letterSpacing="0.15"-->
+<!--            android:onClick="@{() -> viewModel.publishNoteResult(viewModel.note, viewModel.photoUrl)}"-->
+<!--            android:text="儲存"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="parent" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

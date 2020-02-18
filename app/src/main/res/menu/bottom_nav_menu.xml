@@ -3,18 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/bottom_nav_item0_selector"
+        app:showAsAction="always"
+        android:title="" />
+
+    <item
         android:id="@+id/navigation_list"
-        android:icon="@drawable/icon_listbook_gray"
+        android:icon="@drawable/bottom_nav_item1_selector"
+        app:showAsAction="always"
         android:title="" />
 
     <item
         android:id="@+id/navigation_map"
-        android:icon="@drawable/icon_locate_earth"
+        android:icon="@drawable/bottom_nav_item2_selector"
+        app:showAsAction="always"
         android:title="" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/icon_profile_gray"
+        android:icon="@drawable/bottom_nav_item3_selector"
         android:title=""
         app:showAsAction="always" />
 

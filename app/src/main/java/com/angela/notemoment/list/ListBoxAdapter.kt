@@ -41,7 +41,7 @@ class ListBoxAdapter(val viewModel: ListViewModel) : ListAdapter<Box, ListBoxAda
 
     override fun onBindViewHolder(holder: ListBoxViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.layoutParams.height = getRandomIntInRange(550, 400)
+        holder.itemView.layoutParams.height = getRandomIntInRange(350, 300)
         holder.bind(item, viewModel)
         holder.itemView.setOnClickListener {
             viewModel.selectBox(item)

@@ -105,7 +105,7 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
         val sdf = SimpleDateFormat("MM/dd/yyyy")
         val start = sdf.format(startDate)
         val end = sdf.format(endDate)
-        return "$start\n|\n$end"
+        return "$start-$end"
     }
 
 

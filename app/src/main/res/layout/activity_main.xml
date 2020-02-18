@@ -25,43 +25,25 @@
             android:elevation="@dimen/elevation_all"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/toolbar_save">
 
-                <TextView
-                    android:id="@+id/text_toolbar_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/noto_sans"
-                    android:letterSpacing="0.15"
-                    android:text="Travel around the world"
-                    android:textColor="#404a72"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/search_button"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/toolbar_search"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:gravity="center_vertical"
+                android:screenReaderFocusable="true"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE? View.GONE : View.VISIBLE}"
+                app:menu="@menu/toolbar_menu"
+                app:queryHint="請輸入關鍵字"
+                app:searchIcon="@drawable/icon_search_32">
 
-                <Button
-                    android:id="@+id/search_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/icon_search2_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.appcompat.widget.SearchView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
-
-
 
         <fragment
             android:id="@+id/myNavHostFragment"
@@ -81,10 +63,10 @@
             android:id="@+id/bottomNavView"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_bottom_nav_view_main"
-            android:background="#A5DEE4"
+            android:background="@color/white"
             android:elevation="@dimen/elevation_all"
             app:itemIconSize="@dimen/size_bottom_nav_icon"
-            app:itemIconTint="@drawable/bottom_nav_item_selector"
+            app:itemIconTint="@drawable/bottom_nav_item1_selector"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -102,7 +84,9 @@
             app:layout_constraintTop_toTopOf="@+id/fab"
             app:layout_constraintEnd_toEndOf="@+id/fab"
             app:layout_constraintStart_toStartOf="@+id/fab"
-            app:srcCompat="@drawable/icon_addfolder_black"
+            app:srcCompat="@drawable/icon_simple_box"
+            app:maxImageSize="22dp"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> viewModel.navigateToAddBox()}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -115,7 +99,9 @@
             app:layout_constraintEnd_toEndOf="@+id/fab"
             app:layout_constraintStart_toStartOf="@+id/fab"
             app:layout_constraintTop_toTopOf="@+id/fab"
-            app:srcCompat="@drawable/icon_writenote_black"
+            app:srcCompat="@drawable/icon_simple_note2"
+            app:maxImageSize="22dp"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> viewModel.navigateToAddNote()}"/>
 
 
@@ -124,15 +110,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="14dp"
             android:clickable="true"
             android:elevation="6dp"
             app:backgroundTint="#ffffff"
             android:background="@drawable/bg_text_frame"
             app:layout_constraintBottom_toBottomOf="@+id/myNavHostFragment"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP ? View.GONE : View.VISIBLE}"
-            app:srcCompat="@drawable/icon_writepencil2" />
+            app:maxImageSize="24dp"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
+            app:srcCompat="@drawable/icon_plus" />
+
+        <TextView
+            android:id="@+id/text_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="@dimen/elevation_all"
+            android:fontFamily="@font/berkshire_swash"
+            android:letterSpacing="0.15"
+            android:text="Moment note"
+            android:textColor="#0463CA"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/myNavHostFragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

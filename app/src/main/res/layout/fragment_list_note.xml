@@ -14,14 +14,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/text_box_title"
+            style="@style/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.box.title}"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="date"
+            android:textAllCaps="true"/>
+
+
+        <View
+            android:id="@+id/view_separation"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/gray_cccccc"
+            app:layout_constraintEnd_toEndOf="@+id/text_box_title"
+            app:layout_constraintStart_toStartOf="@+id/text_box_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_box_title" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_list_note_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:listitem="@layout/item_list_note_sorted"
-            app:noteSorted="@{viewModel.noteSorted}">
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_separation"
+            app:layout_constraintVertical_bias="0.0"
+            app:noteSorted="@{viewModel.noteSorted}"
+            tools:listitem="@layout/item_list_note_sorted">
 
         </androidx.recyclerview.widget.RecyclerView>
 

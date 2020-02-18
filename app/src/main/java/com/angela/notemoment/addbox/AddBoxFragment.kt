@@ -162,7 +162,7 @@ class AddBoxFragment : Fragment() {
 //                if (task.isSuccessful) {
 //                    Logger.i("task is successful")
 //
-//                    //save to firestore
+//                    //toolbar_save to firestore
 //                    Logger.i(" viewModel.photoUrl.value = ${task.result}")
 //                    viewModel.addUploadRecordToDb(task.result.toString())
 //

@@ -43,6 +43,11 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.navigation_home -> {
+
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalHomeFragment())
+                    return@OnNavigationItemSelectedListener true
+                }
                 R.id.navigation_list -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalListFragment())
@@ -55,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_profile -> {
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalProfileFragment())
-//                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalProfileFragment())
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -70,6 +74,9 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        binding.toolbar.findViewById<View>(R.id.toolbar_save).visibility = View.GONE
+
 
         setupBottomNav()
 //        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
@@ -126,7 +133,18 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.showToolbarSave.observe(this, Observer {
+            it?.let {
+                binding.toolbar.findViewById<View>(R.id.toolbar_save).visibility = when (it) {
+                    false -> View.GONE
+                    true -> View.VISIBLE
+                }
+            }
+        })
+
         setupNavController()
+
+
 
 
     }
@@ -134,6 +152,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNav() {
         binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        binding.bottomNavView.itemIconTintList = null
 //        val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
 //        val itemView = menuView.getChildAt(2) as BottomNavigationItemView
 
@@ -177,8 +196,6 @@ class MainActivity : AppCompatActivity() {
             fabNote.visibility = View.GONE
         }
     }
-
-
 }
 
 

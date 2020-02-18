@@ -25,6 +25,12 @@ class MainViewModel (private val noteRepository: NoteRepository) : ViewModel() {
 
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
 
+    private val _showToolbarSave = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+    val showToolbarSave: LiveData<Boolean>
+        get() = _showToolbarSave
 
     private var viewModelJob = Job()
 
@@ -60,5 +66,11 @@ class MainViewModel (private val noteRepository: NoteRepository) : ViewModel() {
         _navigateToAddNote.value = null
     }
 
+    fun showToolbarSave() {
+        _showToolbarSave.value = true
+    }
 
+    fun hideToolbarSave() {
+        _showToolbarSave.value = false
+    }
 }
