@@ -47,11 +47,11 @@ fun bindImageBox(imgView: ImageView, imgUrl: String?) {
         val imgUri = it.toUri().buildUpon().build()
         GlideApp.with(imgView.context)
             .load(imgUri)
-            .apply(
-                RequestOptions().transform(CenterCrop(), RoundedCorners(20))
-                    .placeholder(R.drawable.bg_list_box_frame)
-                    .error(R.drawable.bg_list_box_frame)
-                    )
+//            .apply(
+//                RequestOptions().transform(CenterCrop(), RoundedCorners(20))
+//                    .placeholder(R.drawable.bg_list_box_frame)
+//                    .error(R.drawable.bg_list_box_frame)
+//                    )
 
             .into(imgView)
     }

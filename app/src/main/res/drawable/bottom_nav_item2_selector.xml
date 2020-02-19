@@ -4,7 +4,7 @@
     <item android:drawable="@drawable/icon_simple_earth2"
         android:state_checked="false"
         android:color = "@color/black_3f3a3a"/>
-    <item android:drawable="@drawable/icon_simple_earth2color"
+    <item android:drawable="@drawable/icon_geolocation_color"
         android:state_checked="true"/>
 
 

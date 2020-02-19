@@ -26,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import android.animation.AnimatorListenerAdapter
+import android.view.animation.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,9 +36,9 @@ class MainActivity : AppCompatActivity() {
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     private var isFabOpen = false
-    private lateinit var fab : FloatingActionButton
-    private lateinit var fabBox : FloatingActionButton
-    private lateinit var fabNote : FloatingActionButton
+    private lateinit var fab: FloatingActionButton
+    private lateinit var fabBox: FloatingActionButton
+    private lateinit var fabNote: FloatingActionButton
 
     lateinit var binding: ActivityMainBinding
 
@@ -100,7 +102,6 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().addAuthStateListener(authListener)
 
 
-
         //fab setting
         fab = findViewById(R.id.fab)
         fabBox = findViewById(R.id.fab_box)
@@ -145,8 +146,6 @@ class MainActivity : AppCompatActivity() {
         setupNavController()
 
 
-
-
     }
 
 
@@ -159,8 +158,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavController() {
-        findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener {
-                navController: NavController, _: NavDestination, _: Bundle? ->
+        findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
 
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
                 R.id.homeFragment -> CurrentFragmentType.HOME
@@ -184,6 +182,7 @@ class MainActivity : AppCompatActivity() {
         fabNote.visibility = View.VISIBLE
         fabBox.animate().translationY(-getResources().getDimension(R.dimen.standard_105))
         fabNote.animate().translationY(-getResources().getDimension(R.dimen.standard_55))
+        fab.animate().setDuration(200).rotation(135f)
     }
 
     @SuppressLint("RestrictedApi")
@@ -195,7 +194,7 @@ class MainActivity : AppCompatActivity() {
         fabNote.animate().translationY(0F).withEndAction {
             fabNote.visibility = View.GONE
         }
+        fab.animate().setDuration(200).rotation(0f)
     }
 }
-
 

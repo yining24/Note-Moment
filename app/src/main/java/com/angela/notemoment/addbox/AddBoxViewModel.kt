@@ -111,6 +111,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
+                        navigateToList()
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -126,7 +127,6 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
                     }
                 }
             }
-            navigateToList()
         }
 
     }

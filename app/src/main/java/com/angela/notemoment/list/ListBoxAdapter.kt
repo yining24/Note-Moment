@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.databinding.ItemListBoxBinding
+import com.angela.notemoment.databinding.ItemListDrawerBinding
 import kotlin.random.Random
 
 class ListBoxAdapter(val viewModel: ListViewModel) : ListAdapter<Box, ListBoxAdapter.ListBoxViewHolder>(DiffCallback) {
 
 
 
-    class ListBoxViewHolder(private var binding: ItemListBoxBinding): RecyclerView.ViewHolder(binding.root) {
+    class ListBoxViewHolder(private var binding: ItemListDrawerBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(box: Box, viewModel: ListViewModel) {
             binding.box = box
@@ -35,7 +36,7 @@ class ListBoxAdapter(val viewModel: ListViewModel) : ListAdapter<Box, ListBoxAda
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListBoxViewHolder {
-        return ListBoxViewHolder(ItemListBoxBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ListBoxViewHolder(ItemListDrawerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
 
