@@ -198,6 +198,80 @@ object NoteRemoteDataSource : NoteDataSource {
         }
 
 
+    override suspend fun updateBox(box: Box, uri: Uri?): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            val storageReference = FirebaseStorage.getInstance().reference
+            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
+            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            Logger.w("update box uid::::${box.id}")
+
+            val boxDocument = document
+                .collection(PATH_BOX)
+                .document(box.id)
+
+            if (uri != null) {
+                val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
+                val uploadTask = ref.putFile(uri)
+                uploadTask.continueWithTask(
+                    Continuation<UploadTask.TaskSnapshot, Task<Uri>> { taskImage ->
+                        if (!taskImage.isSuccessful) {
+                            taskImage.exception?.let {
+                                Logger.i("task is not successful")
+                                throw it
+                            }
+                        }
+                        return@Continuation ref.downloadUrl
+                    })
+                    .addOnCompleteListener { taskImage ->
+                        if (taskImage.isSuccessful) {
+                            Logger.i("task is successful")
+                            Logger.i(" box taskImage = ${taskImage.result}")
+
+                            box.image = taskImage.result.toString()
+
+                            boxDocument.set(box)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+
+                                        Logger.i("update box success : $box")
+                                        continuation.resume(Result.Success(true))
+
+                                    } else {
+                                        task.exception?.let {
+                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                            return@addOnCompleteListener
+                                        }
+                                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                                    }
+                                }
+                        }
+                    }.addOnFailureListener{
+                        Logger.i("task is Failure")
+                    }
+            } else {
+                boxDocument.set(box)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            Logger.i("update box success : $box")
+                            continuation.resume(Result.Success(true))
+
+                        } else {
+                            task.exception?.let {
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                        }
+                    }
+            }
+        }
+
+
+
 
     override suspend fun publishNote(note: Note, boxId:String, uri: Uri?): Result<Boolean> =
         suspendCoroutine { continuation ->

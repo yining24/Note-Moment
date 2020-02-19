@@ -7,12 +7,13 @@
         <variable
             name="viewModel"
             type="com.angela.notemoment.addbox.AddBoxViewModel" />
+        <import type="com.angela.notemoment.LoadApiStatus"/>
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/upload_image"
@@ -104,6 +105,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_text_frame"
+                    app:ccp_textSize="14dp"
+                    app:ccp_textGravity="CENTER"
                     app:ccp_autoDetectCountry="true"
                     app:ccp_defaultNameCode="TW"
                     app:ccp_rememberLastSelection="true"
@@ -114,66 +117,69 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
                     app:ccp_countryPreference="TW,US,JP"
-                    app:ccp_defaultLanguage="CHINESE_TRADITIONAL" />
+                    app:ccp_defaultLanguage="CHINESE_TRADITIONAL"
+                    app:ccpDialog_showCloseIcon="true"/>
 
 
-                <TextView
-                    android:id="@+id/select_start_date"
-                    style="@style/textGeneral12"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/bg_text_frame"
-                    android:gravity="center_vertical"
-                    android:text="@{viewModel.boxStartDate}"
-                    android:textSize="14sp"
-                    android:paddingLeft="12dp"
-                    android:hint="請點選開始日期"
-                    android:textColorHint="#8B8B8B"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ccp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/select_start_date"-->
+<!--                    style="@style/textGeneral12"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:background="@drawable/bg_text_frame"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:text="@{viewModel.boxStartDate}"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:paddingLeft="12dp"-->
+<!--                    android:hint="請點選開始日期"-->
+<!--                    android:textColorHint="#8B8B8B"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/ccp" />-->
 
-                <TextView
-                    android:id="@+id/select_end_date"
-                    style="@style/textGeneral12"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="center_vertical"
-                    android:textSize="14sp"
-                    android:background="@drawable/bg_text_frame"
-                    android:paddingLeft="12dp"
-                    android:hint="請點選結束日期"
-                    android:textColorHint="#8B8B8B"
-                    android:text="@{viewModel.boxEndDate}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/select_start_date" />
+<!--                <TextView-->
+<!--                    android:id="@+id/select_end_date"-->
+<!--                    style="@style/textGeneral12"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:background="@drawable/bg_text_frame"-->
+<!--                    android:paddingLeft="12dp"-->
+<!--                    android:hint="請點選結束日期"-->
+<!--                    android:textColorHint="#8B8B8B"-->
+<!--                    android:text="@{viewModel.boxEndDate}"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/select_start_date" />-->
 
 
-
-                <Button
-                    android:id="@+id/button_save"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_text_frame"
-                    android:letterSpacing="0.15"
-                    android:text="儲存"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.6"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:onClick="@{() -> viewModel.publishBoxResult(viewModel.box, viewModel.photoUrl)}" />
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_text_frame"
+            android:letterSpacing="0.15"
+            android:onClick="@{() -> viewModel.publishBoxResult(viewModel.box, viewModel.photoUrl)}"
+            android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false:true}"
+            android:text="儲存"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ccp" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

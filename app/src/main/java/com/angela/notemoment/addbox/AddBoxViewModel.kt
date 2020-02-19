@@ -133,7 +133,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
 
 
     val canAddbox
-        get() = !box.value?.title.isNullOrEmpty() && box.value?.startDate != 1L && box.value?.endDate != 1L
+        get() = !box.value?.title.isNullOrEmpty()
 
 
     fun navigateToList() {

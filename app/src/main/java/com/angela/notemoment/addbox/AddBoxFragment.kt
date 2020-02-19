@@ -46,6 +46,7 @@ class AddBoxFragment : Fragment() {
 
         ccp = binding.ccp
 
+
         viewModel.box.value?.country = ccp.selectedCountryName
 
         ccp.setOnCountryChangeListener {
@@ -56,42 +57,42 @@ class AddBoxFragment : Fragment() {
 
 
         //date picker
-        val cal = Calendar.getInstance()
-
-        val dateSetListener =
-            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                cal.set(Calendar.YEAR, year)
-                cal.set(Calendar.MONTH, monthOfYear)
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                viewModel.setStartDate(cal.time)
-            }
-
-        binding.selectStartDate.setOnClickListener {
-            DatePickerDialog(
-                context!!, dateSetListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-
-
-        val endDateSetListener =
-            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                cal.set(Calendar.YEAR, year)
-                cal.set(Calendar.MONTH, monthOfYear)
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                viewModel.setEndDate(cal.time)
-            }
-
-        binding.selectEndDate.setOnClickListener {
-            DatePickerDialog(
-                context!!, endDateSetListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
+//        val cal = Calendar.getInstance()
+//
+//        val dateSetListener =
+//            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+//                cal.set(Calendar.YEAR, year)
+//                cal.set(Calendar.MONTH, monthOfYear)
+//                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+//                viewModel.setStartDate(cal.time)
+//            }
+//
+//        binding.selectStartDate.setOnClickListener {
+//            DatePickerDialog(
+//                context!!, dateSetListener,
+//                cal.get(Calendar.YEAR),
+//                cal.get(Calendar.MONTH),
+//                cal.get(Calendar.DAY_OF_MONTH)
+//            ).show()
+//        }
+//
+//
+//        val endDateSetListener =
+//            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+//                cal.set(Calendar.YEAR, year)
+//                cal.set(Calendar.MONTH, monthOfYear)
+//                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+//                viewModel.setEndDate(cal.time)
+//            }
+//
+//        binding.selectEndDate.setOnClickListener {
+//            DatePickerDialog(
+//                context!!, endDateSetListener,
+//                cal.get(Calendar.YEAR),
+//                cal.get(Calendar.MONTH),
+//                cal.get(Calendar.DAY_OF_MONTH)
+//            ).show()
+//        }
 
 
         viewModel.box.observe(this, Observer {

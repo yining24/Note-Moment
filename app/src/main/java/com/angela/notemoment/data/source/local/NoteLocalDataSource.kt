@@ -43,6 +43,10 @@ class NoteLocalDataSource (val context: Context) : NoteDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun updateBox(box: Box, uri: Uri?): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun publishNote(note: Note, boxId:String, uri: Uri?): Result<Boolean>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

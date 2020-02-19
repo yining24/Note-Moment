@@ -38,6 +38,10 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
     var photoUrl = MutableLiveData<Uri>()
 
+    var selectedBox = Box()
+
+    var isUpdateBoxDate = false
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -69,7 +73,7 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         getBoxesResult()
     }
 
-    fun publishNoteResult(note: Note, photoUrl: Uri? = null) {
+    fun publishNoteResult(note: Note, photoUrl: Uri? = null, selectedBox: Box) {
 
         if (canAddNote) {
             coroutineScope.launch {
@@ -80,6 +84,10 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
+
+                        if (isUpdateBoxDate) {
+                            repository.updateBox(selectedBox ,null)
+                        }
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -143,10 +151,37 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         boxTitleList
     }
 
-    fun selectBoxPosition(position : Int) : Box{
-        note.value?.boxId = boxes.value!![position].id
-        Logger.i("box id value = ${boxes.value}")
+    fun selectBoxPosition(position : Int) : Box {
+        boxes.value?.let {
+            selectedBox = it[position]
+            note.value?.boxId = selectedBox.id
+            Logger.i("box id value = ${boxes.value}")
+
+            updateBoxDate(selectedBox)
+        }
         return boxes.value!![position]
+    }
+
+
+    fun updateBoxDate (box: Box) {
+
+        note.value?.apply {
+            when {
+                box.startDate == 0L && box.endDate == 0L -> {
+                    isUpdateBoxDate = true
+                    box.startDate = this.time
+                    box.endDate = this.time
+                }
+                this.time < box.startDate -> {
+                    isUpdateBoxDate = true
+                    box.startDate = this.time
+                }
+                this.time > box.endDate -> {
+                    isUpdateBoxDate = true
+                    box.endDate = this.time
+                }
+            }
+        }
     }
 
 

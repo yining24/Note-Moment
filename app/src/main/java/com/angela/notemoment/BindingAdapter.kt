@@ -1,7 +1,6 @@
 package com.angela.notemoment
 
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,6 @@ import com.angela.notemoment.util.GlideApp
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 
 @BindingAdapter("boxes")
@@ -47,11 +45,11 @@ fun bindImageBox(imgView: ImageView, imgUrl: String?) {
         val imgUri = it.toUri().buildUpon().build()
         GlideApp.with(imgView.context)
             .load(imgUri)
-//            .apply(
-//                RequestOptions().transform(CenterCrop(), RoundedCorners(20))
-//                    .placeholder(R.drawable.bg_list_box_frame)
-//                    .error(R.drawable.bg_list_box_frame)
-//                    )
+            .apply(
+                RequestOptions().transform(CenterCrop(), RoundedCorners(20))
+                    .placeholder(R.drawable.bg_drawer_frame)
+                    .error(R.drawable.bg_box_no_image)
+                    )
 
             .into(imgView)
     }
