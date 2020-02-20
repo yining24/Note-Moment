@@ -26,6 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME || viewModel.currentFragmentType == CurrentFragmentType.LIST || viewModel.currentFragmentType == CurrentFragmentType.PROFILE ? View.VISIBLE : View.GONE}"
             app:menu="@menu/toolbar_save">
 
             <androidx.appcompat.widget.SearchView
@@ -84,7 +85,7 @@
             app:layout_constraintTop_toTopOf="@+id/fab"
             app:layout_constraintEnd_toEndOf="@+id/fab"
             app:layout_constraintStart_toStartOf="@+id/fab"
-            app:srcCompat="@drawable/add_drawer_icon"
+            app:srcCompat="@drawable/add_drawer_icon512"
             app:maxImageSize="28dp"
             android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> viewModel.navigateToAddBox()}" />

@@ -61,7 +61,6 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
 
 
-
         //date dialog picker
 //        var cal = Calendar.getInstance()
 //
@@ -102,12 +101,12 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                val selectedBox = viewModel.selectBoxPosition(pos)
+                viewModel.selectBoxPosition(pos)
                 Logger.i("pos = $pos")
 
-                //set limit with box date
-                datePicker.maxDate = selectedBox.endDate
-                datePicker.minDate = selectedBox.startDate
+//                //set limit with box date
+//                datePicker.maxDate = selectedBox.endDate
+//                datePicker.minDate = selectedBox.startDate
 
 
                     calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
@@ -180,8 +179,6 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText).textSize = 14.0f
         (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText)
             .setHintTextColor(resources.getColor(R.color.hint_text_color))
-
-
 
 
 

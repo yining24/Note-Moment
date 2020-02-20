@@ -1,6 +1,8 @@
 package com.angela.notemoment.addnote
 
+import android.app.Activity
 import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -79,11 +81,14 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
             coroutineScope.launch {
 
                 _status.value = LoadApiStatus.LOADING
+                Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
 
                 when (val result = repository.publishNote(note, note.boxId, photoUrl)) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
+                        Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
+                        navigateToList()
 
                         if (isUpdateBoxDate) {
                             repository.updateBox(selectedBox ,null)
@@ -92,6 +97,7 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                     is Result.Fail -> {
                         _error.value = result.error
                         _status.value = LoadApiStatus.ERROR
+                        Toast.makeText(NoteApplication.instance, "Fail", Toast.LENGTH_SHORT).show()
                     }
                     is Result.Error -> {
                         _error.value = result.exception.toString()
@@ -103,7 +109,6 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                     }
                 }
             }
-            navigateToList()
 
         }
 
@@ -143,23 +148,30 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         }
     }
 
+
     val boxList = Transformations.map(boxes){
         val boxTitleList = mutableListOf<String>()
+//        if (_boxes.value?.size == 0) {
+//            val defaultBox = Box("", "default",0L,0L,"臺灣","")
+//            _boxes.value = listOf(defaultBox)
+//            Logger.i("default = $defaultBox")
+//        }
         for (box in it){
             boxTitleList.add(box.title)
         }
         boxTitleList
     }
 
-    fun selectBoxPosition(position : Int) : Box {
+
+    fun selectBoxPosition(position : Int){
         boxes.value?.let {
             selectedBox = it[position]
             note.value?.boxId = selectedBox.id
-            Logger.i("box id value = ${boxes.value}")
+            Logger.i("selectBox value = ${boxes.value}")
 
             updateBoxDate(selectedBox)
         }
-        return boxes.value!![position]
+        return
     }
 
 

@@ -9,12 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.angela.notemoment.Logger
-import com.angela.notemoment.NavigationDirections
-import com.angela.notemoment.NoteApplication
-import com.angela.notemoment.R
+import com.angela.notemoment.*
 import com.angela.notemoment.ServiceLocator.repository
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
@@ -62,6 +60,16 @@ class ListFragment : Fragment() {
                 listViewModel.notSelectBox()
             }
         })
+
+        listViewModel.navigateToAddBox.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.actionGlobalAddboxFragment())
+                listViewModel.onAddBoxNavigated()
+            }
+        })
+
+
+        binding.viewClickToAdd
 
 
 
@@ -129,47 +137,3 @@ class ListFragment : Fragment() {
     }
 
 }
-//    fun publishBox(box: Box){
-//        val boxes = db.collection("users")
-//        val document = boxes.document(auth.currentUser?.uid ?: "")
-//        Logger.w("uid::::${FirebaseAuth.getInstance().currentUser!!.uid}")
-//        document
-//            .collection("User Box")
-//            .add(box)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//
-//                    Logger.i("Publish: $box")
-//
-//                } else {
-//                    task.exception?.let {
-//                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-//                    }
-//                }
-//            }
-//    }
-
-//    fun publishNote(note: Note, boxId:String){
-//        val boxes = db.collection("users")
-//        val document = boxes.document(auth.currentUser?.uid ?: "")
-//        document
-//            .collection("User Box")
-//            .document(boxId)
-//            .collection("Box Notes")
-//            .add(note)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    Logger.i("Publish: $note")
-//
-//                } else {
-//                    task.exception?.let {
-//                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-//                    }
-//                }
-//            }
-//    }
-
-
-
-
-

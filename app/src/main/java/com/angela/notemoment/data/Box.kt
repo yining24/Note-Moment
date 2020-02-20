@@ -12,6 +12,5 @@ data class Box (
     var startDate: Long = 0,
     var endDate: Long = 0,
     var country: String = "",
-    var image: String = "",
-    var notesAmount: Int = 0
+    var image: String = ""
 ): Parcelable

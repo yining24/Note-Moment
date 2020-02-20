@@ -78,19 +78,6 @@ class LoginFragment : Fragment() {
                     (activity as? MainActivity)?.finish()
                 }
             } else {
-                if(IdpResponse.fromResultIntent(data)?.isNewUser == true) {
-                    GlobalScope.launch (Dispatchers.Main) {
-                        val defaultBox = Box(
-                            title = "未分類",
-                            startDate = -2208988800000,
-                            endDate = 4133980799000,
-                            country = "未選擇",
-                            image = "")
-
-                        repository?.publishBox(defaultBox, null)
-                        Logger.i("new user add $defaultBox")
-                    }
-                }
                 // Successfully signed in
                 Toast.makeText(context, "登入成功", Toast.LENGTH_SHORT).show()
                 val user = FirebaseAuth.getInstance().currentUser
