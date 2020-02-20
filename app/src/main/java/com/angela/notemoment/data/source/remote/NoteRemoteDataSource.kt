@@ -2,6 +2,8 @@ package com.angela.notemoment.data.source.remote
 
 import android.net.Uri
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.angela.notemoment.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
@@ -33,37 +35,38 @@ object NoteRemoteDataSource : NoteDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+
     override suspend fun getBox(): Result<List<Box>> =
         suspendCoroutine { continuation ->
-        FirebaseFirestore.getInstance()
-            .collection(PATH_USER)
-            .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-            .collection(PATH_BOX)
-            .orderBy("endDate", Query.Direction.DESCENDING)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val list = mutableListOf<Box>()
-                    for (document in task.result!!) {
-                        Logger.d(document.id + " => " + document.data)
+            FirebaseFirestore.getInstance()
+                .collection(PATH_USER)
+                .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+                .collection(PATH_BOX)
+                .orderBy("endDate", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Box>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
 
-                        val box = document.toObject(Box::class.java)
-                        list.add(box)
+                            val box = document.toObject(Box::class.java)
+                            list.add(box)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.app_name)))
                     }
-                    continuation.resume(Result.Success(list))
-                } else {
-                    task.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                        return@addOnCompleteListener
-                    }
-                    continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.app_name)))
                 }
-            }
-    }
+        }
 
 
-    // modify note date structure
+
     override suspend fun getNote(boxId:String): Result<List<Note>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
@@ -350,8 +353,6 @@ object NoteRemoteDataSource : NoteDataSource {
         }
 
 
-
-
     override suspend fun delete(box: Box): Result<Boolean> =
         suspendCoroutine { continuation ->
 
@@ -379,6 +380,5 @@ object NoteRemoteDataSource : NoteDataSource {
             }
 
         }
-
 
 }

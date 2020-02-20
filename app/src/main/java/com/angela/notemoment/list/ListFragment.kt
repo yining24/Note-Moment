@@ -13,27 +13,25 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.angela.notemoment.*
-import com.angela.notemoment.ServiceLocator.repository
-import com.angela.notemoment.data.Box
-import com.angela.notemoment.data.Note
-import com.angela.notemoment.data.Result
-import com.angela.notemoment.data.source.NoteRepository
-import com.angela.notemoment.data.source.remote.NoteRemoteDataSource.publishBox
 import com.angela.notemoment.databinding.FragmentListBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.facebook.appevents.codeless.internal.ViewHierarchy.setOnClickListener
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+
+
 
 class ListFragment : Fragment() {
+
     private val listViewModel by viewModels<ListViewModel> { getVmFactory() }
     private var auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
+
+    private var isFabOpen = false
+    private lateinit var fab: FloatingActionButton
+    private lateinit var fabBox: FloatingActionButton
+    private lateinit var fabNote: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater,

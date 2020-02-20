@@ -77,9 +77,6 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.toolbar.findViewById<View>(R.id.toolbar_save).visibility = View.GONE
-
-
         setupBottomNav()
 //        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
 
@@ -131,15 +128,6 @@ class MainActivity : AppCompatActivity() {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalAddNoteFragment())
                 viewModel.onAddNoteNavigated()
                 closeFABMenu()
-            }
-        })
-
-        viewModel.showToolbarSave.observe(this, Observer {
-            it?.let {
-                binding.toolbar.findViewById<View>(R.id.toolbar_save).visibility = when (it) {
-                    false -> View.GONE
-                    true -> View.VISIBLE
-                }
             }
         })
 

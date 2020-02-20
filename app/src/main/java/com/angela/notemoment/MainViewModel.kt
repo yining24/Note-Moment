@@ -32,13 +32,6 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
 
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
 
-    private val _showToolbarSave = MutableLiveData<Boolean>().apply {
-        value = false
-    }
-
-    val showToolbarSave: LiveData<Boolean>
-        get() = _showToolbarSave
-
 
 
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -128,11 +121,4 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
         _navigateToAddNote.value = null
     }
 
-    fun showToolbarSave() {
-        _showToolbarSave.value = true
-    }
-
-    fun hideToolbarSave() {
-        _showToolbarSave.value = false
-    }
 }

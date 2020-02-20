@@ -25,10 +25,10 @@
             android:background="#EEEEEE"
             android:scaleType="centerInside"
             app:layout_constraintDimensionRatio="1.5:1"
-            app:srcCompat="@drawable/icon_photo_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/text_create_box"
+            app:srcCompat="@drawable/icon_photo_gray" />
 
 <!--        <ImageButton-->
 <!--            android:id="@+id/upload_button"-->
@@ -51,50 +51,25 @@
 <!--            app:srcCompat="@drawable/icon_camera_gray" />-->
 
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/textInputLayout"-->
-<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:hint="請輸入盒子名稱"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/upload_image"-->
-<!--            app:errorEnabled="true"-->
-<!--            app:hintTextAppearance="@style/TextInputHint"-->
-<!--            android:focusable="true"-->
-<!--            android:focusableInTouchMode="true">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@={viewModel.box.title}"-->
-<!--                android:textSize="14sp" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
         <EditText
             android:id="@+id/textInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:hint="請輸入盒子名稱"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/upload_image"
-                    app:errorEnabled="true"
-                    app:hintTextAppearance="@style/TextInputHint"
-                    android:focusable="true"
-                    android:drawablePadding="10dp"
-                    android:drawableStart="@drawable/icon_folder_32"
-                    android:focusableInTouchMode="true"
-                    android:text="@={viewModel.box.title}"
-                    android:textSize="14sp" />
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/icon_folder_32"
+            android:drawablePadding="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="請輸入盒子名稱"
+            android:text="@={viewModel.box.title}"
+            android:textSize="14sp"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/TextInputHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upload_image" />
 
 
                 <com.hbb20.CountryCodePicker
@@ -104,7 +79,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/bg_text_frame"
                     app:ccp_textSize="14dp"
                     app:ccp_textGravity="CENTER"
                     app:ccp_autoDetectCountry="true"
@@ -119,6 +93,18 @@
                     app:ccp_countryPreference="TW,US,JP"
                     app:ccp_defaultLanguage="CHINESE_TRADITIONAL"
                     app:ccpDialog_showCloseIcon="true"/>
+
+        <View
+            android:id="@+id/view_separation"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:background="#808080"
+            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+            app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/ccp" />
+
 
 
 <!--                <TextView-->
@@ -162,25 +148,58 @@
 
         <Button
             android:id="@+id/button_save"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_text_frame"
+            style="@style/textGeneral14"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false : true}"
             android:letterSpacing="0.15"
             android:onClick="@{() -> viewModel.publishBoxResult(viewModel.box, viewModel.photoUrl)}"
-            android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false:true}"
-            android:text="儲存"
+            android:text="SAVE"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_create_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintTop_toTopOf="@+id/text_create_box" />
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ccp" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_back_nocircle" />
+
+        <TextView
+            android:id="@+id/text_create_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/berkshire_swash"
+            android:letterSpacing="0.15"
+            android:text="Create Box"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/button_back" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView5"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="25dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/button_save"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:srcCompat="@drawable/icon_check" />-->
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
         </layout>

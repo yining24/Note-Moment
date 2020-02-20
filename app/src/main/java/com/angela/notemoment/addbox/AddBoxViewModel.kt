@@ -111,6 +111,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
+                        Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
                         navigateToList()
                     }
                     is Result.Fail -> {

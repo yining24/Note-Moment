@@ -15,14 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_list_box_background"
-        android:paddingStart="1dp"
-        android:onClick="@{() -> viewModel.navigateToAddBox()}">
+        android:paddingStart="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/view_click_to_add"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.boxes.size() == 0 ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewModel.boxes.size() == 0 ? View.VISIBLE : View.GONE}"
+            android:onClick="@{() -> viewModel.navigateToAddBox()}">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -53,9 +53,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageView2"
                 app:layout_constraintStart_toStartOf="@+id/imageView2" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -69,6 +67,56 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_list_box">
         </androidx.recyclerview.widget.RecyclerView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini"
+            app:layout_constraintTop_toTopOf="@+id/fab"
+            app:layout_constraintEnd_toEndOf="@+id/fab"
+            app:layout_constraintStart_toStartOf="@+id/fab"
+            app:srcCompat="@drawable/add_drawer_icon512"
+            app:maxImageSize="28dp"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
+            android:onClick="@{() -> viewModel.navigateToAddBox()}" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="@+id/fab"
+            app:layout_constraintStart_toStartOf="@+id/fab"
+            app:layout_constraintTop_toTopOf="@+id/fab"
+            app:srcCompat="@drawable/icon_simple_note2"
+            app:maxImageSize="22dp"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
+            android:onClick="@{() -> viewModel.navigateToAddNote()}"/>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="14dp"
+            android:clickable="true"
+            android:elevation="6dp"
+            app:backgroundTint="@color/colorPrimaryDark"
+            android:background="@drawable/bg_text_frame"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:maxImageSize="20dp"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
+            app:srcCompat="@drawable/icon_plus" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

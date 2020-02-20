@@ -49,15 +49,15 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         binding.viewModel = viewModel
 
 
-        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
-        mainViewModel.showToolbarSave()
-
-        val save = (activity as MainActivity).binding.toolbar.findViewById<View>(R.id.toolbar_save)
-        save.setOnClickListener {
-            if (viewModel.note.value != null) {
-                viewModel.publishNoteResult(viewModel.note.value!!, viewModel.photoUrl.value, viewModel.selectedBox)
-            }
-        }
+//        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
+//        mainViewModel.showToolbarSave()
+//
+//        val save = (activity as MainActivity).binding.toolbar.findViewById<View>(R.id.toolbar_save)
+//        save.setOnClickListener {
+//            if (viewModel.note.value != null) {
+//                viewModel.publishNoteResult(viewModel.note.value!!, viewModel.photoUrl.value, viewModel.selectedBox)
+//            }
+//        }
 
 
 
@@ -191,12 +191,12 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
-        mainViewModel.hideToolbarSave()
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//
+//        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
+//        mainViewModel.hideToolbarSave()
+//    }
 
     override fun onError(status: Status) {
         Logger.i("An error occurred:  $status")

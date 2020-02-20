@@ -17,6 +17,7 @@ import com.hbb20.CountryCodePicker
 import androidx.fragment.app.viewModels
 import com.angela.notemoment.ext.getVmFactory
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.Logger
 import com.bumptech.glide.Glide
@@ -53,6 +54,10 @@ class AddBoxFragment : Fragment() {
             Logger.i(ccp.selectedCountryCode)
             Logger.i(ccp.selectedCountryName)
             viewModel.box.value?.country = ccp.selectedCountryName
+        }
+
+        binding.buttonBack.setOnClickListener {
+            findNavController().navigateUp()
         }
 
 
@@ -112,6 +117,7 @@ class AddBoxFragment : Fragment() {
 
 
 
+
         //upload photo
 
         binding.uploadImage.setOnClickListener { launchGallery() }
@@ -138,7 +144,7 @@ class AddBoxFragment : Fragment() {
 
             try {
                 filePath = data.data
-                Glide.with(this).load(filePath)
+                Glide.with(this).load(filePath).centerCrop()
                     .into(upload_image)
 
             } catch (e: IOException) {
