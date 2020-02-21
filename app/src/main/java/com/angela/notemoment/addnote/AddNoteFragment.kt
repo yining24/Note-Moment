@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
@@ -52,6 +53,12 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
             DataBindingUtil.inflate(inflater, R.layout.fragment_add_note, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+
+        binding.buttonBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
 
 
 //        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
@@ -120,6 +127,9 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
 
 
+
+
+
         // spinner listener
         val spinner = binding.selectBox
 
@@ -127,12 +137,11 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 viewModel.selectBoxPosition(pos)
                 Logger.i("pos = $pos")
-
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-        
+
 
 
         viewModel.navigateToList.observe(this, Observer {

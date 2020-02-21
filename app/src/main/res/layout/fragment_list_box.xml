@@ -93,7 +93,7 @@
             app:layout_constraintEnd_toEndOf="@+id/fab"
             app:layout_constraintStart_toStartOf="@+id/fab"
             app:layout_constraintTop_toTopOf="@+id/fab"
-            app:srcCompat="@drawable/icon_simple_note2"
+            app:srcCompat="@drawable/icon_writenote2"
             app:maxImageSize="22dp"
             android:onClick="@{() -> viewModel.navigateToAddNote()}"/>
 
