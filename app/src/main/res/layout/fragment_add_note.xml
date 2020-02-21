@@ -132,27 +132,26 @@
             app:layout_constraintStart_toEndOf="@+id/select_date"
             app:layout_constraintTop_toTopOf="@+id/select_date" />
 
-        <DatePicker
-            android:id="@+id/date_picker"
-            android:layout_width="227dp"
-            android:layout_height="90dp"
-            android:layout_marginTop="16dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            app:layout_constraintStart_toStartOf="@+id/title_text"
-            app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
+<!--        <DatePicker-->
+<!--            android:id="@+id/date_picker"-->
+<!--            android:layout_width="227dp"-->
+<!--            android:layout_height="90dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:calendarViewShown="false"-->
+<!--            android:datePickerMode="spinner"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/title_text"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />-->
 
 
-        <TimePicker
-            android:id="@+id/time_picker"
-            android:layout_width="0dp"
-            android:layout_height="90dp"
-            android:timePickerMode="spinner"
-            app:layout_constraintBottom_toBottomOf="@+id/date_picker"
-            app:layout_constraintEnd_toEndOf="@+id/title_text"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/date_picker"
-            app:layout_constraintTop_toBottomOf="@+id/select_date" />
+<!--        <TimePicker-->
+<!--            android:id="@+id/time_picker"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="90dp"-->
+<!--            android:timePickerMode="clock"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/save_button"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/title_text"-->
+<!--            app:layout_constraintHorizontal_bias="1.0"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/select_date" />-->
 
         <EditText
             android:id="@+id/select_tag"
@@ -160,15 +159,15 @@
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/icon_left_tag32"
+            android:drawablePadding="10dp"
             android:hint="Tag : travel"
+            android:text="@={viewModel.note.tags}"
             android:textSize="14sp"
             app:hintTextAppearance="@style/TextInputHint"
-            android:text="@={viewModel.note.tags}"
-            android:drawablePadding="10dp"
-            android:drawableStart="@drawable/icon_left_tag32"
             app:layout_constraintEnd_toEndOf="@+id/place_autocomplete_fragment"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date_picker" />
+            app:layout_constraintTop_toBottomOf="@+id/select_date" />
 
         <Spinner
             android:id="@+id/select_box"
@@ -187,22 +186,24 @@
 
         <EditText
             android:id="@+id/write_note"
-            android:background="@drawable/bg_text_frame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_text_frame"
             android:hint="請輸入筆記"
-            android:textSize="14sp"
             android:paddingLeft="15dp"
-            app:hintTextAppearance="@style/TextInputHint"
             android:text="@={viewModel.note.content}"
+            android:textSize="14sp"
+            app:hintTextAppearance="@style/TextInputHint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_box" />
+            app:layout_constraintTop_toBottomOf="@+id/select_box"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/save_button"

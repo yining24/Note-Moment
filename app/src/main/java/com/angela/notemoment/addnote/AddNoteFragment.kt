@@ -1,8 +1,11 @@
 package com.angela.notemoment.addnote
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -30,6 +33,8 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import java.io.IOException
+import java.util.*
+import kotlin.time.hours
 
 
 class AddNoteFragment  : Fragment() , PlaceSelectionListener {
@@ -60,25 +65,38 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 //        }
 
 
-
         //date dialog picker
-//        var cal = Calendar.getInstance()
-//
-//        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-//            cal.set(Calendar.YEAR, year)
-//            cal.set(Calendar.MONTH, monthOfYear)
-//            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-//
-//            val myFormat = "MM/dd/yyyy" // mention the format you need
-//            val sdf = SimpleDateFormat(myFormat, Locale.US)
-//            binding.selectDate.text = sdf.format(cal.time)
-//        }
-//        binding.selectDate.setOnClickListener {
-//            DatePickerDialog(context!!, dateSetListener,
-//                cal.get(Calendar.YEAR),
-//                cal.get(Calendar.MONTH),
-//                cal.get(Calendar.DAY_OF_MONTH)).show()
-//        }
+        val cal = Calendar.getInstance()
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+            cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), 0)
+        Logger.i("set date is :${cal.time}")
+
+        val myFormat = "yyyy/MM/dd" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+        binding.selectDate.text = sdf.format(cal.time)
+
+        binding.selectTime.text = SimpleDateFormat("HH:mm").format(cal.time)
+
+        viewModel.onChangeNoteTime(cal.timeInMillis)
+
+
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            viewModel.onChangeNoteTime(cal.timeInMillis)
+
+            binding.selectDate.text = sdf.format(cal.time)
+        }
+
+        binding.selectDate.setOnClickListener {
+            DatePickerDialog(context!!, dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
 //        binding.selectTime.setOnClickListener {
 //            val hour = cal.get(Calendar.HOUR_OF_DAY)
 //            val minute = cal.get(Calendar.MINUTE)
@@ -88,18 +106,18 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 //            }, hour, minute, true).show()
 //        }
 
-        //get selected time
-        val calendar = Calendar.getInstance()
-        val datePicker = binding.datePicker as DatePicker
-        val timePicker = binding.timePicker as TimePicker
-        timePicker.setIs24HourView(true)
-        calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
-            timePicker.hour, timePicker.minute, 0)
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            cal.set(Calendar.MINUTE, minute)
+            viewModel.onChangeNoteTime(cal.timeInMillis)
+            binding.selectTime.text = String.format("%02d:%02d", hourOfDay, minute)
+        }
 
-        Logger.i("set date is :${datePicker.year} / ${datePicker.month} / ${datePicker.dayOfMonth}")
-        Logger.i("calendar.timeInMillis=${calendar.timeInMillis}")
+        binding.selectTime.setOnClickListener {
+            TimePickerDialog(context!!, 3, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)
+            , true).show()
+        }
 
-        viewModel.onChangeNoteTime(calendar.timeInMillis)
 
 
         // spinner listener
@@ -110,44 +128,11 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
                 viewModel.selectBoxPosition(pos)
                 Logger.i("pos = $pos")
 
-//                //set limit with box date
-//                datePicker.maxDate = selectedBox.endDate
-//                datePicker.minDate = selectedBox.startDate
-
-
-                    calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
-                        timePicker.hour, timePicker.minute, 0)
-
-                    Logger.i("set date is :${datePicker.year} / ${datePicker.month} / ${datePicker.dayOfMonth}")
-                    Logger.i("calendar.timeInMillis=${calendar.timeInMillis}")
-
-                    viewModel.onChangeNoteTime(calendar.timeInMillis)
-
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-
-
-        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
-            calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
-                hourOfDay, minute, 0
-            )
-            Logger.i("change time is :$hourOfDay:$minute")
-            Logger.i("calendar.timeInMillis=${calendar.timeInMillis}")
-
-            viewModel.onChangeNoteTime(calendar.timeInMillis)
-        }
-
-        datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
-            calendar.set(year, monthOfYear, dayOfMonth,
-                timePicker.hour, timePicker.minute, 0
-            )
-            Logger.i("change date is :$year / $monthOfYear / $dayOfMonth")
-            Logger.i("calendar.timeInMillis=${calendar.timeInMillis}")
-
-            viewModel.onChangeNoteTime(calendar.timeInMillis)
-        }
+        
 
 
         viewModel.navigateToList.observe(this, Observer {

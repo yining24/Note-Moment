@@ -77,6 +77,7 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     fun publishNoteResult(note: Note, photoUrl: Uri? = null, selectedBox: Box) {
 
         if (canAddNote) {
+            updateBoxDate(selectedBox)
             coroutineScope.launch {
 
                 _status.value = LoadApiStatus.LOADING
@@ -168,7 +169,6 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
             note.value?.boxId = selectedBox.id
             Logger.i("selectBox value = ${boxes.value}")
 
-            updateBoxDate(selectedBox)
         }
         return
     }
@@ -182,14 +182,17 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                     isUpdateBoxDate = true
                     box.startDate = this.time
                     box.endDate = this.time
+                    Logger.i("box start and end time to ::${this.time}")
                 }
                 this.time < box.startDate -> {
                     isUpdateBoxDate = true
                     box.startDate = this.time
+                    Logger.i("box start time to ::${this.time}")
                 }
                 this.time > box.endDate -> {
                     isUpdateBoxDate = true
                     box.endDate = this.time
+                    Logger.i("box end time to ::${this.time}")
                 }
             }
         }
@@ -217,6 +220,6 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
     fun onChangeNoteTime(time: Long) {
         _note.value?.time = time
-        updateBoxDate(selectedBox)
+        Logger.i("chang note time = $time")
     }
 }
