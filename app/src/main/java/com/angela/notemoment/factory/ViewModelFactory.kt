@@ -7,7 +7,7 @@ import com.angela.notemoment.addbox.AddBoxViewModel
 import com.angela.notemoment.addnote.AddNoteViewModel
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.source.NoteRepository
-import com.angela.notemoment.list.ListViewModel
+import com.angela.notemoment.listbox.ListBoxViewModel
 import com.angela.notemoment.listnote.ListNoteViewModel
 import com.angela.notemoment.map.MyMapViewModel
 
@@ -25,8 +25,8 @@ class ViewModelFactory constructor(
                 isAssignableFrom(MainViewModel::class.java) ->
                     MainViewModel(noteRepository)
 
-                isAssignableFrom(ListViewModel::class.java) ->
-                    ListViewModel(noteRepository)
+                isAssignableFrom(ListBoxViewModel::class.java) ->
+                    ListBoxViewModel(noteRepository)
 
                 isAssignableFrom(AddBoxViewModel::class.java) ->
                     AddBoxViewModel(noteRepository)

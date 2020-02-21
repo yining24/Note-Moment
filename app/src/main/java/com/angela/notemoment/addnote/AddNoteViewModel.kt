@@ -1,6 +1,5 @@
 package com.angela.notemoment.addnote
 
-import android.app.Activity
 import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -218,5 +217,6 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
     fun onChangeNoteTime(time: Long) {
         _note.value?.time = time
+        updateBoxDate(selectedBox)
     }
 }

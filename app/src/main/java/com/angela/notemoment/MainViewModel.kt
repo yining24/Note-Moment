@@ -20,19 +20,8 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
     val boxes: LiveData<List<Box>>
         get() = _boxes
 
-    private val _navigateToAddBox = MutableLiveData<Boolean>()
-
-    val navigateToAddBox: LiveData<Boolean>
-        get() = _navigateToAddBox
-
-    private val _navigateToAddNote = MutableLiveData<Boolean>()
-
-    val navigateToAddNote: LiveData<Boolean>
-        get() = _navigateToAddNote
 
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
-
-
 
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -99,26 +88,5 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
         }
     }
 
-
-
-    fun navigateToAddBox() {
-        _navigateToAddBox.value = true
-    }
-
-    fun onAddBoxNavigated() {
-        _navigateToAddBox.value = null
-    }
-
-    fun navigateToAddNote() {
-        if (_boxes.value?.size == 0) {
-            Toast.makeText(NoteApplication.instance, "請先新增抽屜～", Toast.LENGTH_SHORT).show()
-        } else {
-            _navigateToAddNote.value = true
-        }
-    }
-
-    fun onAddNoteNavigated() {
-        _navigateToAddNote.value = null
-    }
 
 }

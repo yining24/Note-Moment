@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.angela.notemoment.list.ListFragment"
+        android:name="com.angela.notemoment.listbox.ListBoxFragment"
         android:label="ListFragment" />
     <fragment
         android:id="@+id/profileFragment"

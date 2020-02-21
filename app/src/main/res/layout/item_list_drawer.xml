@@ -9,7 +9,7 @@
             type="com.angela.notemoment.data.Box" />
         <variable
             name="viewModel"
-            type="com.angela.notemoment.list.ListViewModel" />
+            type="com.angela.notemoment.listbox.ListBoxViewModel" />
 
     </data>
 
@@ -52,7 +52,7 @@
 <!--            android:shadowDx="3"-->
 <!--            android:shadowDy="3"-->
 <!--            android:shadowRadius="6"-->
-<!--            android:text='@{viewModel.displayDate(box.startDate, box.endDate)}'-->
+<!--            android:text='@{boxViewModel.displayDate(box.startDate, box.endDate)}'-->
 <!--            android:textAlignment="center"-->
 <!--            android:textAllCaps="false"-->
 <!--            android:textColor="@color/white"-->

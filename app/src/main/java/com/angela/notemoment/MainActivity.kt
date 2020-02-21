@@ -35,11 +35,6 @@ class MainActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 123
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
-    private var isFabOpen = false
-    private lateinit var fab: FloatingActionButton
-    private lateinit var fabBox: FloatingActionButton
-    private lateinit var fabNote: FloatingActionButton
-
     lateinit var binding: ActivityMainBinding
 
     private val onNavigationItemSelectedListener =
@@ -99,40 +94,7 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().addAuthStateListener(authListener)
 
 
-        //fab setting
-        fab = findViewById(R.id.fab)
-        fabBox = findViewById(R.id.fab_box)
-        fabNote = findViewById(R.id.fab_note)
-        fab.bringToFront()
-        fab.setOnClickListener {
-            if (!isFabOpen) {
-                showFABMenu()
-            } else {
-                closeFABMenu()
-            }
-        }
-
-
-
-
-        viewModel.navigateToAddBox.observe(this, Observer {
-            it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalAddboxFragment())
-                viewModel.onAddBoxNavigated()
-                closeFABMenu()
-            }
-        })
-
-        viewModel.navigateToAddNote.observe(this, Observer {
-            it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalAddNoteFragment())
-                viewModel.onAddNoteNavigated()
-                closeFABMenu()
-            }
-        })
-
         setupNavController()
-
 
     }
 
@@ -162,27 +124,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    @SuppressLint("RestrictedApi")
-    private fun showFABMenu() {
-        isFabOpen = true
-        fabBox.visibility = View.VISIBLE
-        fabNote.visibility = View.VISIBLE
-        fabBox.animate().translationY(-getResources().getDimension(R.dimen.standard_105))
-        fabNote.animate().translationY(-getResources().getDimension(R.dimen.standard_55))
-        fab.animate().setDuration(200).rotation(135f)
-    }
-
-    @SuppressLint("RestrictedApi")
-    private fun closeFABMenu() {
-        isFabOpen = false
-        fabBox.animate().translationY(0F).withEndAction {
-            fabBox.visibility = View.GONE
-        }
-        fabNote.animate().translationY(0F).withEndAction {
-            fabNote.visibility = View.GONE
-        }
-        fab.animate().setDuration(200).rotation(0f)
-    }
 }
 

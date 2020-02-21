@@ -9,7 +9,7 @@
             type="com.angela.notemoment.data.Box" />
         <variable
             name="viewModel"
-            type="com.angela.notemoment.list.ListViewModel" />
+            type="com.angela.notemoment.listbox.ListBoxViewModel" />
 
     </data>
 

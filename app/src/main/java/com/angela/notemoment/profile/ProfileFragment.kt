@@ -12,7 +12,7 @@ import com.angela.notemoment.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
-//    private val listViewModel by viewModels<ListViewModel> { getVmFactory() }
+//    private val listViewModel by viewModels<ListBoxViewModel> { getVmFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,

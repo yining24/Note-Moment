@@ -117,7 +117,7 @@
 <!--                    android:layout_marginEnd="16dp"-->
 <!--                    android:background="@drawable/bg_text_frame"-->
 <!--                    android:gravity="center_vertical"-->
-<!--                    android:text="@{viewModel.boxStartDate}"-->
+<!--                    android:text="@{boxViewModel.boxStartDate}"-->
 <!--                    android:textSize="14sp"-->
 <!--                    android:paddingLeft="12dp"-->
 <!--                    android:hint="請點選開始日期"-->
@@ -140,7 +140,7 @@
 <!--                    android:paddingLeft="12dp"-->
 <!--                    android:hint="請點選結束日期"-->
 <!--                    android:textColorHint="#8B8B8B"-->
-<!--                    android:text="@{viewModel.boxEndDate}"-->
+<!--                    android:text="@{boxViewModel.boxEndDate}"-->
 <!--                    app:layout_constraintEnd_toEndOf="parent"-->
 <!--                    app:layout_constraintStart_toStartOf="parent"-->
 <!--                    app:layout_constraintTop_toBottomOf="@+id/select_start_date" />-->

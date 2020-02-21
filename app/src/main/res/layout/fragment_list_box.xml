@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.angela.notemoment.list.ListViewModel" />
+            type="com.angela.notemoment.listbox.ListBoxViewModel" />
         <import type="android.view.View"/>
 
     </data>
@@ -81,7 +81,6 @@
             app:layout_constraintStart_toStartOf="@+id/fab"
             app:srcCompat="@drawable/add_drawer_icon512"
             app:maxImageSize="28dp"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> viewModel.navigateToAddBox()}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -96,7 +95,6 @@
             app:layout_constraintTop_toTopOf="@+id/fab"
             app:srcCompat="@drawable/icon_simple_note2"
             app:maxImageSize="22dp"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> viewModel.navigateToAddNote()}"/>
 
 
@@ -113,7 +111,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="20dp"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.MAP || viewModel.currentFragmentType == CurrentFragmentType.ADDNOTE || viewModel.currentFragmentType == CurrentFragmentType.ADDBOX ? View.GONE : View.VISIBLE}"
             app:srcCompat="@drawable/icon_plus" />
 
 

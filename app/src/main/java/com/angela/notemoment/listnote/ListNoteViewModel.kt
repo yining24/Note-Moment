@@ -1,8 +1,10 @@
 package com.angela.notemoment.listnote
 
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.angela.notemoment.LoadApiStatus
 import com.angela.notemoment.Logger
@@ -29,7 +31,6 @@ class ListNoteViewModel (private val repository: NoteRepository,
     val box: LiveData<Box>
         get() = _box
 
-
     private val _noteSorted = MutableLiveData<List<ListNoteSorted>>()
 
     val noteSorted: LiveData<List<ListNoteSorted>>
@@ -40,6 +41,7 @@ class ListNoteViewModel (private val repository: NoteRepository,
 
     val note: LiveData<List<Note>>
         get() = _note
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -110,9 +112,29 @@ class ListNoteViewModel (private val repository: NoteRepository,
     }
 
 
-}
+    val notesSize = Transformations.map(_note){
+        when (it.size) {
+            0 -> "0 note"
+            1 -> "1 note"
+            else -> "${it.size} notes"
+        }
+    }
 
-// sort notes by date
+
+    fun displayBoxDate(): String {
+        val sdf = SimpleDateFormat("yyyy/MM/dd")
+        val start = sdf.format(_box.value?.startDate)
+        val end = sdf.format(_box.value?.endDate)
+        return if (_box.value?.startDate == 0L || _box.value?.endDate == 0L) {
+            ""
+        } else{
+            "$start-$end"
+        }
+    }
+
+
+
+    // sort notes by date
     fun List<Note>?.toListNoteSorted(): List<ListNoteSorted> {
 
         val sortedNotes = mutableListOf<ListNoteSorted>()
@@ -143,6 +165,9 @@ class ListNoteViewModel (private val repository: NoteRepository,
 
             }
         }
-
         return sortedNotes
     }
+
+
+
+}

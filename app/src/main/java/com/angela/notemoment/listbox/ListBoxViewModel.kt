@@ -1,6 +1,7 @@
-package com.angela.notemoment.list
+package com.angela.notemoment.listbox
 
 import android.icu.text.SimpleDateFormat
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,23 +17,27 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.angela.notemoment.data.Result
 
-class ListViewModel(private val repository: NoteRepository) : ViewModel() {
+class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
 
     private val _boxes = MutableLiveData<List<Box>>()
-
     val boxes: LiveData<List<Box>>
         get() = _boxes
+
+    private val _navigateToAddNote = MutableLiveData<Boolean>()
+
+    val navigateToAddNote: LiveData<Boolean>
+        get() = _navigateToAddNote
+
+    private val _navigateToAddBox = MutableLiveData<Boolean>()
+
+    val navigateToAddBox: LiveData<Boolean>
+        get() = _navigateToAddBox
 
 
     private val _navigateToListNote = MutableLiveData<Box>()
 
     val navigateToListNote: LiveData<Box>
         get() = _navigateToListNote
-
-    private val _navigateToAddBox = MutableLiveData<Boolean>()
-
-    val navigateToAddBox: LiveData<Boolean>
-        get() = _navigateToAddBox
 
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -68,6 +73,7 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
         getBoxesResult()
 
     }
+
 
 
     private fun getBoxesResult() {
@@ -129,6 +135,17 @@ class ListViewModel(private val repository: NoteRepository) : ViewModel() {
         _navigateToAddBox.value = null
     }
 
+    fun navigateToAddNote() {
+        if (_boxes.value?.size == 0) {
+            Toast.makeText(NoteApplication.instance, "請先新增抽屜～", Toast.LENGTH_SHORT).show()
+        } else {
+            _navigateToAddNote.value = true
+        }
+    }
+
+    fun onAddNoteNavigated() {
+        _navigateToAddNote.value = null
+    }
 
 
 }

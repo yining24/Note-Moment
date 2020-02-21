@@ -10,7 +10,7 @@ import com.angela.notemoment.databinding.FragmentHomeBinding
 import com.angela.notemoment.databinding.FragmentProfileBinding
 
 class HomeFragment : Fragment() {
-//    private val listViewModel by viewModels<ListViewModel> { getVmFactory() }
+//    private val listViewModel by viewModels<ListBoxViewModel> { getVmFactory() }
 
 
     override fun onCreateView(

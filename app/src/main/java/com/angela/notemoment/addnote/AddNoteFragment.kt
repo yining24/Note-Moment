@@ -54,8 +54,8 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 //
 //        val save = (activity as MainActivity).binding.toolbar.findViewById<View>(R.id.toolbar_save)
 //        save.setOnClickListener {
-//            if (viewModel.note.value != null) {
-//                viewModel.publishNoteResult(viewModel.note.value!!, viewModel.photoUrl.value, viewModel.selectedBox)
+//            if (boxViewModel.note.value != null) {
+//                boxViewModel.publishNoteResult(boxViewModel.note.value!!, boxViewModel.photoUrl.value, boxViewModel.selectedBox)
 //            }
 //        }
 
@@ -89,12 +89,18 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 //        }
 
         //get selected time
+        val calendar = Calendar.getInstance()
         val datePicker = binding.datePicker as DatePicker
         val timePicker = binding.timePicker as TimePicker
         timePicker.setIs24HourView(true)
+        calendar.set(datePicker.year, datePicker.month, datePicker.dayOfMonth,
+            timePicker.hour, timePicker.minute, 0)
 
+        Logger.i("set date is :${datePicker.year} / ${datePicker.month} / ${datePicker.dayOfMonth}")
+        Logger.i("calendar.timeInMillis=${calendar.timeInMillis}")
 
-        val calendar = Calendar.getInstance()
+        viewModel.onChangeNoteTime(calendar.timeInMillis)
+
 
         // spinner listener
         val spinner = binding.selectBox

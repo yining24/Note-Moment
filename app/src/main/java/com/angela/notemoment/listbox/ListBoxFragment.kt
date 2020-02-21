@@ -1,6 +1,6 @@
-package com.angela.notemoment.list
+package com.angela.notemoment.listbox
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +9,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.angela.notemoment.*
-import com.angela.notemoment.databinding.FragmentListBinding
+import com.angela.notemoment.databinding.FragmentListBoxBinding
 import com.angela.notemoment.ext.getVmFactory
-import com.facebook.appevents.codeless.internal.ViewHierarchy.setOnClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 
 
-class ListFragment : Fragment() {
+class ListBoxFragment : Fragment() {
 
-    private val listViewModel by viewModels<ListViewModel> { getVmFactory() }
+    private val viewModel by viewModels<ListBoxViewModel> { getVmFactory() }
     private var auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
@@ -39,11 +37,11 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentListBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
-        binding.viewModel = listViewModel
+        val binding: FragmentListBoxBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_list_box, container, false)
+        binding.viewModel = viewModel
 
-        val adapter = ListBoxAdapter(listViewModel)
+        val adapter = ListBoxAdapter(viewModel)
         binding.recyclerList.adapter = adapter
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -52,23 +50,49 @@ class ListFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-        listViewModel.navigateToListNote.observe(this, Observer {
+        viewModel.navigateToListNote.observe(this, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.actionGlobalListNoteFragment(it))
-                listViewModel.notSelectBox()
+                viewModel.notSelectBox()
             }
         })
 
-        listViewModel.navigateToAddBox.observe(this, Observer {
+        viewModel.navigateToAddBox.observe(this, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.actionGlobalAddboxFragment())
-                listViewModel.onAddBoxNavigated()
+                viewModel.onAddBoxNavigated()
+            }
+        })
+
+        viewModel.navigateToAddBox.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.actionGlobalAddboxFragment())
+                viewModel.onAddBoxNavigated()
+                closeFABMenu()
+            }
+        })
+
+        viewModel.navigateToAddNote.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.actionGlobalAddNoteFragment())
+                viewModel.onAddNoteNavigated()
+                closeFABMenu()
             }
         })
 
 
-        binding.viewClickToAdd
-
+        //fab setting
+        fab = binding.fab
+        fabBox = binding.fabBox
+        fabNote = binding.fabNote
+        fab.bringToFront()
+        fab.setOnClickListener {
+            if (!isFabOpen) {
+                showFABMenu()
+            } else {
+                closeFABMenu()
+            }
+        }
 
 
 //        val testBox = Box(
@@ -132,6 +156,29 @@ class ListFragment : Fragment() {
 
 
         return binding.root
+    }
+
+
+    @SuppressLint("RestrictedApi")
+    private fun showFABMenu() {
+        isFabOpen = true
+        fabBox.visibility = View.VISIBLE
+        fabNote.visibility = View.VISIBLE
+        fabBox.animate().translationY(-getResources().getDimension(R.dimen.standard_105))
+        fabNote.animate().translationY(-getResources().getDimension(R.dimen.standard_55))
+        fab.animate().setDuration(200).rotation(135f)
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun closeFABMenu() {
+        isFabOpen = false
+        fabBox.animate().translationY(0F).withEndAction {
+            fabBox.visibility = View.GONE
+        }
+        fabNote.animate().translationY(0F).withEndAction {
+            fabNote.visibility = View.GONE
+        }
+        fab.animate().setDuration(200).rotation(0f)
     }
 
 }

@@ -69,7 +69,7 @@ class AddBoxFragment : Fragment() {
 //                cal.set(Calendar.YEAR, year)
 //                cal.set(Calendar.MONTH, monthOfYear)
 //                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-//                viewModel.setStartDate(cal.time)
+//                boxViewModel.setStartDate(cal.time)
 //            }
 //
 //        binding.selectStartDate.setOnClickListener {
@@ -87,7 +87,7 @@ class AddBoxFragment : Fragment() {
 //                cal.set(Calendar.YEAR, year)
 //                cal.set(Calendar.MONTH, monthOfYear)
 //                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-//                viewModel.setEndDate(cal.time)
+//                boxViewModel.setEndDate(cal.time)
 //            }
 //
 //        binding.selectEndDate.setOnClickListener {
@@ -101,7 +101,7 @@ class AddBoxFragment : Fragment() {
 
 
         viewModel.box.observe(this, Observer {
-            Logger.i("viewModel.box.observe, it=$it")
+            Logger.i("boxViewModel.box.observe, it=$it")
         })
 
         viewModel.navigateToList.observe(this, Observer {
@@ -170,8 +170,8 @@ class AddBoxFragment : Fragment() {
 //                    Logger.i("task is successful")
 //
 //                    //toolbar_save to firestore
-//                    Logger.i(" viewModel.photoUrl.value = ${task.result}")
-//                    viewModel.addUploadRecordToDb(task.result.toString())
+//                    Logger.i(" boxViewModel.photoUrl.value = ${task.result}")
+//                    boxViewModel.addUploadRecordToDb(task.result.toString())
 //
 //                } else {
 //// Handle failures

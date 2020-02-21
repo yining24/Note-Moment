@@ -14,27 +14,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/list_box_image"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{viewModel.box.image}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/text_box_title"
             style="@style/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
             android:text="@{viewModel.box.title}"
-            android:textSize="20dp"
+            android:textAllCaps="true"
+            android:textSize="24dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="date"
-            android:textAllCaps="true"/>
+            app:layout_constraintTop_toBottomOf="@+id/list_box_image"
+            tools:text="date" />
+
+        <TextView
+            android:id="@+id/text_note_amount"
+            style="@style/textGeneral12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@{viewModel.notesSize}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_box_date"
+            tools:text="10 notes"/>
+
+        <TextView
+            android:id="@+id/text_box_date"
+            style="@style/textGeneral12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_box_image"
+            tools:text="2020/01/01"
+            android:text="@{viewModel.displayBoxDate()}"/>
 
 
         <View
             android:id="@+id/view_separation"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="8dp"
             android:background="@color/gray_cccccc"
             app:layout_constraintEnd_toEndOf="@+id/text_box_title"
             app:layout_constraintStart_toStartOf="@+id/text_box_title"
@@ -44,6 +76,7 @@
             android:id="@+id/recycler_list_note_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,4 @@
-package com.angela.notemoment.list
+package com.angela.notemoment.listbox
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,13 +10,13 @@ import com.angela.notemoment.databinding.ItemListDrawerBinding
 import kotlin.random.Random
 
 
-class ListBoxAdapter(val viewModel: ListViewModel) : ListAdapter<Box, ListBoxAdapter.ListBoxViewHolder>(DiffCallback) {
+class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, ListBoxAdapter.ListBoxViewHolder>(DiffCallback) {
 
 
     class ListBoxViewHolder(private var binding: ItemListDrawerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(box: Box, viewModel: ListViewModel) {
+        fun bind(box: Box, viewModel: ListBoxViewModel) {
             binding.box = box
             binding.viewModel = viewModel
             // This is important, because it forces the data binding to execute immediately,
@@ -50,9 +50,9 @@ class ListBoxAdapter(val viewModel: ListViewModel) : ListAdapter<Box, ListBoxAda
     override fun onBindViewHolder(holder: ListBoxViewHolder, position: Int) {
                 val item = getItem(position)
                 holder.itemView.layoutParams.height = getRandomIntInRange(350, 300)
-                holder.bind(item, viewModel)
+                holder.bind(item, boxViewModel)
                 holder.itemView.setOnClickListener {
-                    viewModel.selectBox(item)
+                    boxViewModel.selectBox(item)
                 }
             }
 
