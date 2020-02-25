@@ -15,10 +15,9 @@
             android:id="@+id/info_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textStyle="bold"
             android:text="今天早餐吃拉麵"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="title" />
@@ -27,25 +26,18 @@
             android:id="@+id/info_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
             android:singleLine="false"
             android:text="好好吃唷"
-            app:layout_constraintEnd_toStartOf="@+id/imageView5"
-            app:layout_constraintStart_toStartOf="@+id/info_title"
-            app:layout_constraintTop_toBottomOf="@+id/info_title"
+            app:layout_constraintStart_toEndOf="@+id/info_title"
+            app:layout_constraintTop_toTopOf="@+id/info_title"
             tools:text="note content" />
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_title"
             app:srcCompat="@drawable/icon_placeholder_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

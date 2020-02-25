@@ -28,6 +28,10 @@ import android.widget.TextView
 
 
 
+
+
+
+
 class MyMapFragment : Fragment(), OnMapReadyCallback {
 
     private val viewModel by viewModels<MyMapViewModel> { getVmFactory() }
@@ -71,17 +75,6 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 
 
 
-        //map marker
-        viewModel.notes.observe(this, Observer { list ->
-            list?.let { notesList ->
-                notesList.forEach {
-                    val latlng = LatLng(it.lat, it.lng)
-                    myGoogleMap.addMarker(MarkerOptions().position(latlng).title(it.locateName))
-                    Logger.i("marker latlng = $latlng")
-                }
-            }
-        })
-
         return binding.root
     }
 
@@ -117,7 +110,8 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 
         override fun getInfoWindow(marker: Marker): View? {
 
-            val window = (context as Activity).layoutInflater.inflate(R.layout.item_map_info_window, null)
+            val window =
+                (context as Activity).layoutInflater.inflate(R.layout.item_map_info_window, null)
 
             return window
         }
@@ -125,7 +119,6 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
         override fun getInfoContents(marker: Marker): View? {
             return null
         }
-
 
 
     }
@@ -138,9 +131,40 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
         myGoogleMap.uiSettings.isZoomControlsEnabled = true
 //        myGoogleMap.uiSettings.isMyLocationButtonEnabled=true
         myGoogleMap.uiSettings.isMapToolbarEnabled = true
+//        myGoogleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
 
 
-        myGoogleMap.setInfoWindowAdapter(InfoWindowAdapter(context!!))
+        //map marker
+        viewModel.notes.observe(this, Observer { list ->
+            list?.let { notesList ->
+                notesList.forEach {
+                    val latlng = LatLng(it.lat, it.lng)
+                    myGoogleMap.addMarker(MarkerOptions().position(latlng)).showInfoWindow()
+                    Logger.i("marker latlng = $latlng")
+                }
+            }
+        })
+
+        myGoogleMap.setInfoWindowAdapter(CustomInfoWindowAdapter(context as Activity))
+
+//        googleMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+//            override fun getInfoWindow(marker: Marker): View? {
+//                return null
+//            }
+//
+//            override fun getInfoContents(marker: Marker): View {
+//                val itemOmanPostAddressMapInfoWindowBinding = DataBindingUtil.inflate(
+//                    LayoutInflater.from(context),
+//                    R.layout.item_oman_post_address_map_info_window,
+//                    null,
+//                    true
+//                )
+//                itemOmanPostAddressMapInfoWindowBinding.setData(getRelevantData(marker.position))
+//                itemOmanPostAddressMapInfoWindowBinding.executePendingBindings()
+//                return itemOmanPostAddressMapInfoWindowBinding.getRoot()
+//            }
+//        })
+
 
 //        myGoogleMap.addMarker(markerOpt).showInfoWindow()
 
@@ -173,9 +197,6 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 //            google.maps.event.addListener(infowindow, 'closeclick', function(){
 //                a = a * -1;
 //            });
-
-
-
 
 
 //    private fun queryMapNear(myLocation: LatLng?, queryRadius: Int, googleMap: GoogleMap) {
@@ -247,25 +268,75 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 //    }
 
 
+    class InfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
+        private val context: Context
+
+        init {
+            this.context = context.applicationContext
+        }
+
+        override fun getInfoWindow(marker: Marker): View? {
+            return null
+        }
+
+        override fun getInfoContents(marker: Marker): View {
+            val inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(R.layout.item_map_info_window, null)
+            val infoTitle = view.findViewById(R.id.info_title) as TextView
+            return view
+        }
+
+
+    }
+
+
+
+
+
 }
 
-class InfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
-    private val context: Context
+//class CustomMarkerInfoWindowView : GoogleMap.InfoWindowAdapter {
+//
+//    private val markerItemView: View
+//
+//    init {
+//        markerItemView = layoutInflater.inflate(R.layout.marker_info_window, null)  // 1
+//    }
+//
+//    override fun getInfoWindow(marker: Marker): View { // 2
+//        val user = marker.tag as User? ?: return clusterItemView  // 3
+//        val itemNameTextView = markerItemView.findViewById(R.id.itemNameTextView)
+//        val itemAddressTextView = markerItemView.findViewById(R.id.itemAddressTextView)
+//        itemNameTextView.setText(marker.title)
+//        itemAddressTextView.setText(user.getAddress())
+//        return markerItemView  // 4
+//    }
+//
+//    override fun getInfoContents(marker: Marker): View? {
+//        return null
+//    }
+//
+//}
+//
+//class CustomMarkerInfoWindowView2 : GoogleMap.InfoWindowAdapter {
+//    override fun getInfoWindow(marker: Marker): View? {
+//        return null
+//    }
+//
+//    override fun getInfoContents(marker: Marker): View {
+//        val itemOmanPostAddressMapInfoWindowBinding = DataBindingUtil.inflate(
+//            LayoutInflater.from(context),
+//            R.layout.item_oman_post_address_map_info_window,
+//            null,
+//            true
+//        )
+//        itemOmanPostAddressMapInfoWindowBinding.setData(getRelevantData(marker.position))
+//        itemOmanPostAddressMapInfoWindowBinding.executePendingBindings()
+//        return itemOmanPostAddressMapInfoWindowBinding.getRoot()
+//    }
+//})
 
-    init {
-        this.context = context.applicationContext
-    }
-
-    override fun getInfoWindow(marker: Marker): View? {
-        return null
-    }
-
-    override fun getInfoContents(marker: Marker): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.item_map_info_window, null)
-        val infoTitle = view.findViewById(R.id.info_title) as TextView
-        return view
-    }
 
 
-}
+

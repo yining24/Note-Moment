@@ -17,8 +17,6 @@ import com.angela.notemoment.*
 
 
 
-
-
 class LoginFragment : Fragment() {
 
     val RC_SIGN_IN = 12345
@@ -76,29 +74,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-//        val metadata = FirebaseAuth.getInstance().currentUser?.metadata
-//        if (metadata?.creationTimestamp == metadata?.lastSignInTimestamp) {
-//        Logger.i("metadata?.creationTimestamp = ${metadata?.creationTimestamp}")
-//        Logger.i("metadata?.lastSignInTimestamp = ${metadata?.lastSignInTimestamp}")
-//
-//            // The user is new, show them a fancy intro screen!
-//            CoroutineScope(Dispatchers.Default).launch {
-//
-//                val defaultBox = Box(
-//                    "",
-//                    "未分類",
-//                    -2208988800000,
-//                    4133980799000,
-//                    "未選擇",
-//                    "")
-//
-//                repository?.publishBox(defaultBox)
-//                Logger.i("new user add $defaultBox")
-//            }
-//        } else {
-//            // This is an existing user, show them a welcome back screen.
-//            Logger.i("already sign up :: welcome back")
-//        }
+
     }
     private fun signOut() {
         AuthUI.getInstance()
