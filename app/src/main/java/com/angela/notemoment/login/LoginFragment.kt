@@ -14,16 +14,6 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.angela.notemoment.*
-import com.angela.notemoment.ServiceLocator.repository
-import com.angela.notemoment.addbox.AddBoxViewModel
-import com.angela.notemoment.data.Box
-import kotlinx.android.synthetic.main.fragment_add_note.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-
-
 
 
 
@@ -52,7 +42,7 @@ class LoginFragment : Fragment() {
                 .setAvailableProviders(authProvider)
                 .setAlwaysShowSignInMethodScreen(true)
                 .setIsSmartLockEnabled(false)
-                .setLogo(R.drawable.flag_taiwan)
+                .setLogo(R.drawable.footprint_travel)
                 .setTheme(R.style.LoginTheme)
                 .build(),
             RC_SIGN_IN

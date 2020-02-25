@@ -40,7 +40,7 @@ object NoteRemoteDataSource : NoteDataSource {
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
                 .collection(PATH_USER)
-                .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+                .document(FirebaseAuth.getInstance().currentUser?.uid ?:"12")
                 .collection(PATH_BOX)
                 .orderBy("endDate", Query.Direction.DESCENDING)
                 .get()

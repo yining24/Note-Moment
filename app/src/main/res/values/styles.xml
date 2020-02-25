@@ -51,7 +51,7 @@
 
     <style name="LoginTheme" parent="FirebaseUI">
         <!--設置背景圖片-->
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/white</item>
         <!--移除標題列-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

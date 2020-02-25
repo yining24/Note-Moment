@@ -220,7 +220,7 @@
             app:layout_constraintTop_toTopOf="@+id/text_create_note" />
 
         <ImageView
-            android:id="@+id/button_back"
+            android:id="@+id/note_button_back"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginStart="16dp"
@@ -238,10 +238,10 @@
             android:text="Create Note"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/button_back"
+            app:layout_constraintBottom_toBottomOf="@+id/note_button_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button_back" />
+            app:layout_constraintTop_toTopOf="@+id/note_button_back" />
 
         <ImageView
             android:id="@+id/imageView3"

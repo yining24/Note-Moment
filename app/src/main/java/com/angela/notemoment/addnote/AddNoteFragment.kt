@@ -55,7 +55,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         binding.viewModel = viewModel
 
 
-        binding.buttonBack.setOnClickListener {
+        binding.noteButtonBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
@@ -225,7 +225,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
             try {
                 filePath = data.data
-                Glide.with(this).load(filePath)
+                Glide.with(this).load(filePath).centerCrop()
                     .into(upload_image)
 
             } catch (e: IOException) {

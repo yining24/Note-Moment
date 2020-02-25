@@ -10,6 +10,8 @@ import com.angela.notemoment.listbox.ListBoxAdapter
 import com.angela.notemoment.listnote.ListNoteSortedAdapter
 import com.angela.notemoment.util.GlideApp
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
@@ -61,8 +63,8 @@ fun bindImageNote(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions().transform(CenterCrop(), RoundedCorners(10))
-                    .placeholder(R.drawable.icon_photo_gray)
-                    .error(R.drawable.icon_photo_gray))
+                    .placeholder(R.drawable.icon_placeholder2_image128)
+                    .error(R.drawable.icon_placeholder2_image128))
             .into(imgView)
     }
 }
@@ -74,9 +76,9 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         GlideApp.with(imgView.context)
             .load(imgUri)
             .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.icon_photo_gray)
-                    .error(R.drawable.icon_photo_gray))
+                RequestOptions().centerCrop()
+                    .placeholder(R.drawable.icon_placeholder_image)
+                    .error(R.drawable.icon_placeholder_image))
             .into(imgView)
     }
 }

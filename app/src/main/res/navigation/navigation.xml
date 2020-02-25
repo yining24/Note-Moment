@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/listFragment">
     <fragment
         android:id="@+id/listFragment"
         android:name="com.angela.notemoment.listbox.ListBoxFragment"
@@ -18,15 +18,15 @@
         android:label="MapFragment" />
     <action android:id="@+id/action_global_listFragment"
         app:destination="@id/listFragment"
-        app:popUpTo="@id/homeFragment"
+        app:popUpTo="@id/navigation"
         app:popUpToInclusive="false"/>
     <action android:id="@+id/action_global_profileFragment"
         app:destination="@id/profileFragment"
-        app:popUpTo="@id/homeFragment"
+        app:popUpTo="@id/listFragment"
         app:popUpToInclusive="false"/>
     <action android:id="@+id/action_global_mapFragment"
         app:destination="@id/mapFragment"
-        app:popUpTo="@id/homeFragment"
+        app:popUpTo="@id/listFragment"
         app:popUpToInclusive="false"/>
     <action android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
@@ -42,7 +42,7 @@
         android:label="AddboxFragment" />
     <action android:id="@+id/action_global_addboxFragment"
         app:destination="@id/addboxFragment"
-        app:popUpTo="@id/homeFragment"
+        app:popUpTo="@id/listFragment"
         app:popUpToInclusive="false" />
     <fragment
         android:id="@+id/addNoteFragment"
@@ -50,7 +50,7 @@
         android:label="AddNoteFragment" />
     <action android:id="@+id/action_global_addNoteFragment"
         app:destination="@id/addNoteFragment"
-        app:popUpTo="@id/homeFragment"
+        app:popUpTo="@id/listFragment"
         app:popUpToInclusive="false" />
     <fragment
         android:id="@+id/loginFragment"

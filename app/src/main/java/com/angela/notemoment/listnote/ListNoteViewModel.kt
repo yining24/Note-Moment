@@ -2,6 +2,7 @@ package com.angela.notemoment.listnote
 
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -41,6 +42,12 @@ class ListNoteViewModel (private val repository: NoteRepository,
 
     val note: LiveData<List<Note>>
         get() = _note
+
+
+    private val _navigateToAddNote = MutableLiveData<Boolean>()
+
+    val navigateToAddNote: LiveData<Boolean>
+        get() = _navigateToAddNote
 
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -166,6 +173,15 @@ class ListNoteViewModel (private val repository: NoteRepository,
             }
         }
         return sortedNotes
+    }
+
+
+    fun navigateToAddNote() {
+        _navigateToAddNote.value = true
+    }
+
+    fun onAddNoteNavigated() {
+        _navigateToAddNote.value = null
     }
 
 

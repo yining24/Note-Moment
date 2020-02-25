@@ -57,12 +57,6 @@ class ListBoxFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToAddBox.observe(this, Observer {
-            it?.let {
-                findNavController().navigate(NavigationDirections.actionGlobalAddboxFragment())
-                viewModel.onAddBoxNavigated()
-            }
-        })
 
         viewModel.navigateToAddBox.observe(this, Observer {
             it?.let {

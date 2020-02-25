@@ -8,9 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.angela.notemoment.Logger
-import com.angela.notemoment.MainActivity
-import com.angela.notemoment.R
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.databinding.FragmentMymapBinding
 import com.angela.notemoment.ext.getVmFactory
@@ -20,10 +17,13 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.GoogleMap
-
-
+import android.app.Activity
+import android.content.Context
+import com.angela.notemoment.*
+import com.angela.notemoment.R
+import com.google.android.gms.maps.model.Marker
+import android.widget.TextView
 
 
 
@@ -113,6 +113,24 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
+    class MyMapAdapter(val context: Context) : GoogleMap.InfoWindowAdapter {
+
+        override fun getInfoWindow(marker: Marker): View? {
+
+            val window = (context as Activity).layoutInflater.inflate(R.layout.item_map_info_window, null)
+
+            return window
+        }
+
+        override fun getInfoContents(marker: Marker): View? {
+            return null
+        }
+
+
+
+    }
+
+
     override fun onMapReady(googleMap: GoogleMap) {
         myGoogleMap = googleMap
 //        val lan1 = LatLng(25.039321, 121.567173)  //50嵐 微風松高店
@@ -120,6 +138,11 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
         myGoogleMap.uiSettings.isZoomControlsEnabled = true
 //        myGoogleMap.uiSettings.isMyLocationButtonEnabled=true
         myGoogleMap.uiSettings.isMapToolbarEnabled = true
+
+
+        myGoogleMap.setInfoWindowAdapter(InfoWindowAdapter(context!!))
+
+//        myGoogleMap.addMarker(markerOpt).showInfoWindow()
 
 //        val location: LatLng? = LatLng(myLocation!!.latitude,myLocation.longitude)
 
@@ -222,6 +245,27 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 //                }
 //        }
 //    }
+
+
+}
+
+class InfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
+    private val context: Context
+
+    init {
+        this.context = context.applicationContext
+    }
+
+    override fun getInfoWindow(marker: Marker): View? {
+        return null
+    }
+
+    override fun getInfoContents(marker: Marker): View {
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.item_map_info_window, null)
+        val infoTitle = view.findViewById(R.id.info_title) as TextView
+        return view
+    }
 
 
 }
