@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
                 .setAvailableProviders(authProvider)
                 .setAlwaysShowSignInMethodScreen(true)
                 .setIsSmartLockEnabled(false)
-                .setLogo(R.drawable.footprint_travel)
+                .setLogo(R.drawable.logo_trans)
                 .setTheme(R.style.LoginTheme)
                 .build(),
             RC_SIGN_IN

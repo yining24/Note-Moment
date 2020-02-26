@@ -1,5 +1,6 @@
 package com.angela.notemoment.map
 
+import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
@@ -22,6 +24,8 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
     val notes: LiveData<List<Note>>
         get() = _notes
+
+    var markerTitle = MutableLiveData<String>()
 
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -89,6 +93,12 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
                 }
             }
         }
+    }
+
+    fun displayNoteDate(time: Long): String {
+        val sdf = SimpleDateFormat("yyyy/MM/dd")
+        val date = sdf.format(time)
+        return date
     }
 
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="note"
+            type="com.angela.notemoment.data.Note" />
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.map.MyMapViewModel" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_text_frame">
+
+        <ImageView
+            android:id="@+id/map_note_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerInside"
+            app:imageUrl="@{note.images}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_photo_gray" />
+
+        <TextView
+            android:id="@+id/map_note_date"
+            style="@style/textGeneral14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{viewModel.displayNoteDate(note.time)}"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/map_note_image"
+            app:layout_constraintTop_toTopOf="@+id/map_note_image"
+            tools:text="2020/01/01" />
+
+        <TextView
+            android:id="@+id/map_note_title"
+            style="@style/textGeneral14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{note.title}"
+            app:layout_constraintStart_toStartOf="@+id/map_note_date"
+            app:layout_constraintTop_toBottomOf="@+id/map_note_date"
+            tools:text="note title" />
+
+        <TextView
+            android:id="@+id/map_note_content"
+            style="@style/textGeneral14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{note.content}"
+            app:layout_constraintStart_toStartOf="@+id/map_note_date"
+            app:layout_constraintTop_toBottomOf="@+id/map_note_title"
+            tools:text="note content..." />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
