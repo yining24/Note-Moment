@@ -158,8 +158,8 @@
             android:focusableInTouchMode="true"
             android:hint="Title"
             android:imeOptions="actionDone"
-            android:maxLines="1"
             android:singleLine="true"
+            android:maxLength="20"
             android:text="@={viewModel.note.title}"
             android:textSize="14sp"
             app:hintTextAppearance="@style/TextInputHint"
@@ -178,27 +178,30 @@
             app:layout_constraintStart_toStartOf="@+id/title_text"
             app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
+
         <EditText
             android:id="@+id/write_note"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/bg_text_frame"
             android:gravity="top"
             android:hint="content"
+            android:maxLength="500"
             android:paddingLeft="15dp"
             android:paddingTop="8dp"
             android:singleLine="false"
-            android:text="@={viewModel.note.content}"
+            android:text="@={viewModel.content}"
             android:textSize="14sp"
             app:hintTextAppearance="@style/TextInputHint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_text" />
-
+            app:layout_constraintTop_toBottomOf="@+id/title_text"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/button_save"
@@ -252,6 +255,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select_tag"
             app:srcCompat="@drawable/icon_drawer" />
+
+        <TextView
+            android:id="@+id/text_content_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:contentLength="@{viewModel.content}"
+            app:layout_constraintEnd_toEndOf="@+id/write_note"
+            app:layout_constraintTop_toBottomOf="@+id/view_title_separation" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

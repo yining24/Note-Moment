@@ -21,12 +21,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.angela.notemoment.*
 import com.angela.notemoment.R
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
 
 
-
-
-
-class MyMapFragment : Fragment(), OnMapReadyCallback {
+class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val viewModel by viewModels<MyMapViewModel> { getVmFactory() }
 
@@ -59,13 +60,14 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
         myGoogleMap.uiSettings.isMapToolbarEnabled = false
 
 
+
         //map marker
         viewModel.notes.observe(this, Observer { list ->
             list?.let { notesList ->
                 notesList.forEach {
                     val latlng = LatLng(it.lat, it.lng)
-                    myGoogleMap.addMarker(MarkerOptions().position(latlng).title(it.title))
-                        .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    myGoogleMap.addMarker(MarkerOptions().position(latlng).title(it.locateName))
+                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
                     Logger.i("marker latlng = $latlng")
                 }
             }
@@ -73,13 +75,19 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 
         myGoogleMap.setOnMarkerClickListener { marker ->
             viewModel.markerTitle.value = marker.title
+            val cameraRatio = 15F
+            myGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, cameraRatio))
 
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-            binding.recyclerMapNote.visibility = View.VISIBLE
+            viewModel.getMarkerNote(marker.position)
+            viewModel.showNotesWindow()
 
-            marker.isInfoWindowShown()
             true
         }
+
+        myGoogleMap.setOnMapClickListener {
+            viewModel.closeNotesWindow()
+        }
+
     }
 
 
@@ -162,9 +170,7 @@ class MyMapFragment : Fragment(), OnMapReadyCallback {
 
 
 
-//            google.maps.event.addListener(infowindow, 'closeclick', function(){
-//                a = a * -1;
-//            })
+
 
 
 //    private fun queryMapNear(myLocation: LatLng?, queryRadius: Int, googleMap: GoogleMap) {

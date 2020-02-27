@@ -36,6 +36,8 @@
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:ellipsize="marquee"
+            android:maxLines="2"
             app:layout_constraintBottom_toBottomOf="@+id/list_box_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

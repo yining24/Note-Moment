@@ -98,7 +98,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         }
 
         binding.selectDate.setOnClickListener {
-            DatePickerDialog(context!!, dateSetListener,
+            DatePickerDialog(requireContext(), dateSetListener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)).show()
@@ -144,13 +144,12 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
 
 
-        viewModel.navigateToList.observe(this, Observer {
+        viewModel.navigateToList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(AddNoteFragmentDirections.actionGlobalListFragment())
                 viewModel.onListNavigated()
             }
         })
-
 
 
 

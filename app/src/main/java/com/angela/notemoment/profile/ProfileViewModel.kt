@@ -1,4 +1,4 @@
-package com.angela.notemoment.map
+package com.angela.notemoment.profile
 
 import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.LiveData
@@ -21,7 +21,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
+class ProfileViewModel (private val repository: NoteRepository) : ViewModel() {
 
     private val _notes = MutableLiveData<List<Note>>()
 

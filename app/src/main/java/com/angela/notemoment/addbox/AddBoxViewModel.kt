@@ -106,6 +106,7 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
             coroutineScope.launch {
 
                 _status.value = LoadApiStatus.LOADING
+                Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
 
                 when (val result = repository.publishBox(box, photoUrl)) {
                     is Result.Success -> {

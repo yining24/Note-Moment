@@ -26,6 +26,9 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     val note: LiveData<Note>
         get() = _note
 
+    var content = MutableLiveData<String>()
+
+
     private val _boxes = MutableLiveData<List<Box>>()
 
     val boxes: LiveData<List<Box>>
@@ -75,6 +78,8 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     }
 
     fun publishNoteResult(note: Note, photoUrl: Uri? = null, selectedBox: Box) {
+
+        note.content = content.value?: ""
 
         if (canAddNote) {
             updateBoxDate(selectedBox)

@@ -1,13 +1,19 @@
 package com.angela.notemoment
 
+import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.angela.notemoment.NoteApplication.Companion.instance
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.ListNoteSorted
+import com.angela.notemoment.data.Note
 import com.angela.notemoment.listbox.ListBoxAdapter
 import com.angela.notemoment.listnote.ListNoteSortedAdapter
+import com.angela.notemoment.map.MyMapNoteAdapter
 import com.angela.notemoment.util.GlideApp
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CenterInside
@@ -30,6 +36,12 @@ fun bindRecyclerView(recyclerView: RecyclerView, boxItems: List<Box>?) {
 @BindingAdapter("noteSorted")
 fun bindRecyclerViewNoteSorted(recyclerView: RecyclerView, noteItems: List<ListNoteSorted>?) {
     val adapter = recyclerView.adapter as ListNoteSortedAdapter
+    adapter.submitList(noteItems)
+}
+
+@BindingAdapter("markerNotes")
+fun bindRecyclerViewMarkerNotes(recyclerView: RecyclerView, noteItems: List<Note>?) {
+    val adapter = recyclerView.adapter as MyMapNoteAdapter
     adapter.submitList(noteItems)
 }
 
@@ -78,7 +90,45 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .apply(
                 RequestOptions().centerCrop()
                     .placeholder(R.drawable.icon_placeholder_image)
-                    .error(R.drawable.icon_placeholder_image))
+                    .error(R.drawable.placeholder_logo_background2))
             .into(imgView)
+    }
+}
+
+
+@BindingAdapter("year")
+fun bindTimeYear(textView: TextView, time: Long?) {
+    time?.let {
+        val sdf = SimpleDateFormat("yyyy")
+        textView.text = sdf.format(time)
+    }
+}
+@BindingAdapter("month")
+fun bindTimeMonth(textView: TextView, time: Long?) {
+    time?.let {
+        val sdf = SimpleDateFormat("MMM")
+        textView.text = sdf.format(time)
+    }
+}
+@BindingAdapter("day")
+fun bindTimeDay(textView: TextView, time: Long?) {
+    time?.let {
+        val sdf = SimpleDateFormat("dd")
+        textView.text = sdf.format(time)
+    }
+}
+@BindingAdapter("time")
+fun bindTime(textView: TextView, time: Long?) {
+    time?.let {
+        val sdf = SimpleDateFormat("HH:mm")
+        textView.text = sdf.format(time)
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("contentLength")
+fun bindContent(textView: TextView, string: String?) {
+    string?.let {
+        textView.text = "${it.length}/500"
     }
 }
