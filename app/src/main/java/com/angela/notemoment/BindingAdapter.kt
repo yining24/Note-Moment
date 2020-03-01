@@ -2,7 +2,9 @@ package com.angela.notemoment
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -43,6 +45,14 @@ fun bindRecyclerViewNoteSorted(recyclerView: RecyclerView, noteItems: List<ListN
 fun bindRecyclerViewMarkerNotes(recyclerView: RecyclerView, noteItems: List<Note>?) {
     val adapter = recyclerView.adapter as MyMapNoteAdapter
     adapter.submitList(noteItems)
+}
+
+@BindingAdapter("setupApiStatus")
+fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
+    when (status) {
+        LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
+        LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
+    }
 }
 
 

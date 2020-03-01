@@ -12,6 +12,8 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'io.fabric'
+
 
 android {
     compileSdkVersion 29
@@ -50,7 +52,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
     // Firebase Authentication
     implementation 'com.google.firebase:firebase-auth:19.2.0'
@@ -59,6 +61,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.firebaseui:firebase-ui-storage:4.3.2'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
 
     // Room and Lifecycle dependencies
@@ -95,7 +99,7 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
 
     // RecyclerView
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:2.1.0-rc01"
 

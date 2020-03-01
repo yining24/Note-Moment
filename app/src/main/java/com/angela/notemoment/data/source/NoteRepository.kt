@@ -9,7 +9,7 @@ import com.angela.notemoment.data.User
 
 interface NoteRepository {
 
-    suspend fun login(id: String): Result<User>
+    fun getUser(id: String): LiveData<User>
 
     suspend fun getBox(): Result<List<Box>>
 

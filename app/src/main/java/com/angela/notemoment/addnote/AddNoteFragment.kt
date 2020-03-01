@@ -121,7 +121,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         }
 
         binding.selectTime.setOnClickListener {
-            TimePickerDialog(context!!, 3, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)
+            TimePickerDialog(requireContext(), 3, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)
             , true).show()
         }
 

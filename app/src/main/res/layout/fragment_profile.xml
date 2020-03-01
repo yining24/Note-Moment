@@ -4,6 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.profile.ProfileViewModel" />
 
     </data>
 
@@ -15,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_profile_header"
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
             android:background="@color/gray_f5f5f5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,55 +26,63 @@
 
             <ImageView
                 android:id="@+id/image_profile_avatar"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:background="@drawable/icon_user"
                 android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/text_profile_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="1"
-                android:text="Angela Chang"
+                tools:text="Angelaaa"
+                android:text="@{viewModel.user.name}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/text_profile_info"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                app:layout_constraintEnd_toEndOf="@+id/image_profile_avatar"
+                app:layout_constraintStart_toStartOf="@+id/image_profile_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/image_profile_avatar"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-            <EditText
-                android:id="@+id/text_profile_info"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/text_profile_email"
+                style="@style/textGeneral12"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/noto_sans"
+                android:maxLines="1"
+                tools:text="aaa@hotmail.com"
+                android:text="@{viewModel.user.email}"
+                android:textColor="@color/black_3f3a3a"
+                app:layout_constraintEnd_toEndOf="@+id/text_profile_name"
+                app:layout_constraintStart_toStartOf="@+id/text_profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/text_profile_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="2"
+                tools:text="Moment note"
+                android:text="@{viewModel.user.title}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="15sp"
-                android:text="Moment note"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
-                app:layout_constraintTop_toBottomOf="@+id/text_profile_name" />
+                app:layout_constraintEnd_toEndOf="@+id/text_profile_name"
+                app:layout_constraintStart_toStartOf="@+id/text_profile_email"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_email" />
 
             <Button
                 android:id="@+id/button2"
@@ -79,24 +90,38 @@
                 android:layout_height="32dp"
                 android:background="@drawable/bg_text_frame"
                 android:text="Edit"
-                app:layout_constraintBottom_toBottomOf="@+id/text_profile_info"
-                app:layout_constraintEnd_toEndOf="@+id/text_profile_info"
-                app:layout_constraintTop_toBottomOf="@+id/text_profile_name" />
+                app:layout_constraintBottom_toBottomOf="@+id/text_profile_title"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
         <View
-            android:id="@+id/view_payment_method_separation"
+            android:id="@+id/profile_view_separate"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="8dp"
             android:background="@color/gray_cccccc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_profile_header" />
+
+        <TextView
+            android:id="@+id/text_profile_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:maxLines="2"
+            android:text="Share"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_view_separate" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

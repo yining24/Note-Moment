@@ -14,8 +14,8 @@ class DefaultNoteRepository (private val remoteDataSource: NoteDataSource,
                              private val localDataSource: NoteDataSource
 ) : NoteRepository {
 
-    override suspend fun login(id: String): Result<User> {
-        return localDataSource.login(id)
+    override fun getUser(id: String): LiveData<User> {
+        return remoteDataSource.getUser(id)
     }
 
     override suspend fun getBox(): Result<List<Box>> {

@@ -26,14 +26,32 @@ import kotlin.coroutines.suspendCoroutine
 
 object NoteRemoteDataSource : NoteDataSource {
 
-
+    val user = MutableLiveData<User>()
     private const val PATH_USER = "users"
     private const val PATH_BOX = "boxes"
     private const val PATH_NOTE = "notes"
 
-    override suspend fun login(id: String): Result<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getUser(id: String): LiveData<User> {
+        val user = MutableLiveData<User>()
+            FirebaseFirestore.getInstance()
+                .collection(PATH_USER)
+                .document(id)
+                .addSnapshotListener { snapshot, e ->
+                    if (e != null) {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
+                        return@addSnapshotListener
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        user.value = snapshot.toObject(User::class.java)!!
+                        Logger.i("getUser:::${user.value}")
+                    } else {
+                        Logger.d("Current data: null")
+                    }
+                }
+        return user
+        }
+
+
 
 
     override suspend fun getBox(): Result<List<Box>> =

@@ -10,6 +10,7 @@ import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.listbox.ListBoxViewModel
 import com.angela.notemoment.listnote.ListNoteViewModel
 import com.angela.notemoment.map.MyMapViewModel
+import com.angela.notemoment.profile.ProfileViewModel
 
 /**
  * Factory for all ViewModels
@@ -36,6 +37,9 @@ class ViewModelFactory constructor(
 
                 isAssignableFrom(MyMapViewModel::class.java) ->
                     MyMapViewModel(noteRepository)
+
+                isAssignableFrom(ProfileViewModel::class.java) ->
+                    ProfileViewModel(noteRepository)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

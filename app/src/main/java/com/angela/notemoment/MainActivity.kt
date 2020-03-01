@@ -85,10 +85,10 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     val user = FirebaseAuth.getInstance().currentUser
                     Logger.i("main login ${user?.displayName}")
-                    FirebaseFirestore.getInstance()
-                        .collection("users")
-                        .document(user!!.uid)
-                        .set(User(user.uid, user.displayName ?: "", "Note my moment"))
+//                    FirebaseFirestore.getInstance()
+//                        .collection("users")
+//                        .document(user!!.uid)
+//                        .set(User(user.uid, user.displayName ?: "", "Spot Moment"))
                 }
             }
         FirebaseAuth.getInstance().addAuthStateListener(authListener)

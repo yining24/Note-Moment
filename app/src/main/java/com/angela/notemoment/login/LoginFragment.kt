@@ -14,7 +14,8 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.angela.notemoment.*
-
+import com.angela.notemoment.data.User
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class LoginFragment : Fragment() {
@@ -69,6 +70,10 @@ class LoginFragment : Fragment() {
                 // Successfully signed in
                 Toast.makeText(context, "登入成功", Toast.LENGTH_SHORT).show()
                 val user = FirebaseAuth.getInstance().currentUser
+                FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(user!!.uid)
+                    .set(User(user.uid, user.displayName ?: "", "Spot Moment"))
                 Logger.i("log in user name ${user?.displayName}")
                 findNavController().navigateUp()
             }

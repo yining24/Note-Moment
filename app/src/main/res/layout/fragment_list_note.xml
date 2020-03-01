@@ -15,6 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:theme="@style/ProgressTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiStatus="@{viewModel.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
 
         <ImageView
             android:id="@+id/list_box_image"
@@ -126,7 +136,7 @@
             android:id="@+id/view_click_to_add"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.note.size() == 0 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.note == null? View.GONE : viewModel.note.size() != 0 ? View.GONE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@+id/list_box_image"
             app:layout_constraintBottom_toBottomOf="parent"
             android:onClick="@{() -> viewModel.navigateToAddNote()}">

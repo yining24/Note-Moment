@@ -24,7 +24,7 @@
             android:id="@+id/view_click_to_add"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.boxes.size() == 0 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.boxes == null? View.GONE : viewModel.boxes.size != 0 ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> viewModel.navigateToAddBox()}">
 
             <ImageView
@@ -37,7 +37,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:visibility="@{viewModel.boxes.size() == 0 ? View.VISIBLE : View.GONE}"
                 app:srcCompat="@drawable/add_drawer_icon512" />
 
             <TextView
@@ -51,7 +50,6 @@
                 android:textAlignment="center"
                 android:textColor="#B1B1B1"
                 android:textStyle="bold"
-                android:visibility="@{viewModel.boxes.size() == 0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="@+id/imageView2"
                 app:layout_constraintStart_toStartOf="@+id/imageView2" />
@@ -115,6 +113,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="20dp"
             app:srcCompat="@drawable/icon_plus" />
+
+
+        <ProgressBar
+            android:theme="@style/ProgressTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiStatus="@{viewModel.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 
