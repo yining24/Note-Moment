@@ -15,6 +15,10 @@ class NoteLocalDataSource (val context: Context) : NoteDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun updateUser(user: User): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun getBox(): Result<List<Box>>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

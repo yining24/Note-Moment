@@ -36,11 +36,11 @@ class ProfileFragment : Fragment() {
         viewModel.getUser(userId)
 
 
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            it.let {
-                Logger.w("observe::$it")
-            }
+
+        viewModel.isEditable.observe(this, Observer {
+                Logger.i("isEditable::$it")
         })
+
 
 
         return binding.root

@@ -11,6 +11,8 @@ interface NoteRepository {
 
     fun getUser(id: String): LiveData<User>
 
+    suspend fun updateUser(user: User): Result<Boolean>
+
     suspend fun getBox(): Result<List<Box>>
 
     suspend fun getNote(boxId:String): Result<List<Note>>

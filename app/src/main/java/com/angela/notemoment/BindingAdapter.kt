@@ -2,6 +2,7 @@ package com.angela.notemoment
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -56,6 +57,18 @@ fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
 }
 
 
+@BindingAdapter("requestFocus")
+fun requestFocus(view: TextView, requestFocus: Boolean) {
+    when (requestFocus) {
+        true -> {view.isFocusableInTouchMode = true
+        view.isFocusable = true}
+        false -> {view.isFocusableInTouchMode = false
+            view.isFocusable = false}
+
+    }
+}
+
+
 /**
  * Uses the Glide library to load an image by URL into an [ImageView]
  */
@@ -85,8 +98,8 @@ fun bindImageNote(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions().transform(CenterCrop(), RoundedCorners(10))
-                    .placeholder(R.drawable.icon_placeholder2_image128)
-                    .error(R.drawable.icon_placeholder2_image128))
+                    .placeholder(R.drawable.placeholder_logo_background2)
+                    .error(R.drawable.placeholder_logo_background2))
             .into(imgView)
     }
 }
@@ -99,11 +112,26 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions().centerCrop()
-                    .placeholder(R.drawable.icon_placeholder_image)
+                    .placeholder(R.drawable.placeholder_logo_background2)
                     .error(R.drawable.placeholder_logo_background2))
             .into(imgView)
     }
 }
+
+@BindingAdapter("imageUrlUser")
+fun bindImageUser(imgView: ImageView, imgUrl: Uri?) {
+    imgUrl?.let {
+        val imgUri = it.buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions.circleCropTransform()
+                    .placeholder(R.drawable.icon_user)
+                    .error(R.drawable.icon_user))
+            .into(imgView)
+    }
+}
+
 
 
 @BindingAdapter("year")

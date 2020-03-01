@@ -1,13 +1,16 @@
 package com.angela.notemoment
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Result
+import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.util.CurrentFragmentType
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,6 +22,11 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
 
     val boxes: LiveData<List<Box>>
         get() = _boxes
+
+
+    private var _user = MutableLiveData<User>()
+    val user : LiveData<User>
+        get() = _user
 
 
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
@@ -52,10 +60,13 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
         Logger.i("------------------------------------")
 
         getBoxesResult()
+
+
     }
 
 
-    private fun getBoxesResult() {
+
+    fun getBoxesResult() {
 
         coroutineScope.launch {
 
@@ -86,6 +97,11 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
                 }
             }
         }
+    }
+
+    fun getUser(id:String) {
+        _user =  repository.getUser(id) as MutableLiveData<User>
+
     }
 
 

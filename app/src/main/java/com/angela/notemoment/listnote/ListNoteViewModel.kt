@@ -49,6 +49,11 @@ class ListNoteViewModel (private val repository: NoteRepository,
     val navigateToAddNote: LiveData<Boolean>
         get() = _navigateToAddNote
 
+    private val _navigateToAddBox = MutableLiveData<Boolean>()
+
+    val navigateToAddBox: LiveData<Boolean>
+        get() = _navigateToAddBox
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -183,6 +188,16 @@ class ListNoteViewModel (private val repository: NoteRepository,
     fun onAddNoteNavigated() {
         _navigateToAddNote.value = null
     }
+
+
+    fun navigateToAddBox() {
+        _navigateToAddBox.value = true
+    }
+
+    fun onAddBoxNavigated() {
+        _navigateToAddBox.value = null
+    }
+
 
 
 

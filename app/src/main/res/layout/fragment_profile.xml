@@ -30,6 +30,7 @@
                 android:layout_height="80dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/icon_user"
+                app:imageUrlUser="@{viewModel.userPhoto}"
                 android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -37,16 +38,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <TextView
+            <EditText
                 android:id="@+id/text_profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
-                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:background="@color/transparent"
+                app:requestFocus="@{viewModel.isEditable()}"
                 tools:text="Angelaaa"
-                android:text="@{viewModel.user.name}"
+                android:text="@={viewModel.user.name}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/image_profile_avatar"
@@ -69,7 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
                 app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
+            <EditText
                 android:id="@+id/text_profile_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,7 +81,9 @@
                 android:letterSpacing="0.15"
                 android:maxLines="2"
                 tools:text="Moment note"
-                android:text="@{viewModel.user.title}"
+                app:requestFocus="@{viewModel.isEditable()}"
+                android:background="@color/transparent"
+                android:text="@={viewModel.user.title}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="@+id/text_profile_name"
@@ -85,11 +91,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_profile_email" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/button_profile_edit"
                 android:layout_width="59dp"
                 android:layout_height="32dp"
                 android:background="@drawable/bg_text_frame"
-                android:text="Edit"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.editProfile()}"
+                android:text='@{viewModel.isEditable() == true? "DONE":"EDIT"}'
                 app:layout_constraintBottom_toBottomOf="@+id/text_profile_title"
                 app:layout_constraintEnd_toEndOf="parent" />
 

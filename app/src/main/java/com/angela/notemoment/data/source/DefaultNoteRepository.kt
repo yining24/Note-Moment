@@ -18,6 +18,10 @@ class DefaultNoteRepository (private val remoteDataSource: NoteDataSource,
         return remoteDataSource.getUser(id)
     }
 
+    override suspend fun updateUser(user: User): Result<Boolean>{
+        return remoteDataSource.updateUser(user)
+    }
+
     override suspend fun getBox(): Result<List<Box>> {
         return remoteDataSource.getBox()
     }

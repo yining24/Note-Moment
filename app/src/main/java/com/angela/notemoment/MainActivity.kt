@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import android.animation.AnimatorListenerAdapter
 import android.view.animation.*
+import com.angela.notemoment.data.source.NoteRepository
 
 
 class MainActivity : AppCompatActivity() {
@@ -73,7 +74,8 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         setupBottomNav()
-//        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
+
+
 
         //check login status
         val authListener: FirebaseAuth.AuthStateListener =
@@ -85,16 +87,24 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     val user = FirebaseAuth.getInstance().currentUser
                     Logger.i("main login ${user?.displayName}")
-//                    FirebaseFirestore.getInstance()
-//                        .collection("users")
-//                        .document(user!!.uid)
-//                        .set(User(user.uid, user.displayName ?: "", "Spot Moment"))
+                    viewModel.getUser(user?.uid?:"")
+                    viewModel.getBoxesResult()
+
+                    viewModel.user.observe(this, Observer {
+                        it.let {
+                            Logger.w("observe::${it}")
+                            binding.textToolbarTitle.text = it.title
+                        }
+                    })
+
+
                 }
             }
         FirebaseAuth.getInstance().addAuthStateListener(authListener)
 
-
         setupNavController()
+
+
 
     }
 

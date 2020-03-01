@@ -67,7 +67,7 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
                 notesList.forEach {
                     val latlng = LatLng(it.lat, it.lng)
                     myGoogleMap.addMarker(MarkerOptions().position(latlng).title(it.locateName))
-                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                     Logger.i("marker latlng = $latlng")
                 }
             }

@@ -52,6 +52,32 @@ object NoteRemoteDataSource : NoteDataSource {
         }
 
 
+    override suspend fun updateUser(user: User): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
+            val currentUser= firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+
+            currentUser.set(user)
+                .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Logger.i("task is successful")
+                            Logger.i("update user = $user")
+
+                            continuation.resume(Result.Success(true))
+
+                        } else {
+                            task.exception?.let {
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                        }
+                                }
+                        }
+
+
 
 
     override suspend fun getBox(): Result<List<Box>> =
