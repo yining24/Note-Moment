@@ -67,10 +67,11 @@
             android:id="@+id/select_date"
             style="@style/textGeneral14"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginStart="16dp"
             android:drawableStart="@drawable/icon_calendar_32"
             android:drawablePadding="20dp"
+            android:gravity="center_vertical"
             android:paddingEnd="20dp"
             android:text="請點選開始日期"
             app:layout_constraintEnd_toStartOf="@+id/select_time"
@@ -93,12 +94,13 @@
             android:id="@+id/select_time"
             style="@style/textGeneral14"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginEnd="16dp"
-            android:text="請點選時間"
+            android:drawableStart="@drawable/icon_clock_32"
             android:drawablePadding="20dp"
             android:paddingEnd="20dp"
-            android:drawableStart="@drawable/icon_clock_32"
+            android:text="請點選時間"
+            android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/select_date"
@@ -116,28 +118,29 @@
 <!--            app:layout_constraintTop_toBottomOf="@+id/select_time" />-->
 
 
-        <EditText
-            android:id="@+id/select_tag"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/transparent"
-            android:drawableStart="@drawable/icon_left_tag32"
-            android:drawablePadding="10dp"
-            android:hint="Tag : travel"
-            android:text="@={viewModel.note.tags}"
-            android:textSize="14sp"
-            app:hintTextAppearance="@style/TextInputHint"
-            app:layout_constraintEnd_toEndOf="@+id/place_autocomplete_fragment"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_date" />
+<!--        <EditText-->
+<!--            android:id="@+id/select_tag"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:background="@color/transparent"-->
+<!--            android:drawableStart="@drawable/icon_left_tag32"-->
+<!--            android:drawablePadding="10dp"-->
+<!--            android:hint="Tag : travel"-->
+<!--            android:text="@={viewModel.note.tags}"-->
+<!--            android:textSize="14sp"-->
+<!--            app:hintTextAppearance="@style/TextInputHint"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/place_autocomplete_fragment"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/select_date" />-->
 
 
         <Spinner
             android:id="@+id/select_box"
             android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:entries="@{viewModel.boxList}"
             android:prompt="@string/spinner_select_box"
@@ -145,13 +148,14 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/place_autocomplete_fragment"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
-            app:layout_constraintTop_toBottomOf="@+id/select_tag" />
+            app:layout_constraintTop_toBottomOf="@+id/select_date" />
 
         <EditText
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_text_frame"
             android:drawableStart="@drawable/icon_writenote_32"
@@ -159,8 +163,8 @@
             android:focusableInTouchMode="true"
             android:hint="* Title"
             android:imeOptions="actionDone"
-            android:singleLine="true"
             android:maxLength="20"
+            android:singleLine="true"
             android:text="@={viewModel.note.title}"
             android:textSize="14sp"
             app:hintTextAppearance="@style/TextInputHint"
@@ -186,10 +190,10 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/bg_text_frame"
             android:gravity="top"
-            android:hint="content"
+            android:hint="Content"
             android:maxLength="500"
             android:paddingLeft="15dp"
             android:paddingTop="8dp"
@@ -254,7 +258,7 @@
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/select_box"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_tag"
+            app:layout_constraintTop_toTopOf="@+id/select_box"
             app:srcCompat="@drawable/icon_drawer" />
 
         <TextView
