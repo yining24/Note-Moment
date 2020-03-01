@@ -75,7 +75,6 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
         Logger.i("------------------------------------")
 
 
-        publishBoxResult(Box())
     }
 
     fun setStartDate(date: Date) {
@@ -129,6 +128,8 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
                     }
                 }
             }
+        } else {
+            Toast.makeText(NoteApplication.instance, "-- No title --", Toast.LENGTH_SHORT).show()
         }
 
     }

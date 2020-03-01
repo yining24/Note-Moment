@@ -23,12 +23,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="#EEEEEE"
-            android:scaleType="centerInside"
             app:layout_constraintDimensionRatio="1.5:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_create_note"
-            app:srcCompat="@drawable/icon_photo_gray" />
+            app:srcCompat="@drawable/placeholder_logo_add_gray" />
+
+
 
         <!--        <ImageButton-->
         <!--            android:id="@+id/upload_button"-->
@@ -156,7 +157,7 @@
             android:drawableStart="@drawable/icon_writenote_32"
             android:drawablePadding="10dp"
             android:focusableInTouchMode="true"
-            android:hint="Title"
+            android:hint="* Title"
             android:imeOptions="actionDone"
             android:singleLine="true"
             android:maxLength="20"
@@ -224,8 +225,8 @@
 
         <ImageView
             android:id="@+id/note_button_back"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"

@@ -18,14 +18,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentAddNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.Logger
-import com.angela.notemoment.MainActivity
-import com.angela.notemoment.MainViewModel
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -35,7 +32,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import java.io.IOException
 import java.util.*
-import kotlin.time.hours
+
 
 
 class AddNoteFragment  : Fragment() , PlaceSelectionListener {
@@ -172,7 +169,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
                 .build();
         autocompleteFragment.setFilter(filter);*/
 
-        autocompleteFragment.setHint("請輸入景點")
+        autocompleteFragment.setHint("* Location")
         autocompleteFragment.setPlaceFields(listOf(Place.Field.ADDRESS, Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
         autocompleteFragment.setOnPlaceSelectedListener(this)
         (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText).textSize = 14.0f

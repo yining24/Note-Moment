@@ -86,6 +86,7 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
             coroutineScope.launch {
 
                 _status.value = LoadApiStatus.LOADING
+
                 Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
 
                 when (val result = repository.publishNote(note, note.boxId, photoUrl)) {
@@ -115,6 +116,8 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                 }
             }
 
+        } else {
+            Toast.makeText(NoteApplication.instance, "-- Fields marked with * are required --", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -213,7 +216,7 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
 
     val canAddNote
-        get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.content.isNullOrEmpty()
+        get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.locateName.isNullOrEmpty()
 
     fun navigateToList() {
         _navigateToList.value = true

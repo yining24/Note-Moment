@@ -23,6 +23,8 @@ interface NoteDataSource {
 
     suspend fun updateBox(box: Box, uri: Uri?): Result<Boolean>
 
+    suspend fun updateNote(note: Note, uri: Uri): Result<Boolean>
+
     suspend fun publishNote(note: Note, boxId:String, uri: Uri?): Result<Boolean>
 
     suspend fun delete(box: Box): Result<Boolean>

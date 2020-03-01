@@ -84,8 +84,8 @@ fun bindImageBox(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions().transform(CenterCrop(), RoundedCorners(20))
-                    .placeholder(R.drawable.bg_drawer_frame)
-                    .error(R.drawable.bg_box_no_image)
+                    .placeholder(R.drawable.placeholder_logo_background2)
+                    .error(R.drawable.placeholder_logo_background2)
                     ).into(imgView)
     }
 }

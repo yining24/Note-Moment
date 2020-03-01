@@ -40,7 +40,12 @@ class ListNoteItemAdapter (val viewModel: ListNoteViewModel) : ListAdapter<Note,
 
     override fun onBindViewHolder(holder: ListNoteItemViewHolder, position: Int) {
         val item = getItem(position)
+
         holder.bind(item)
+        holder.itemView.setOnClickListener {
+            viewModel.selectNote(item)
+        }
+
     }
 
 }

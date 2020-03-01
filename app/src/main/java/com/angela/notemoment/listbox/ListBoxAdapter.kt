@@ -49,7 +49,7 @@ class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, List
 
     override fun onBindViewHolder(holder: ListBoxViewHolder, position: Int) {
                 val item = getItem(position)
-                holder.itemView.layoutParams.height = getRandomIntInRange(350, 300)
+                holder.itemView.layoutParams.height = getRandomIntInRange(550, 450)
                 holder.bind(item, boxViewModel)
                 holder.itemView.setOnClickListener {
                     boxViewModel.selectBox(item)
@@ -57,6 +57,6 @@ class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, List
             }
 
     private fun getRandomIntInRange(max: Int, min: Int): Int {
-        return Random.nextInt(max - min + min) + min
+        return Random.nextInt(max - min + 30) + min
     }
 }

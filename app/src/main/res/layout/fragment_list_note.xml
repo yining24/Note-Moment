@@ -35,20 +35,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/list_button_back"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/icon_back_nocircle"
-            android:shadowColor="#ff000000"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="10"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/list_button_back"-->
+<!--            android:layout_width="15dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:tint="@color/white"-->
+<!--            app:srcCompat="@drawable/icon_back_nocircle"-->
+<!--            android:shadowColor="#ff000000"-->
+<!--            android:shadowDx="3"-->
+<!--            android:shadowDy="3"-->
+<!--            android:shadowRadius="10"/>-->
 
 
         <View
@@ -171,7 +171,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/button_edit_box"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="16dp"
@@ -180,49 +180,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_write_pencil" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:backgroundTint="@color/colorPrimary"
-            app:fabSize="mini"
-            app:layout_constraintTop_toTopOf="@+id/fab"
-            app:layout_constraintEnd_toEndOf="@+id/fab"
-            app:layout_constraintStart_toStartOf="@+id/fab"
-            app:srcCompat="@drawable/add_drawer_icon512"
-            app:maxImageSize="28dp"
-            android:onClick="@{() -> viewModel.navigateToAddBox()}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            app:backgroundTint="@color/colorPrimary"
-            app:fabSize="mini"
-            app:layout_constraintEnd_toEndOf="@+id/fab"
-            app:layout_constraintStart_toStartOf="@+id/fab"
-            app:layout_constraintTop_toTopOf="@+id/fab"
-            app:srcCompat="@drawable/icon_writenote2"
-            app:maxImageSize="22dp"
-            android:onClick="@{() -> viewModel.navigateToAddNote()}"/>
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="14dp"
-            android:clickable="true"
             android:elevation="6dp"
+            android:clickable="true"
             app:backgroundTint="@color/colorPrimaryDark"
-            android:background="@drawable/bg_text_frame"
+            app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:maxImageSize="20dp"
-            app:srcCompat="@drawable/icon_plus" />
+            app:srcCompat="@drawable/icon_writenote2"
+            app:maxImageSize="24dp"
+            android:onClick="@{() -> viewModel.navigateToAddNote()}"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

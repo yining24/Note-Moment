@@ -16,5 +16,6 @@ data class Note(
     var lng:        Double          = 0.0,
     var tags:       String          = "",
     var images:     String          = "",
-    var boxId :     String          = ""
+    var boxId :     String          = "",
+    var id :        String          = ""
 ): Parcelable

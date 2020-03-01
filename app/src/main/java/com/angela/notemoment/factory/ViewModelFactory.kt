@@ -6,7 +6,9 @@ import com.angela.notemoment.MainViewModel
 import com.angela.notemoment.addbox.AddBoxViewModel
 import com.angela.notemoment.addnote.AddNoteViewModel
 import com.angela.notemoment.data.Box
+import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.source.NoteRepository
+import com.angela.notemoment.detailnote.DetailNoteViewModel
 import com.angela.notemoment.listbox.ListBoxViewModel
 import com.angela.notemoment.listnote.ListNoteViewModel
 import com.angela.notemoment.map.MyMapViewModel
@@ -41,6 +43,7 @@ class ViewModelFactory constructor(
                 isAssignableFrom(ProfileViewModel::class.java) ->
                     ProfileViewModel(noteRepository)
 
+
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
@@ -62,6 +65,25 @@ class boxViewModelFactory(
             when {
                 isAssignableFrom(ListNoteViewModel::class.java) ->
                     ListNoteViewModel(noteRepository, box)
+
+                else ->
+                    throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+            }
+        } as T
+}
+
+@Suppress("UNCHECKED_CAST")
+class detailNoteViewModelFactory(
+    private val noteRepository: NoteRepository,
+    private val note: Note,
+    private val box: Box
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel?> create(modelClass: Class<T>) =
+        with(modelClass) {
+            when {
+                isAssignableFrom(DetailNoteViewModel::class.java) ->
+                    DetailNoteViewModel(noteRepository, note, box)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

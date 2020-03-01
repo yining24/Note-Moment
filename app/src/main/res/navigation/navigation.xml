@@ -71,6 +71,22 @@
     </fragment>
     <action android:id="@+id/action_global_listNoteFragment"
         app:destination="@id/listNoteFragment" />
+    <fragment
+        android:id="@+id/detailNoteFragment"
+        android:name="com.angela.notemoment.detailnote.DetailNoteFragment"
+        android:label="DetailNoteFragment" >
+        <argument
+            android:name="NoteKey"
+            app:argType="com.angela.notemoment.data.Note"
+            app:nullable="false"/>
+        <argument
+            android:name="BoxKey"
+            app:argType="com.angela.notemoment.data.Box"
+            app:nullable="false"/>
+    </fragment>
+    <action android:id="@+id/action_global_detailNoteFragment"
+        app:destination="@id/detailNoteFragment"
+        app:popUpToInclusive="false" />
 
 
 </navigation>
