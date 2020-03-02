@@ -15,6 +15,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.angela.notemoment.*
 import com.angela.notemoment.data.User
+import com.angela.notemoment.ext.showToast
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -68,15 +69,23 @@ class LoginFragment : Fragment() {
                 }
             } else {
                 // Successfully signed in
-                Toast.makeText(context, "登入成功", Toast.LENGTH_SHORT).show()
                 val user = FirebaseAuth.getInstance().currentUser
+                Toast.makeText(context, "Hello~${user?.displayName}", Toast.LENGTH_SHORT).show()
 
                 FirebaseFirestore.getInstance()
                     .collection("users")
-                    .document(user!!.uid)
-                    .set(User(user.uid, user.displayName ?: "", "Spot Moment", user.email?:""))
-                Logger.i("log in user name ${user?.displayName}")
-                findNavController().navigateUp()
+                    .document(user!!.uid).get().addOnSuccessListener {
+                        Logger.w("Welcome back ${user.displayName}")
+
+                    }.addOnFailureListener {
+                        FirebaseFirestore.getInstance()
+                            .collection("users")
+                            .document(user.uid)
+                            .set(User(user.uid, user.displayName ?: "", "Spot Moment", user.email?:""))
+                        Logger.w("First log in $user")
+                    }
+
+                findNavController().navigate(NavigationDirections.actionGlobalListFragment())
             }
         }
 
@@ -84,7 +93,7 @@ class LoginFragment : Fragment() {
     }
     private fun signOut() {
         AuthUI.getInstance()
-            .signOut(context!!)
+            .signOut(requireContext())
             .addOnSuccessListener {
                 Toast.makeText(context, "已登出", Toast.LENGTH_SHORT).show()
             }

@@ -230,4 +230,18 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         _note.value?.time = time
         Logger.i("chang note time = $time")
     }
+
+    fun findBoxPosition(boxes: List<Box>) {
+        val argBoxId = "123"
+        var foundPosition = -1
+
+        for ((index, box) in boxes.withIndex()) {
+            if (box.id == argBoxId) {
+                foundPosition = index
+                break
+            }
+        }
+
+        boxes.indexOf(boxes.filter { it.id == argBoxId }[0])
+    }
 }
