@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Toolbar -->
+    <dimen name="height_toolbar">50dp</dimen>
+    <dimen name="height_status_bar_origin">24dp</dimen>
+
+    <!-- Bottom Navigation -->
+    <dimen name="height_bottom_nav_view_main">50dp</dimen>
+    <dimen name="size_bottom_nav_icon">22dp</dimen>
+
+    <!-- General -->
+    <dimen name="elevation_all">4dp</dimen>
+    <dimen name="height_all_bottom_layout">80dp</dimen>
+
+    <!-- Fab -->
+    <dimen name="standard_55">55dp</dimen>
+    <dimen name="standard_105">105dp</dimen>
+    <dimen name="standard_155">155dp</dimen>
+
+</resources>

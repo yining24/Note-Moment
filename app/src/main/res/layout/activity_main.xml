@@ -1,18 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.MainViewModel" />
+        <import type="com.angela.notemoment.util.CurrentFragmentType"/>
+        <import type="android.view.View"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_toolbar"
+            android:background="@color/colorPrimary"
+            android:elevation="@dimen/elevation_all"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME || viewModel.currentFragmentType == CurrentFragmentType.LIST || viewModel.currentFragmentType == CurrentFragmentType.PROFILE ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/toolbar_search"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:gravity="center_vertical"
+                android:screenReaderFocusable="true"
+                app:menu="@menu/toolbar_menu"
+                app:queryHint="請輸入關鍵字"
+                app:searchIcon="@drawable/icon_search_32">
+
+            </androidx.appcompat.widget.SearchView>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <fragment
+            android:id="@+id/myNavHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.0"
+            app:navGraph="@navigation/navigation" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_bottom_nav_view_main"
+            android:background="@color/colorPrimary"
+            android:elevation="@dimen/elevation_all"
+            app:itemIconSize="@dimen/size_bottom_nav_icon"
+            app:itemIconTint="@drawable/bottom_nav_item1_selector"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/bottom_nav_menu" />
+
+
+        <TextView
+            android:id="@+id/text_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="@dimen/elevation_all"
+            android:fontFamily="@font/berkshire_swash"
+            android:letterSpacing="0.15"
+            tools:text="Spot moment"
+            android:text="@{viewModel.user.title}"
+            android:textColor="@color/color_highclass_blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME || viewModel.currentFragmentType == CurrentFragmentType.LIST || viewModel.currentFragmentType == CurrentFragmentType.PROFILE ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/myNavHostFragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

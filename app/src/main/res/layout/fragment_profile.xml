@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.profile.ProfileViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_header"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image_profile_avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/icon_user"
+                android:scaleType="centerCrop"
+                app:imageUrlUser="@{viewModel.userPhoto}"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_title" />
+
+
+            <EditText
+                android:id="@+id/text_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:background="@color/transparent"
+                app:requestFocus="@{viewModel.isEditable()}"
+                tools:text="Angelaaa"
+                android:text="@={viewModel.user.name}"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/image_profile_avatar"
+                app:layout_constraintStart_toStartOf="@+id/image_profile_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/image_profile_avatar"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/text_profile_email"
+                style="@style/textGeneral12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:maxLines="1"
+                tools:text="aaa@hotmail.com"
+                android:text="@{viewModel.user.email}"
+                android:textColor="@color/black_3f3a3a"
+                app:layout_constraintEnd_toEndOf="@+id/text_profile_name"
+                app:layout_constraintStart_toStartOf="@+id/text_profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <EditText
+                android:id="@+id/text_profile_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="2"
+                android:text="@={viewModel.user.title}"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="18sp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:requestFocus="@{viewModel.isEditable()}"
+                tools:text="Moment note" />
+
+            <Button
+                android:id="@+id/button_profile_edit"
+                android:layout_width="59dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_text_frame"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.editProfile()}"
+                android:text='@{viewModel.isEditable() == true? "DONE":"EDIT"}'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--        <View-->
+<!--            android:id="@+id/profile_view_separate"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:background="@color/gray_cccccc"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/layout_profile_header" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_profile_share"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/noto_sans"-->
+<!--            android:letterSpacing="0.15"-->
+<!--            android:maxLines="2"-->
+<!--            android:text="Share"-->
+<!--            android:textColor="@color/black_3f3a3a"-->
+<!--            android:textSize="15sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/profile_view_separate" />-->
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

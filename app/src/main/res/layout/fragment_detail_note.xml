@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.detailnote.DetailNoteViewModel" />
+        <import type="com.angela.notemoment.LoadApiStatus"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/detail_note_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#EEEEEE"
+            android:clickable="@{viewModel.isEditable()}"
+            app:imageUrl="@{viewModel.note.images}"
+            app:layout_constraintDimensionRatio="1.5:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_create_note"
+            app:srcCompat="@drawable/placeholder_logo_add_gray" />
+
+
+
+<!--        <fragment-->
+<!--            android:id="@+id/place_autocomplete_fragment"-->
+<!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/detail_note_image" />-->
+
+
+        <TextView
+            android:id="@+id/detail_note_place"
+            style="@style/textGeneral14"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="@={viewModel.note.locateName}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_place"
+            app:layout_constraintTop_toBottomOf="@+id/detail_note_image"
+            tools:text="location" />
+
+
+        <TextView
+            android:id="@+id/select_date"
+            style="@style/textGeneral14"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="@{viewModel.isEditable()}"
+            android:drawableStart="@drawable/icon_calendar_32"
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="20dp"
+            android:text="請點選開始日期"
+            app:layout_constraintEnd_toStartOf="@+id/select_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_note_place" />
+
+        <TextView
+            android:id="@+id/select_time"
+            style="@style/textGeneral14"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/icon_clock_32"
+            android:drawablePadding="20dp"
+            android:paddingEnd="20dp"
+            android:text="請點選時間"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/select_date"
+            app:layout_constraintTop_toTopOf="@+id/select_date" />
+
+
+        <Spinner
+            android:id="@+id/change_box"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="@{viewModel.isEditable()}"
+            android:entries="@{viewModel.allBoxList}"
+            android:prompt="@{viewModel.box.title}"
+            android:spinnerMode="dialog"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/detail_note_place"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/select_date" />
+
+
+        <EditText
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_text_frame"
+            android:drawableStart="@drawable/icon_writenote_32"
+            android:drawablePadding="10dp"
+            android:focusableInTouchMode="true"
+            android:hint="* Title"
+            android:imeOptions="actionDone"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:text="@={viewModel.note.title}"
+            android:textSize="14sp"
+            app:hintTextAppearance="@style/TextInputHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/change_box"
+            app:requestFocus="@{viewModel.isEditable()}" />
+
+        <View
+            android:id="@+id/view_title_separation"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/gray_999999"
+            app:layout_constraintEnd_toEndOf="@+id/title_text"
+            app:layout_constraintStart_toStartOf="@+id/title_text"
+            app:layout_constraintTop_toBottomOf="@+id/title_text" />
+
+
+        <EditText
+            android:id="@+id/write_note"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/bg_text_frame"
+            android:gravity="top"
+            android:hint="content"
+            android:maxLength="500"
+            android:paddingLeft="15dp"
+            android:paddingTop="8dp"
+            android:singleLine="false"
+            android:text="@={viewModel.note.content}"
+            android:textSize="14sp"
+            app:hintTextAppearance="@style/TextInputHint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_text"
+            app:layout_constraintVertical_bias="0.0"
+            app:requestFocus="@{viewModel.isEditable()}" />
+
+
+
+        <Button
+            android:id="@+id/button_edit_note"
+            style="@style/textGeneral14"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false : true}"
+            android:letterSpacing="0.15"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="EDIT"
+            android:onClick="@{() -> viewModel.editNote()}"
+            android:text='@{viewModel.isEditable() == true? "DONE":"EDIT"}'
+            app:layout_constraintBottom_toBottomOf="@+id/text_create_note"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_create_note" />
+
+
+        <ImageView
+            android:id="@+id/note_button_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_back_nocircle" />
+
+        <TextView
+            android:id="@+id/text_create_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/berkshire_swash"
+            android:letterSpacing="0.15"
+            android:text="@{viewModel.box.title}"
+            tools:text="Box Title"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:inputType="textCapWords"
+            app:layout_constraintBottom_toBottomOf="@+id/note_button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/note_button_back" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="17dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/change_box"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/change_box"
+            app:srcCompat="@drawable/icon_drawer" />
+
+        <ImageView
+            android:id="@+id/image_place"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/detail_note_place"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/detail_note_place"
+            app:srcCompat="@drawable/icon_map_gray" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

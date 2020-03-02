@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="note"
+            type="com.angela.notemoment.data.Note" />
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.map.MyMapViewModel" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/map_note_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerInside"
+            android:background="#EEEEEE"
+            app:imageUrl="@{note.images}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/map_note_title"
+            style="@style/textTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="@{note.title}"
+            android:maxLines="1"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/map_note_image"
+            app:layout_constraintStart_toEndOf="@+id/date_year"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="note title" />
+
+        <TextView
+            android:id="@+id/map_note_content"
+            style="@style/textGeneral14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{note.content}"
+            app:layout_constraintEnd_toStartOf="@+id/map_note_image"
+            app:layout_constraintStart_toStartOf="@+id/map_note_title"
+            app:layout_constraintTop_toBottomOf="@+id/map_note_title"
+            tools:text="note content..." />
+
+        <TextView
+            android:id="@+id/date_year"
+            style="@style/textGeneral14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:year="@{note.time}"
+            tools:text="yyyy" />
+
+        <TextView
+            android:id="@+id/date_month"
+            style="@style/textGeneral14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17dp"
+            app:layout_constraintEnd_toEndOf="@+id/date_year"
+            app:layout_constraintStart_toStartOf="@+id/date_year"
+            app:layout_constraintTop_toBottomOf="@+id/date_year"
+            app:month="@{note.time}"
+            tools:text="MM" />
+
+        <TextView
+            android:id="@+id/date_day"
+            style="@style/textGeneral14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22dp"
+            app:day="@{note.time}"
+            app:layout_constraintEnd_toEndOf="@+id/date_month"
+            app:layout_constraintStart_toStartOf="@+id/date_month"
+            app:layout_constraintTop_toBottomOf="@+id/date_month"
+            tools:text="dd" />
+
+        <View
+            android:id="@+id/view_map_notes_separation"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

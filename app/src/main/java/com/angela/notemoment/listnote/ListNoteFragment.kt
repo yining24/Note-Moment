@@ -1,0 +1,82 @@
+package com.angela.notemoment.listnote
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.angela.notemoment.Logger
+import com.angela.notemoment.NavigationDirections
+import com.angela.notemoment.R
+import com.angela.notemoment.databinding.FragmentListNoteBinding
+import com.angela.notemoment.ext.getVmFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
+
+class ListNoteFragment : Fragment() {
+    private val viewModel by viewModels<ListNoteViewModel> { getVmFactory (ListNoteFragmentArgs.fromBundle(requireArguments()).BoxKey) }
+
+    private lateinit var fabNote: FloatingActionButton
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        val binding: FragmentListNoteBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_list_note, container, false)
+        binding.viewModel = viewModel
+
+        val adapter = ListNoteSortedAdapter(viewModel)
+        binding.recyclerListNoteDetail.adapter = adapter
+
+        binding.lifecycleOwner = this
+
+
+        viewModel.note.observe(this, Observer {
+            it?.let {
+                Logger.i("note size = ${it.size}")
+            }
+        })
+
+        viewModel.navigateToDetailNote.observe(this, Observer {
+            it?.let {
+                viewModel.box.value?.let {box ->
+                    findNavController().navigate(
+                        NavigationDirections.actionGlobalDetailNoteFragment(
+                            it, box
+                        )
+                    )
+                    viewModel.onSelectNote()
+                }
+            }
+        })
+
+        viewModel.navigateToAddNote.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.actionGlobalAddNoteFragment())
+                viewModel.onAddNoteNavigated()
+            }
+        })
+
+
+//        binding.listButtonBack.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
+
+
+        //fab setting
+        fabNote = binding.fabNote
+
+
+
+        return binding.root
+    }
+
+
+}

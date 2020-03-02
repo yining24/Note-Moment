@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Note Moment</string>
+    <string name="app_name">Spot moment</string>
+    <string name="facebook_app_id">625515361608804</string>
+    <string name="fb_login_protocol_scheme">fb625515361608804</string>
+    <string name="facebook_application_id">625515361608804</string>
+    <string name="google_map_api">AIzaSyCYuykbAsTXQWNGJIlxrdV0r3mJrgKpz54</string>
+<!--    <string name="google_map_api">AIzaSyCBoNkbR2kgsyTg-PJUzoWuREUYJPi8DcY</string>-->
+    <string name="fail">Fail</string>
+    <string name="spinner_select_box">Choose where to save</string>
+
+
+
 </resources>

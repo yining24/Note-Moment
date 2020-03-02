@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="box"
+            type="com.angela.notemoment.data.Box" />
+        <variable
+            name="viewModel"
+            type="com.angela.notemoment.listbox.ListBoxViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_drawer_frame"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp">
+
+
+        <TextView
+            android:id="@+id/list_box_title"
+            style="@style/textTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_text_shadow"
+            android:elevation="12dp"
+            android:fontFamily="@font/noto_sans"
+            android:text="@{box.title}"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:ellipsize="marquee"
+            android:maxLines="2"
+            app:layout_constraintBottom_toBottomOf="@+id/list_box_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="一個人的日本" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/list_box_date"-->
+<!--            style="@style/textGeneral12"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:elevation="12dp"-->
+<!--            android:shadowColor="#ff000000"-->
+<!--            android:shadowDx="3"-->
+<!--            android:shadowDy="3"-->
+<!--            android:shadowRadius="6"-->
+<!--            android:text='@{boxViewModel.displayDate(box.startDate, box.endDate)}'-->
+<!--            android:textAlignment="center"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/list_box_image"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/list_box_title"-->
+<!--            tools:text="2020/01/01 - 2020/01/01" />-->
+
+
+        <ImageView
+            android:id="@+id/list_box_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            app:imageUrlBox="@{box.image}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

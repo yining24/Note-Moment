@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/listFragment">
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.angela.notemoment.listbox.ListBoxFragment"
+        android:label="ListFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.angela.notemoment.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.angela.notemoment.map.MyMapFragment"
+        android:label="MapFragment" />
+    <action android:id="@+id/action_global_listFragment"
+        app:destination="@id/listFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="false"/>
+    <action android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment"
+        app:popUpTo="@id/listFragment"
+        app:popUpToInclusive="false"/>
+    <action android:id="@+id/action_global_mapFragment"
+        app:destination="@id/mapFragment"
+        app:popUpTo="@id/listFragment"
+        app:popUpToInclusive="false"/>
+    <action android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.angela.notemoment.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/addboxFragment"
+        android:name="com.angela.notemoment.addbox.AddBoxFragment"
+        android:label="AddboxFragment" />
+    <action android:id="@+id/action_global_addboxFragment"
+        app:destination="@id/addboxFragment"
+        app:popUpTo="@id/listFragment"
+        app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/addNoteFragment"
+        android:name="com.angela.notemoment.addnote.AddNoteFragment"
+        android:label="AddNoteFragment" />
+    <action android:id="@+id/action_global_addNoteFragment"
+        app:destination="@id/addNoteFragment"
+        app:popUpTo="@id/listFragment"
+        app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.angela.notemoment.login.LoginFragment"
+        android:label="LoginFragment" />
+
+    <action android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpToInclusive="true"/>
+    <fragment
+        android:id="@+id/listNoteFragment"
+        android:name="com.angela.notemoment.listnote.ListNoteFragment"
+        android:label="ListNoteFragment" >
+        <argument
+            android:name="BoxKey"
+            app:argType="com.angela.notemoment.data.Box"
+            app:nullable="false"/>
+    </fragment>
+    <action android:id="@+id/action_global_listNoteFragment"
+        app:destination="@id/listNoteFragment" />
+    <fragment
+        android:id="@+id/detailNoteFragment"
+        android:name="com.angela.notemoment.detailnote.DetailNoteFragment"
+        android:label="DetailNoteFragment" >
+        <argument
+            android:name="NoteKey"
+            app:argType="com.angela.notemoment.data.Note"
+            app:nullable="false"/>
+        <argument
+            android:name="BoxKey"
+            app:argType="com.angela.notemoment.data.Box"
+            app:nullable="false"/>
+    </fragment>
+    <action android:id="@+id/action_global_detailNoteFragment"
+        app:destination="@id/detailNoteFragment"
+        app:popUpToInclusive="false" />
+
+
+</navigation>
