@@ -1,6 +1,5 @@
 package com.angela.notemoment.detailnote
 
-import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -13,7 +12,6 @@ import com.angela.notemoment.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.data.Box
-import com.angela.notemoment.data.ListNoteSorted
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
@@ -21,7 +19,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
 
 class DetailNoteViewModel (private val repository: NoteRepository,
                            private val arguments: Note,
@@ -51,7 +48,10 @@ class DetailNoteViewModel (private val repository: NoteRepository,
         value = false
     }
 
-//    var photoUrl = MutableLiveData<String>()
+    var keyBoxPosition = MutableLiveData<Int>().apply {
+        value = -1
+    }
+
 
     private val _navigateToAddNote = MutableLiveData<Boolean>()
 
@@ -91,6 +91,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
         Logger.i("------------------------------------")
 
         getBoxesResult()
+
     }
 
 
@@ -149,6 +150,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    findKeyBoxPosition(result.data)
                     result.data
                 }
                 is Result.Fail -> {
@@ -219,6 +221,20 @@ class DetailNoteViewModel (private val repository: NoteRepository,
             note.value?.boxId = it[position].id
             Logger.i("selectBox value = ${allBoxes.value}")
         }
+    }
+
+
+    fun findKeyBoxPosition(boxes: List<Box>) {
+        val argBoxId = box.value?.id
+
+        for ((index, box) in boxes.withIndex()) {
+            if (box.id == argBoxId) {
+                keyBoxPosition.value = index
+                break
+            }
+        }
+//        val position = boxes.indexOf(boxes.filter { it.id == argBoxId }[0])
+        Logger.i("box position === ${keyBoxPosition.value}")
     }
 
 

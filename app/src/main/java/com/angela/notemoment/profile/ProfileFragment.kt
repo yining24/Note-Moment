@@ -31,9 +31,9 @@ class ProfileFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-        val userId = FirebaseAuth.getInstance().currentUser?.uid?:""
-
-        viewModel.getUser(userId)
+        FirebaseAuth.getInstance().currentUser?.uid?.let {
+            viewModel.getUser(it)
+        }
 
 
 
