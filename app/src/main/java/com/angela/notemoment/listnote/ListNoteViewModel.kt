@@ -44,9 +44,9 @@ class ListNoteViewModel (private val repository: NoteRepository,
         get() = _note
 
 
-    private val _navigateToAddNote = MutableLiveData<Boolean>()
+    private val _navigateToAddNote = MutableLiveData<Box>()
 
-    val navigateToAddNote: LiveData<Boolean>
+    val navigateToAddNote: LiveData<Box>
         get() = _navigateToAddNote
 
     private val _navigateToAddBox = MutableLiveData<Boolean>()
@@ -187,8 +187,8 @@ class ListNoteViewModel (private val repository: NoteRepository,
     }
 
 
-    fun navigateToAddNote() {
-        _navigateToAddNote.value = true
+    fun navigateToAddNote(box: Box) {
+        _navigateToAddNote.value = box
     }
 
     fun onAddNoteNavigated() {
@@ -202,6 +202,7 @@ class ListNoteViewModel (private val repository: NoteRepository,
     fun onSelectNote() {
         _navigateToDetailNote.value = null
     }
+
 
 
 }

@@ -34,9 +34,6 @@ class ViewModelFactory constructor(
                 isAssignableFrom(AddBoxViewModel::class.java) ->
                     AddBoxViewModel(noteRepository)
 
-                isAssignableFrom(AddNoteViewModel::class.java) ->
-                    AddNoteViewModel(noteRepository)
-
                 isAssignableFrom(MyMapViewModel::class.java) ->
                     MyMapViewModel(noteRepository)
 
@@ -55,21 +52,37 @@ class ViewModelFactory constructor(
 */
 
 @Suppress("UNCHECKED_CAST")
-class boxViewModelFactory(
+class BoxViewModelFactory(
     private val noteRepository: NoteRepository,
-    private val box: Box
+    private val box: Box?
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        with(modelClass) {
-            when {
-                isAssignableFrom(ListNoteViewModel::class.java) ->
-                    ListNoteViewModel(noteRepository, box)
+        if (box != null) {
+            with(modelClass) {
+                when {
+                    isAssignableFrom(ListNoteViewModel::class.java) ->
+                        ListNoteViewModel(noteRepository, box)
 
-                else ->
-                    throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+                    isAssignableFrom(AddNoteViewModel::class.java) ->
+                        AddNoteViewModel(noteRepository, box)
+
+                    else ->
+                        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+                }
+            }
+        } else {
+            with(modelClass) {
+                when {
+                    isAssignableFrom(AddNoteViewModel::class.java) ->
+                        AddNoteViewModel(noteRepository, box)
+
+                    else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+                }
             }
         } as T
+
+
 }
 
 @Suppress("UNCHECKED_CAST")

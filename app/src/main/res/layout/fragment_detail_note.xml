@@ -62,7 +62,7 @@
 
         <TextView
             android:id="@+id/select_date"
-            style="@style/textGeneral14"
+            style="@style/textGeneral12"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginStart="50dp"
@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/select_time"
-            style="@style/textGeneral14"
+            style="@style/textGeneral12"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"
@@ -98,7 +98,7 @@
             android:visibility="@{viewModel.isEditable() == false? View.GONE : View.VISIBLE}"
             android:prompt="@string/spinner_select_box"
             android:spinnerMode="dialog"
-            android:paddingStart="15dp"
+            android:paddingStart="12dp"
             app:layout_constraintEnd_toEndOf="@+id/detail_note_place"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/detail_note_place" />
@@ -111,17 +111,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
+            android:paddingStart="15dp"
             android:singleLine="true"
             android:ellipsize="marquee"
-            android:text="@={viewModel.box.title}"
+            android:text="@={viewModel.selectedBox.title}"
             app:layout_constraintEnd_toEndOf="@+id/detail_note_place"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/detail_note_place"
             tools:text="box title"
             android:visibility="@{viewModel.isEditable() == true ? View.INVISIBLE : View.VISIBLE}"/>
-
-
 
 
         <EditText
@@ -138,8 +136,9 @@
             android:maxLength="20"
             android:singleLine="true"
             android:text="@={viewModel.note.title}"
-            android:textSize="16sp"
             android:textColor="@{viewModel.isEditable() == false? @color/black_3f3a3a : @color/colorAccent}"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:hintTextAppearance="@style/TextInputHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

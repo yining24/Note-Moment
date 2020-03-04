@@ -15,6 +15,7 @@ import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
+import com.angela.notemoment.ext.checkAndUpdateDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,10 +39,22 @@ class DetailNoteViewModel (private val repository: NoteRepository,
         get() = _box
 
 
+    private val _selectedBox = MutableLiveData<Box>().apply {
+        value = argumentsBox
+    }
+    val selectedBox: LiveData<Box>
+        get() = _selectedBox
+
+
     private val _allBoxes = MutableLiveData<List<Box>>()
 
     val allBoxes: LiveData<List<Box>>
         get() = _allBoxes
+
+
+    var newPhotoUrl = MutableLiveData<Uri>().apply {
+        value = null
+    }
 
 
     var isEditable = MutableLiveData<Boolean>().apply {
@@ -96,7 +109,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
 
 
 
-    fun updateNoteResult(note: Note, photoUrl: Uri) {
+    fun updateNoteResult(note: Note, photoUrl: Uri?) {
 
         if (canUpdateNote) {
             coroutineScope.launch {
@@ -110,11 +123,15 @@ class DetailNoteViewModel (private val repository: NoteRepository,
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
                         Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
-                        editNote()
 
-//                        if (isUpdateBoxDate) {
-//                            repository.updateBox(selectedBox ,null)
-//                        }
+                        _box.value?.let {box ->
+                            box.checkAndUpdateDate(repository)
+                            _selectedBox.value?.let {  selectedBox ->
+                                if (selectedBox != box) {
+                                    selectedBox.checkAndUpdateDate(repository)
+                                }
+                            }
+                        }
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -176,9 +193,6 @@ class DetailNoteViewModel (private val repository: NoteRepository,
 
 
 
-
-
-
     val canUpdateNote
         get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.locateName.isNullOrEmpty()
 
@@ -202,10 +216,11 @@ class DetailNoteViewModel (private val repository: NoteRepository,
             isEditable.value = true
         } else {
             isEditable.value = false
-            updateNoteResult(note.value!!, note.value?.images!!.toUri())
+            updateNoteResult(note.value!!, newPhotoUrl.value)
         }
-
     }
+
+
 
     val allBoxList = Transformations.map(allBoxes){
         val boxTitleList = mutableListOf<String>()
@@ -219,6 +234,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
     fun changeBoxPosition(position : Int) {
         allBoxes.value?.let {
             note.value?.boxId = it[position].id
+            _selectedBox.value = it[position]
             Logger.i("selectBox value = ${allBoxes.value}")
         }
     }

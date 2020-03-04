@@ -42,7 +42,7 @@ class DefaultNoteRepository (private val remoteDataSource: NoteDataSource,
         return remoteDataSource.updateBox(box, uri)
     }
 
-    override suspend fun updateNote(note: Note, uri: Uri): Result<Boolean> {
+    override suspend fun updateNote(note: Note, uri: Uri?): Result<Boolean> {
         return remoteDataSource.updateNote(note, uri)
     }
 

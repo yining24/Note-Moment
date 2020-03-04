@@ -11,12 +11,21 @@ import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
+import com.angela.notemoment.ext.checkAndUpdateDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
+class AddNoteViewModel (private val repository: NoteRepository,
+                        private val argument: Box?) : ViewModel() {
+
+    private val _box = MutableLiveData<Box>().apply {
+        value = argument
+    }
+    val box: LiveData<Box>
+        get() = _box
+
 
     private val _note = MutableLiveData<Note>()
         .apply {
@@ -34,6 +43,10 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     val boxes: LiveData<List<Box>>
         get() = _boxes
 
+    var keyBoxPosition = MutableLiveData<Int>().apply {
+        value = -1
+    }
+
 
     private val _navigateToList = MutableLiveData<Boolean>()
 
@@ -44,16 +57,13 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
     var selectedBox = Box()
 
-    var isUpdateBoxDate = false
 
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
     private val _error = MutableLiveData<String>()
 
     val error: LiveData<String>
@@ -74,6 +84,8 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
+        Logger.i("argument box:: ${box.value}")
+
         getBoxesResult()
     }
 
@@ -82,7 +94,6 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         note.content = content.value?: ""
 
         if (canAddNote) {
-            updateBoxDate(selectedBox)
             coroutineScope.launch {
 
                 _status.value = LoadApiStatus.LOADING
@@ -93,12 +104,10 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
+                        selectedBox.checkAndUpdateDate(repository)
                         Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
                         navigateToList()
 
-                        if (isUpdateBoxDate) {
-                            repository.updateBox(selectedBox ,null)
-                        }
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -115,12 +124,11 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                     }
                 }
             }
-
         } else {
             Toast.makeText(NoteApplication.instance, "-- Fields marked with * are required --", Toast.LENGTH_SHORT).show()
         }
-
     }
+
 
     private fun getBoxesResult() {
 
@@ -134,6 +142,7 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    findKeyBoxPosition(result.data)
                     result.data
                 }
                 is Result.Fail -> {
@@ -159,11 +168,7 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
 
     val boxList = Transformations.map(boxes){
         val boxTitleList = mutableListOf<String>()
-//        if (_boxes.value?.size == 0) {
-//            val defaultBox = Box("", "default",0L,0L,"臺灣","")
-//            _boxes.value = listOf(defaultBox)
-//            Logger.i("default = $defaultBox")
-//        }
+
         for (box in it){
             boxTitleList.add(box.title)
         }
@@ -171,39 +176,25 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
     }
 
 
+    fun findKeyBoxPosition(boxes: List<Box>) {
+        val argBoxId = box.value?.id
+
+        for ((index, box) in boxes.withIndex()) {
+            if (box.id == argBoxId) {
+                keyBoxPosition.value = index
+                break
+            }
+        }
+        Logger.i("box position === ${keyBoxPosition.value}")
+    }
+
     fun selectBoxPosition(position : Int){
         boxes.value?.let {
             selectedBox = it[position]
             note.value?.boxId = selectedBox.id
             Logger.i("selectBox value = ${boxes.value}")
-
         }
         return
-    }
-
-
-    fun updateBoxDate (box: Box) {
-
-        note.value?.apply {
-            when {
-                box.startDate == 0L && box.endDate == 0L -> {
-                    isUpdateBoxDate = true
-                    box.startDate = this.time
-                    box.endDate = this.time
-                    Logger.i("box start and end time to ::${this.time}")
-                }
-                this.time < box.startDate -> {
-                    isUpdateBoxDate = true
-                    box.startDate = this.time
-                    Logger.i("box start time to ::${this.time}")
-                }
-                this.time > box.endDate -> {
-                    isUpdateBoxDate = true
-                    box.endDate = this.time
-                    Logger.i("box end time to ::${this.time}")
-                }
-            }
-        }
     }
 
 
@@ -213,12 +204,11 @@ class AddNoteViewModel (private val repository: NoteRepository) : ViewModel() {
         note.value?.lng = lng
     }
 
-
-
-    val canAddNote
+    private val canAddNote
         get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.locateName.isNullOrEmpty()
 
-    fun navigateToList() {
+
+    private fun navigateToList() {
         _navigateToList.value = true
     }
 

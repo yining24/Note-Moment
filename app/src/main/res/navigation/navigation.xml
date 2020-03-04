@@ -47,7 +47,13 @@
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="com.angela.notemoment.addnote.AddNoteFragment"
-        android:label="AddNoteFragment" />
+        android:label="AddNoteFragment" >
+        <argument
+            android:name="BoxKey"
+            app:argType="com.angela.notemoment.data.Box"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <action android:id="@+id/action_global_addNoteFragment"
         app:destination="@id/addNoteFragment"
         app:popUpTo="@id/listFragment"

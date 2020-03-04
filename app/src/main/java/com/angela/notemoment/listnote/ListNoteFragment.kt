@@ -44,22 +44,18 @@ class ListNoteFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToDetailNote.observe(this, Observer {
+        viewModel.navigateToDetailNote.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.box.value?.let {box ->
-                    findNavController().navigate(
-                        NavigationDirections.actionGlobalDetailNoteFragment(
-                            it, box
-                        )
-                    )
+                    findNavController().navigate(NavigationDirections.actionGlobalDetailNoteFragment(it, box))
                     viewModel.onSelectNote()
                 }
             }
         })
 
-        viewModel.navigateToAddNote.observe(this, Observer {
+        viewModel.navigateToAddNote.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.actionGlobalAddNoteFragment())
+                findNavController().navigate(NavigationDirections.actionGlobalAddNoteFragment(it))
                 viewModel.onAddNoteNavigated()
             }
         })

@@ -1,37 +1,28 @@
 package com.angela.notemoment.detailnote
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.SpinnerAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.Logger
-import com.angela.notemoment.MainActivity
 import com.angela.notemoment.NavigationDirections
 import com.angela.notemoment.R
-import com.angela.notemoment.addnote.AddNoteFragmentDirections
 import com.angela.notemoment.databinding.FragmentDetailNoteBinding
-import com.angela.notemoment.databinding.FragmentListNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_add_note.*
 import kotlinx.android.synthetic.main.fragment_detail_note.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -77,8 +68,6 @@ class DetailNoteFragment : Fragment() {
         binding.selectDate.text = sdf.format(viewModel.note.value?.time)
 
         binding.selectTime.text = SimpleDateFormat("HH:mm").format(viewModel.note.value?.time)
-
-        viewModel.onChangeNoteTime(cal.timeInMillis)
 
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -129,7 +118,7 @@ class DetailNoteFragment : Fragment() {
 
         viewModel.allBoxList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.changeBox.adapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_spinner_text, it) {
+                binding.changeBox.adapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_detail_box_spinner, it) {
 
                 }
             }
@@ -141,8 +130,6 @@ class DetailNoteFragment : Fragment() {
                 Logger.d("observe setpos :: $it")
             }
         })
-
-
 
 
 
@@ -168,8 +155,8 @@ class DetailNoteFragment : Fragment() {
             if(data == null || data.data == null){
                 return
             }
-//            viewModel.photoUrl.value = data.data.toString()
-            viewModel.note.value?.images = data.data.toString()
+            viewModel.newPhotoUrl.value = data.data
+//            viewModel.note.value?.images = data.data.toString()
 
             try {
                 var filePath = data.data

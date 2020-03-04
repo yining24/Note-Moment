@@ -84,7 +84,7 @@ object NoteRemoteDataSource : NoteDataSource {
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
                 .collection(PATH_USER)
-                .document(FirebaseAuth.getInstance().currentUser?.uid ?:"12")
+                .document(FirebaseAuth.getInstance().currentUser?.uid ?:"")
                 .collection(PATH_BOX)
                 .orderBy("endDate", Query.Direction.DESCENDING)
                 .get()
@@ -318,16 +318,17 @@ object NoteRemoteDataSource : NoteDataSource {
         }
 
 
-    override suspend fun updateNote(note: Note, uri: Uri): Result<Boolean> =
+    override suspend fun updateNote(note: Note, uri: Uri?): Result<Boolean> =
         suspendCoroutine { continuation ->
 
             val storageReference = FirebaseStorage.getInstance().reference
             val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
 
-            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid?:"")
             val noteDocument =
                 document.collection(PATH_NOTE).document(note.id)
 
+            if (uri != null) {
                 val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
                 val uploadTask = ref.putFile(uri)
                 uploadTask.continueWithTask(
@@ -372,6 +373,24 @@ object NoteRemoteDataSource : NoteDataSource {
                     }.addOnFailureListener{
                         Logger.i("task is Failure")
                     }
+            } else {
+                noteDocument.set(note)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            Logger.i("Publish note success : $note")
+                            continuation.resume(Result.Success(true))
+
+                        } else {
+                            task.exception?.let {
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                        }
+                    }
+            }
             }
 
 

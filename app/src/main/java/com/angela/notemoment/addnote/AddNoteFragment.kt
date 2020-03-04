@@ -3,9 +3,7 @@ package com.angela.notemoment.addnote
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.graphics.Paint
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
@@ -30,6 +28,9 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import kotlinx.android.synthetic.main.fragment_add_note.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 
@@ -39,7 +40,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
     private var filePath: Uri? = null
 
-    private val viewModel by viewModels<AddNoteViewModel> { getVmFactory() }
+    private val viewModel by viewModels<AddNoteViewModel> { getVmFactory(AddNoteFragmentArgs.fromBundle(requireArguments()).BoxKey) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -122,7 +123,12 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
             , true).show()
         }
 
-
+        viewModel.navigateToList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(AddNoteFragmentDirections.actionGlobalListFragment())
+                viewModel.onListNavigated()
+            }
+        })
 
 
 
@@ -139,14 +145,24 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
             }
         }
 
-
-
-        viewModel.navigateToList.observe(viewLifecycleOwner, Observer {
+        viewModel.boxList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(AddNoteFragmentDirections.actionGlobalListFragment())
-                viewModel.onListNavigated()
+                binding.selectBox.adapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_addnote_box_spinner, it) {
+
+                }
             }
         })
+
+        viewModel.keyBoxPosition.observe(viewLifecycleOwner, Observer {
+            CoroutineScope(Dispatchers.Main).launch {
+                spinner.setSelection(it, true)
+                Logger.d("observe setpos :: $it")
+            }
+        })
+
+
+
+
 
 
 
