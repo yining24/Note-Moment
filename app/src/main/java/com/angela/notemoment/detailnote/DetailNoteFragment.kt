@@ -4,20 +4,26 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.Logger
+import com.angela.notemoment.MainActivity
 import com.angela.notemoment.NavigationDirections
 import com.angela.notemoment.R
 import com.angela.notemoment.addnote.AddNoteFragmentDirections
@@ -27,6 +33,9 @@ import com.angela.notemoment.ext.getVmFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import kotlinx.android.synthetic.main.fragment_detail_note.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 
@@ -106,22 +115,34 @@ class DetailNoteFragment : Fragment() {
 
 
         // spinner listener
-        val spinner = binding.changeBox
+        val boxSpinner = binding.changeBox
 
-        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+
+        boxSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 viewModel.changeBoxPosition(pos)
                 Logger.i("pos = $pos")
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
-
         }
 
-//                val defaultBox = viewModel.box.value?.title?:""
-//                val spinnerAdap = spinner.adapter as ArrayAdapter<*>
-//                    val spinnerPosition = spinnerAdap.getPosition(defaultBox)
-//                    spinner.setSelection(spinnerPosition)
+        viewModel.allBoxList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.changeBox.adapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_spinner_text, it) {
+
+                }
+            }
+        })
+
+        viewModel.keyBoxPosition.observe(viewLifecycleOwner, Observer {
+            CoroutineScope(Dispatchers.Main).launch {
+                boxSpinner.setSelection(it, true)
+                Logger.d("observe setpos :: $it")
+            }
+        })
+
+
 
 
 
