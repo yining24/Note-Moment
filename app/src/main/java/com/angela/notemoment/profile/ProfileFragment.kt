@@ -12,6 +12,7 @@ import com.angela.notemoment.Logger
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentProfileBinding
 import com.angela.notemoment.ext.getVmFactory
+import com.angela.notemoment.ext.showToast
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -37,7 +38,8 @@ class ProfileFragment : Fragment() {
 
 
 
-        viewModel.isEditable.observe(this, Observer {
+
+        viewModel.isEditable.observe(viewLifecycleOwner, Observer {
                 Logger.i("isEditable::$it")
         })
 

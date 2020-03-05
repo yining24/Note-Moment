@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import android.animation.AnimatorListenerAdapter
 import android.view.animation.*
+import androidx.navigation.ui.setupWithNavController
 import com.angela.notemoment.data.source.NoteRepository
 
 
@@ -37,32 +38,6 @@ class MainActivity : AppCompatActivity() {
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     lateinit var binding: ActivityMainBinding
-
-    private val onNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-//                R.id.navigation_home -> {
-//
-//                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalHomeFragment())
-//                    return@OnNavigationItemSelectedListener true
-//                }
-                R.id.navigation_list -> {
-
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalListFragment())
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigation_map -> {
-
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalMapFragment())
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigation_profile -> {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalProfileFragment())
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-            false
-        }
 
 
     @SuppressLint("RestrictedApi")
@@ -110,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupBottomNav() {
-        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+//        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         binding.bottomNavView.itemIconTintList = null
 //        val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
 //        val itemView = menuView.getChildAt(2) as BottomNavigationItemView
@@ -118,6 +93,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavController() {
+        binding.bottomNavView.setupWithNavController(findNavController(R.id.myNavHostFragment))
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
 
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {

@@ -1,9 +1,7 @@
 package com.angela.notemoment.addbox
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Intent
-import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,10 +25,10 @@ import java.io.IOException
 
 class AddBoxFragment : Fragment() {
 
-    lateinit var ccp: CountryCodePicker
+    private lateinit var ccp: CountryCodePicker
     private var filePath: Uri? = null
 
-    private val viewModel by viewModels<AddBoxViewModel> { getVmFactory() }
+    private val viewModel by viewModels<AddBoxViewModel> { getVmFactory(AddBoxFragmentArgs.fromBundle(requireArguments()).BoxKey) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,44 +58,6 @@ class AddBoxFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-
-        //date picker
-//        val cal = Calendar.getInstance()
-//
-//        val dateSetListener =
-//            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-//                cal.set(Calendar.YEAR, year)
-//                cal.set(Calendar.MONTH, monthOfYear)
-//                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-//                boxViewModel.setStartDate(cal.time)
-//            }
-//
-//        binding.selectStartDate.setOnClickListener {
-//            DatePickerDialog(
-//                context!!, dateSetListener,
-//                cal.get(Calendar.YEAR),
-//                cal.get(Calendar.MONTH),
-//                cal.get(Calendar.DAY_OF_MONTH)
-//            ).show()
-//        }
-//
-//
-//        val endDateSetListener =
-//            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-//                cal.set(Calendar.YEAR, year)
-//                cal.set(Calendar.MONTH, monthOfYear)
-//                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-//                boxViewModel.setEndDate(cal.time)
-//            }
-//
-//        binding.selectEndDate.setOnClickListener {
-//            DatePickerDialog(
-//                context!!, endDateSetListener,
-//                cal.get(Calendar.YEAR),
-//                cal.get(Calendar.MONTH),
-//                cal.get(Calendar.DAY_OF_MONTH)
-//            ).show()
-//        }
 
 
         viewModel.box.observe(this, Observer {

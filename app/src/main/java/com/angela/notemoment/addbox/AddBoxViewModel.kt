@@ -7,8 +7,6 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.*
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.source.NoteRepository
@@ -19,23 +17,16 @@ import kotlinx.coroutines.launch
 import com.angela.notemoment.data.Result
 import java.util.*
 
-class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
+class AddBoxViewModel (private val repository: NoteRepository,
+                       private val argument: Box?) : ViewModel() {
 
     private val _box = MutableLiveData<Box>()
         .apply {
-        value = Box()
+        value = argument
     }
 
     val box: LiveData<Box>
         get() = _box
-
-    var boxStartDate = MutableLiveData<String>()
-
-
-    var boxEndDate = MutableLiveData<String>()
-//        .apply {
-//            value = "請點選結束日期"
-//        }
 
     var photoUrl = MutableLiveData<Uri>()
 
@@ -77,54 +68,58 @@ class AddBoxViewModel (private val repository: NoteRepository) : ViewModel() {
 
     }
 
-    fun setStartDate(date: Date) {
-        val myFormat = "MM/dd/yyyy"
-        val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-        sdf.format(date)
-        _box.value?.startDate = date.time
-        _box.value = _box.value
-        boxStartDate.value = sdf.format(date)
-    }
-
-    fun setEndDate(date: Date) {
-        val myFormat = "MM/dd/yyyy"
-        val sdf = SimpleDateFormat(myFormat)
-        _box.value?.endDate = date.time
-        _box.value = _box.value
-        boxEndDate.value = sdf.format(date)
-    }
-
-
-
-
     fun publishBoxResult(box: Box, photoUrl: Uri? = null) {
 
         Logger.i("publishBoxResult, canAddbox=$canAddbox")
         if (canAddbox) {
             Logger.i("publishBoxResult, box=$box")
             coroutineScope.launch {
-
                 _status.value = LoadApiStatus.LOADING
                 Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
 
-                when (val result = repository.publishBox(box, photoUrl)) {
-                    is Result.Success -> {
-                        _error.value = null
-                        _status.value = LoadApiStatus.DONE
-                        Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
-                        navigateToList()
+                if (box.id.isEmpty()) {
+                    when (val result = repository.publishBox(box, photoUrl)) {
+                        is Result.Success -> {
+                            _error.value = null
+                            _status.value = LoadApiStatus.DONE
+                            Toast.makeText(NoteApplication.instance, "Add Success", Toast.LENGTH_SHORT)
+                                .show()
+                            navigateToList()
+                        }
+                        is Result.Fail -> {
+                            _error.value = result.error
+                            _status.value = LoadApiStatus.ERROR
+                        }
+                        is Result.Error -> {
+                            _error.value = result.exception.toString()
+                            _status.value = LoadApiStatus.ERROR
+                        }
+                        else -> {
+                            _error.value = NoteApplication.instance.getString(R.string.fail)
+                            _status.value = LoadApiStatus.ERROR
+                        }
                     }
-                    is Result.Fail -> {
-                        _error.value = result.error
-                        _status.value = LoadApiStatus.ERROR
-                    }
-                    is Result.Error -> {
-                        _error.value = result.exception.toString()
-                        _status.value = LoadApiStatus.ERROR
-                    }
-                    else -> {
-                        _error.value = NoteApplication.instance.getString(R.string.fail)
-                        _status.value = LoadApiStatus.ERROR
+                } else {
+                    when (val result = repository.updateBox(box, photoUrl)) {
+                        is Result.Success -> {
+                            _error.value = null
+                            _status.value = LoadApiStatus.DONE
+                            Toast.makeText(NoteApplication.instance, "Edit Success", Toast.LENGTH_SHORT)
+                                .show()
+                            navigateToList()
+                        }
+                        is Result.Fail -> {
+                            _error.value = result.error
+                            _status.value = LoadApiStatus.ERROR
+                        }
+                        is Result.Error -> {
+                            _error.value = result.exception.toString()
+                            _status.value = LoadApiStatus.ERROR
+                        }
+                        else -> {
+                            _error.value = NoteApplication.instance.getString(R.string.fail)
+                            _status.value = LoadApiStatus.ERROR
+                        }
                     }
                 }
             }

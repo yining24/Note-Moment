@@ -118,6 +118,24 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
+
+@BindingAdapter("imageUrlAddBox")
+fun bindImageAddBox(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions().centerCrop()
+                    .placeholder(R.drawable.placeholder_logo_add_gray)
+                    .error(R.drawable.placeholder_logo_add_gray))
+            .into(imgView)
+    }
+}
+
+
+
+
 @BindingAdapter("imageUrlUser")
 fun bindImageUser(imgView: ImageView, imgUrl: Uri?) {
     imgUrl?.let {

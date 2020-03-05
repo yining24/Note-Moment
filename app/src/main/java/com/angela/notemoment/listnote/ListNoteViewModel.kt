@@ -23,11 +23,11 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class ListNoteViewModel (private val repository: NoteRepository,
-                         private val arguments: Box
+                         private val argument: Box
 ) : ViewModel() {
 
     private val _box = MutableLiveData<Box>().apply {
-        value = arguments
+        value = argument
     }
     val box: LiveData<Box>
         get() = _box
@@ -49,9 +49,10 @@ class ListNoteViewModel (private val repository: NoteRepository,
     val navigateToAddNote: LiveData<Box>
         get() = _navigateToAddNote
 
-    private val _navigateToAddBox = MutableLiveData<Boolean>()
 
-    val navigateToAddBox: LiveData<Boolean>
+    private val _navigateToAddBox = MutableLiveData<Box>()
+
+    val navigateToAddBox: LiveData<Box>
         get() = _navigateToAddBox
 
 
@@ -201,6 +202,14 @@ class ListNoteViewModel (private val repository: NoteRepository,
 
     fun onSelectNote() {
         _navigateToDetailNote.value = null
+    }
+
+    fun navigateToEditBox(box: Box) {
+        _navigateToAddBox.value = box
+    }
+
+    fun onEditBoxNavigated() {
+        _navigateToAddBox.value = null
     }
 
 

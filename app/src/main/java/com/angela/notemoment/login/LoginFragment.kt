@@ -19,9 +19,10 @@ import com.angela.notemoment.ext.showToast
 import com.google.firebase.firestore.FirebaseFirestore
 
 
+const val RC_SIGN_IN = 12345
+
 class LoginFragment : Fragment() {
 
-    val RC_SIGN_IN = 12345
 
     override fun onCreateView(
         inflater: LayoutInflater,

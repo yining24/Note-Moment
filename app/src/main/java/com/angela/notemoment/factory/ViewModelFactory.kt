@@ -31,9 +31,6 @@ class ViewModelFactory constructor(
                 isAssignableFrom(ListBoxViewModel::class.java) ->
                     ListBoxViewModel(noteRepository)
 
-                isAssignableFrom(AddBoxViewModel::class.java) ->
-                    AddBoxViewModel(noteRepository)
-
                 isAssignableFrom(MyMapViewModel::class.java) ->
                     MyMapViewModel(noteRepository)
 
@@ -67,6 +64,9 @@ class BoxViewModelFactory(
                     isAssignableFrom(AddNoteViewModel::class.java) ->
                         AddNoteViewModel(noteRepository, box)
 
+                    isAssignableFrom(AddBoxViewModel::class.java) ->
+                        AddBoxViewModel(noteRepository, box)
+
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }
@@ -77,6 +77,9 @@ class BoxViewModelFactory(
                     isAssignableFrom(AddNoteViewModel::class.java) ->
                         AddNoteViewModel(noteRepository, box)
 
+                    isAssignableFrom(AddBoxViewModel::class.java) ->
+                        AddBoxViewModel(noteRepository, box)
+
                     else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }
             }
@@ -86,7 +89,7 @@ class BoxViewModelFactory(
 }
 
 @Suppress("UNCHECKED_CAST")
-class detailNoteViewModelFactory(
+class DetailNoteViewModelFactory(
     private val noteRepository: NoteRepository,
     private val note: Note,
     private val box: Box

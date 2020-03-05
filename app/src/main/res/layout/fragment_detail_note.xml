@@ -68,6 +68,7 @@
             android:layout_marginStart="50dp"
             android:clickable="@{viewModel.isEditable()}"
             android:gravity="center_vertical"
+            android:paddingEnd="20dp"
             tools:text="2020/01/01"
             android:textColor="@{viewModel.isEditable() == false? @color/black_3f3a3a : @color/colorAccent}"
             app:layout_constraintBottom_toBottomOf="@+id/note_button_back"
@@ -79,13 +80,13 @@
             style="@style/textGeneral12"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
+            android:clickable="@{viewModel.isEditable()}"
             android:gravity="center_vertical"
-            android:paddingEnd="20dp"
-            tools:text="10:10"
+            android:paddingEnd="16dp"
             android:textColor="@{viewModel.isEditable() == false? @color/black_3f3a3a : @color/colorAccent}"
             app:layout_constraintStart_toEndOf="@+id/select_date"
-            app:layout_constraintTop_toTopOf="@+id/select_date" />
+            app:layout_constraintTop_toTopOf="@+id/select_date"
+            tools:text="10:10" />
 
 
         <Spinner
@@ -165,7 +166,7 @@
             android:layout_marginEnd="24dp"
             android:background="@color/transparent"
             android:gravity="top"
-            android:hint="content"
+            android:hint="No content"
             android:maxLength="500"
             android:paddingTop="8dp"
             android:singleLine="false"
@@ -192,7 +193,6 @@
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/note_button_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/note_button_back"

@@ -60,10 +60,15 @@ class ListNoteFragment : Fragment() {
             }
         })
 
+        viewModel.navigateToAddBox.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.actionGlobalAddboxFragment(it))
+                viewModel.onEditBoxNavigated()
+            }
+        })
 
-//        binding.listButtonBack.setOnClickListener {
-//            findNavController().navigateUp()
-//        }
+
+
 
 
         //fab setting

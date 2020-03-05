@@ -108,7 +108,6 @@
             android:clickable="true"
             android:elevation="6dp"
             app:backgroundTint="@color/colorPrimaryDark"
-            android:background="@drawable/bg_text_frame"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="20dp"

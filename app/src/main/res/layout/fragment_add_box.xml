@@ -8,6 +8,7 @@
             name="viewModel"
             type="com.angela.notemoment.addbox.AddBoxViewModel" />
         <import type="com.angela.notemoment.LoadApiStatus"/>
+        <import type="android.view.View"/>
 
     </data>
 
@@ -23,6 +24,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="#EEEEEE"
+            app:imageUrlAddBox="@{viewModel.box.image}"
             app:layout_constraintDimensionRatio="1.5:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +60,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:drawableStart="@drawable/icon_folder_32"
-            android:drawablePadding="10dp"
+            android:drawablePadding="20dp"
             android:hint="Title of the box"
             android:text="@={viewModel.box.title}"
             android:textSize="14sp"
@@ -80,7 +82,7 @@
             app:layout_constraintStart_toStartOf="@+id/textInputLayout"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-                <com.hbb20.CountryCodePicker
+            <com.hbb20.CountryCodePicker
                     android:id="@+id/ccp"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -100,7 +102,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
                     app:ccp_countryPreference="TW,US,JP"
                     app:ccp_defaultLanguage="ENGLISH"
-                    app:ccpDialog_showCloseIcon="true"/>
+                    app:ccpDialog_showCloseIcon="true"
+                android:visibility="@{viewModel.box.id == null ? View.VISIBLE : View.GONE}"/>
 
         <View
             android:id="@+id/view_separation"
@@ -109,47 +112,8 @@
             android:background="@color/gray_999999"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/ccp" />
-
-
-
-<!--                <TextView-->
-<!--                    android:id="@+id/select_start_date"-->
-<!--                    style="@style/textGeneral12"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="35dp"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:background="@drawable/bg_text_frame"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:text="@{boxViewModel.boxStartDate}"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:paddingLeft="12dp"-->
-<!--                    android:hint="請點選開始日期"-->
-<!--                    android:textColorHint="#8B8B8B"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/ccp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/select_end_date"-->
-<!--                    style="@style/textGeneral12"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="35dp"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:background="@drawable/bg_text_frame"-->
-<!--                    android:paddingLeft="12dp"-->
-<!--                    android:hint="請點選結束日期"-->
-<!--                    android:textColorHint="#8B8B8B"-->
-<!--                    android:text="@{boxViewModel.boxEndDate}"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/select_start_date" />-->
+            app:layout_constraintTop_toBottomOf="@+id/ccp"
+            android:visibility="@{viewModel.box.id == null ? View.VISIBLE : View.GONE}" />
 
 
         <Button
@@ -187,7 +151,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/berkshire_swash"
             android:letterSpacing="0.15"
-            android:text="Create Box"
+            android:text='@{viewModel.box.id == null ? "Create Box" : "Edit Box"}'
+            tools:text="Create Box"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/button_back"
