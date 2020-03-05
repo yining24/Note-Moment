@@ -14,16 +14,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/upload_image"
+            android:id="@+id/add_box_upload_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="#EEEEEE"
+            android:layout_marginTop="16dp"
+            android:background="@color/image_background_gray"
             app:imageUrlAddBox="@{viewModel.box.image}"
             app:layout_constraintDimensionRatio="1.5:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,114 +29,94 @@
             app:layout_constraintTop_toBottomOf="@+id/text_create_box"
             app:srcCompat="@drawable/placeholder_logo_add_gray" />
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/upload_button"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:backgroundTint="@color/transparent"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/upload_image"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/upload_image"-->
-<!--            app:srcCompat="@drawable/icon_photo_gray" />-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/camera_button"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:backgroundTint="@color/transparent"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/upload_image"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/upload_button"-->
-<!--            app:srcCompat="@drawable/icon_camera_gray" />-->
-
 
         <EditText
-            android:id="@+id/textInputLayout"
+            android:id="@+id/add_box_title"
+            style="@style/textGeneralNoSpacing"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/transparent"
+            android:hint="@string/hint_add_box_title"
+            android:paddingStart="10dp"
+            android:imeOptions="actionDone"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:text="@={viewModel.box.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/abb_box_icon_title"
+            app:layout_constraintTop_toBottomOf="@+id/add_box_upload_image" />
+
+        <View
+            android:id="@+id/view_title_separation"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray_cccccc"
+            app:layout_constraintEnd_toEndOf="@+id/add_box_title"
+            app:layout_constraintStart_toStartOf="@+id/ccp"
+            app:layout_constraintTop_toBottomOf="@+id/add_box_title" />
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:drawableStart="@drawable/icon_folder_32"
-            android:drawablePadding="20dp"
-            android:hint="Title of the box"
-            android:text="@={viewModel.box.title}"
-            android:textSize="14sp"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:maxLength="20"
-            android:background="@color/transparent"
-            app:hintTextAppearance="@style/TextInputHint"
+            android:visibility="@{viewModel.box.id.empty ? View.VISIBLE : View.GONE}"
+            app:ccp_contentColor="@color/black_3f3a3a"
+            app:ccpDialog_textColor="@color/black_3f3a3a"
+            app:ccpDialog_showCloseIcon="true"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_countryPreference="TW,US,JP"
+            app:ccp_defaultLanguage="ENGLISH"
+            app:ccp_defaultNameCode="TW"
+            app:ccp_rememberLastSelection="true"
+            app:ccp_showFullName="true"
+            app:ccp_showNameCode="false"
+            app:ccp_showPhoneCode="false"
+            app:ccp_textGravity="LEFT"
+            app:ccp_textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upload_image" />
+            app:layout_constraintTop_toBottomOf="@+id/add_box_title" />
 
         <View
-            android:id="@+id/view_text_separation"
+            android:id="@+id/view_ccp_separation"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray_999999"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-            <com.hbb20.CountryCodePicker
-                    android:id="@+id/ccp"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    app:ccp_textSize="14dp"
-                    app:ccp_textGravity="CENTER"
-                    app:ccp_autoDetectCountry="true"
-                    app:ccp_defaultNameCode="TW"
-                    app:ccp_rememberLastSelection="true"
-                    app:ccp_showFullName="true"
-                    app:ccp_showNameCode="false"
-                    app:ccp_showPhoneCode="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-                    app:ccp_countryPreference="TW,US,JP"
-                    app:ccp_defaultLanguage="ENGLISH"
-                    app:ccpDialog_showCloseIcon="true"
-                android:visibility="@{viewModel.box.id == null ? View.VISIBLE : View.GONE}"/>
-
-        <View
-            android:id="@+id/view_separation"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/gray_999999"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/ccp"
-            android:visibility="@{viewModel.box.id == null ? View.VISIBLE : View.GONE}" />
+            android:background="@color/gray_cccccc"
+            android:visibility="@{viewModel.box.id.empty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/add_box_title"
+            app:layout_constraintStart_toStartOf="@+id/ccp"
+            app:layout_constraintTop_toBottomOf="@+id/ccp" />
 
 
-        <Button
-            android:id="@+id/button_save"
-            style="@style/textGeneral14"
-            android:layout_width="60dp"
-            android:layout_height="0dp"
+        <TextView
+            android:id="@+id/add_box_button_save"
+            style="@style/textGeneralNoSpacing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:background="@color/transparent"
+            android:background="@drawable/bg_button_save"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false : true}"
-            android:letterSpacing="0.15"
             android:onClick="@{() -> viewModel.publishBoxResult(viewModel.box, viewModel.photoUrl)}"
-            android:text="SAVE"
+            android:paddingStart="12dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="5dp"
+            android:text="@string/save"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/text_create_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_create_box" />
 
         <ImageView
-            android:id="@+id/button_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/add_box_button_back"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -147,29 +125,37 @@
 
         <TextView
             android:id="@+id/text_create_box"
+            style="@style/textAppTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/berkshire_swash"
-            android:letterSpacing="0.15"
-            android:text='@{viewModel.box.id == null ? "Create Box" : "Edit Box"}'
-            tools:text="Create Box"
+            android:text="@{viewModel.box.id.empty ? @string/add_box_create : @string/add_box_edit_box}"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/button_back"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/add_box_button_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button_back" />
+            app:layout_constraintTop_toTopOf="@+id/add_box_button_back"
+            tools:text="@string/add_box_create" />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView5"-->
-<!--            android:layout_width="25dp"-->
-<!--            android:layout_height="25dp"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/button_save"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:srcCompat="@drawable/icon_check" />-->
+        <ImageView
+            android:id="@+id/abb_box_icon_title"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_box_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_box_title"
+            app:srcCompat="@drawable/icon_folder" />
 
+        <ProgressBar
+            android:theme="@style/ProgressTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@
 
     <item android:drawable="@drawable/icon_drawer"
         android:state_checked="false"
-        android:color = "@color/black_3f3a3a"/>
+        android:color = "@color/gray_888888"/>
     <item android:drawable="@drawable/icon_drawer_color"
         android:color = "@color/bottom_navigation_item_selected"
         android:state_checked="true"/>

@@ -12,41 +12,44 @@
 
     <!-- Text -->
     <style name="textAppTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:fontFamily">@font/berkshire_swash</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">#404a72</item>
+        <item name="android:textColor">@color/color_high_blue</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.15</item>
-
     </style>
 
-    <style name="textGeneral12">
+    <style name="textGeneral">
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="textGeneral12" parent="textGeneral">
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="textGeneral14">
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:letterSpacing">0.15</item>
-        <item name="android:textColor">@color/black_3f3a3a</item>
+    <style name="textGeneral14" parent="textGeneral">
         <item name="android:textSize">14sp</item>
     </style>
 
-
-    <style name="textTitle">
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:letterSpacing">0.15</item>
-        <item name="android:textColor">@color/black_3f3a3a</item>
+    <style name="textTitle15" parent="textGeneral">
         <item name="android:textSize">15sp</item>
     </style>
 
     <style name="TextInputHint" parent="TextAppearance.AppCompat.Small">
         <item name="android:textStyle">italic</item>
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
     </style>
+
+    <style name="textGeneralNoSpacing">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+
 
 
     <style name="LoginTheme" parent="FirebaseUI">

@@ -30,14 +30,13 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/toolbar_search"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:gravity="center_vertical"
                 android:screenReaderFocusable="true"
                 app:menu="@menu/toolbar_menu"
-                app:queryHint="請輸入關鍵字"
-                app:searchIcon="@drawable/icon_search_32">
+                app:queryHint="@string/hint_toolbar_search">
 
             </androidx.appcompat.widget.SearchView>
 
@@ -52,10 +51,8 @@
             app:defaultNavHost="true"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.0"
             app:navGraph="@navigation/navigation" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -68,7 +65,6 @@
             app:itemIconTint="@drawable/bottom_nav_item1_selector"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/bottom_nav_menu" />
@@ -76,17 +72,13 @@
 
         <TextView
             android:id="@+id/text_toolbar_title"
+            style="@style/textAppTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:elevation="@dimen/elevation_all"
-            android:fontFamily="@font/berkshire_swash"
-            android:letterSpacing="0.15"
             tools:text="Spot moment"
             android:text="@{viewModel.user.title}"
-            android:textColor="@color/color_highclass_blue"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME || viewModel.currentFragmentType == CurrentFragmentType.LIST || viewModel.currentFragmentType == CurrentFragmentType.PROFILE ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toEndOf="@+id/myNavHostFragment"

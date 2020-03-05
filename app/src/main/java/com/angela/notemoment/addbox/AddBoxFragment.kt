@@ -15,9 +15,9 @@ import com.hbb20.CountryCodePicker
 import androidx.fragment.app.viewModels
 import com.angela.notemoment.ext.getVmFactory
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.Logger
+import com.angela.notemoment.util.MyRequestCode
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_add_box.*
 import java.io.IOException
@@ -28,7 +28,10 @@ class AddBoxFragment : Fragment() {
     private lateinit var ccp: CountryCodePicker
     private var filePath: Uri? = null
 
-    private val viewModel by viewModels<AddBoxViewModel> { getVmFactory(AddBoxFragmentArgs.fromBundle(requireArguments()).BoxKey) }
+    private val viewModel by viewModels<AddBoxViewModel> {
+        getVmFactory(
+            AddBoxFragmentArgs.fromBundle(requireArguments()).BoxKey)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,11 +43,10 @@ class AddBoxFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_add_box, container, false)
 
         binding.lifecycleOwner = this
-
         binding.viewModel = viewModel
 
+        //country code
         ccp = binding.ccp
-
 
         viewModel.box.value?.country = ccp.selectedCountryName
 
@@ -54,33 +56,28 @@ class AddBoxFragment : Fragment() {
             viewModel.box.value?.country = ccp.selectedCountryName
         }
 
-        binding.buttonBack.setOnClickListener {
+        //upload photo
+        binding.addBoxUploadImage.setOnClickListener { launchGallery() }
+
+        viewModel.photoUrl.observe(viewLifecycleOwner, Observer {
+            Logger.d("photo uri :: $it")
+        })
+
+
+        binding.addBoxButtonBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
-
-
-        viewModel.box.observe(this, Observer {
+        viewModel.box.observe(viewLifecycleOwner, Observer {
             Logger.i("boxViewModel.box.observe, it=$it")
         })
 
-        viewModel.navigateToList.observe(this, Observer {
+        viewModel.navigateToList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(AddBoxFragmentDirections.actionGlobalListFragment())
                 viewModel.onListNavigated()
             }
         })
-
-        viewModel.photoUrl.observe(this, Observer {
-            Logger.d("photo uri :: $it")
-        })
-
-
-
-
-        //upload photo
-
-        binding.uploadImage.setOnClickListener { launchGallery() }
 
 
         return binding.root
@@ -89,15 +86,15 @@ class AddBoxFragment : Fragment() {
 
     private fun launchGallery() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = getString(R.string.launch_gallery_intent)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12)
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.launch_gallery_title)), MyRequestCode.LAUNCH_GALLERY.value)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
-            if(data == null || data.data == null){
+        if (requestCode == MyRequestCode.LAUNCH_GALLERY.value && resultCode == Activity.RESULT_OK) {
+            if (data == null || data.data == null) {
                 return
             }
             viewModel.photoUrl.value = data.data
@@ -105,61 +102,13 @@ class AddBoxFragment : Fragment() {
             try {
                 filePath = data.data
                 Glide.with(this).load(filePath).centerCrop()
-                    .into(upload_image)
+                    .into(add_box_upload_image)
 
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
     }
-
-//    private fun uploadImage(){
-//        if(filePath != null){
-//            val ref = storageReference?.child("uploads/" + UUID.randomUUID().toString())
-//            val uploadTask = ref?.putFile(filePath!!)
-//            val urlTask = uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-//                if (!task.isSuccessful) {
-//                    task.exception?.let {
-//                        Logger.i("task is not successful")
-//                        throw it
-//                    }
-//                }
-//                return@Continuation ref.downloadUrl
-//            })?.addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    Logger.i("task is successful")
-//
-//                    //toolbar_save to firestore
-//                    Logger.i(" boxViewModel.photoUrl.value = ${task.result}")
-//                    boxViewModel.addUploadRecordToDb(task.result.toString())
-//
-//                } else {
-//// Handle failures
-//                }
-//            }?.addOnFailureListener{
-//            }
-//        }else{
-//            Logger.i("Please Upload an Image")
-//            Toast.makeText(context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
-
-//    private fun addUploadRecordToDb(uri: String){
-//        val db = FirebaseFirestore.getInstance()
-//        val data = HashMap<String, Any>()
-//        data["imageUrl"] = uri
-//        db.collection("posts")
-//            .add(data)
-//            .addOnSuccessListener { documentReference ->
-//                Toast.makeText(context, "Saved to DB", Toast.LENGTH_LONG).show()
-//            }
-//            .addOnFailureListener { e ->
-//                Toast.makeText(context, "Error saving to DB", Toast.LENGTH_LONG).show()
-//            }
-//    }
-
-
 }
 
 

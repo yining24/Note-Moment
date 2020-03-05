@@ -1,9 +1,6 @@
 package com.angela.notemoment.addbox
 
-import android.content.Context
-import android.icu.text.SimpleDateFormat
 import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,14 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.angela.notemoment.data.Result
-import java.util.*
+import com.angela.notemoment.ext.showToast
 
 class AddBoxViewModel (private val repository: NoteRepository,
                        private val argument: Box?) : ViewModel() {
 
     private val _box = MutableLiveData<Box>()
         .apply {
-        value = argument
+            value = argument ?: Box()
     }
 
     val box: LiveData<Box>
@@ -37,14 +34,11 @@ class AddBoxViewModel (private val repository: NoteRepository,
         get() = _navigateToList
 
 
-
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
     private val _error = MutableLiveData<String>()
 
     val error: LiveData<String>
@@ -70,20 +64,20 @@ class AddBoxViewModel (private val repository: NoteRepository,
 
     fun publishBoxResult(box: Box, photoUrl: Uri? = null) {
 
-        Logger.i("publishBoxResult, canAddbox=$canAddbox")
-        if (canAddbox) {
+        Logger.i("publishBoxResult, canAddBox=$canAddBox")
+
+        if (canAddBox) {
             Logger.i("publishBoxResult, box=$box")
+
             coroutineScope.launch {
                 _status.value = LoadApiStatus.LOADING
-                Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
 
                 if (box.id.isEmpty()) {
                     when (val result = repository.publishBox(box, photoUrl)) {
                         is Result.Success -> {
                             _error.value = null
                             _status.value = LoadApiStatus.DONE
-                            Toast.makeText(NoteApplication.instance, "Add Success", Toast.LENGTH_SHORT)
-                                .show()
+                            this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.add_success))
                             navigateToList()
                         }
                         is Result.Fail -> {
@@ -104,8 +98,7 @@ class AddBoxViewModel (private val repository: NoteRepository,
                         is Result.Success -> {
                             _error.value = null
                             _status.value = LoadApiStatus.DONE
-                            Toast.makeText(NoteApplication.instance, "Edit Success", Toast.LENGTH_SHORT)
-                                .show()
+                            this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.edit_success))
                             navigateToList()
                         }
                         is Result.Fail -> {
@@ -124,17 +117,15 @@ class AddBoxViewModel (private val repository: NoteRepository,
                 }
             }
         } else {
-            Toast.makeText(NoteApplication.instance, "-- No title --", Toast.LENGTH_SHORT).show()
+            this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.hint_no_box_name))
         }
-
     }
 
 
-    val canAddbox
+    private val canAddBox
         get() = !box.value?.title.isNullOrEmpty()
 
-
-    fun navigateToList() {
+    private fun navigateToList() {
         _navigateToList.value = true
     }
 

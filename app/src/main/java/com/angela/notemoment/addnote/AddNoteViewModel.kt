@@ -40,7 +40,7 @@ class AddNoteViewModel (private val repository: NoteRepository,
 
     private val _boxes = MutableLiveData<List<Box>>()
 
-    val boxes: LiveData<List<Box>>
+    private val boxes: LiveData<List<Box>>
         get() = _boxes
 
     var keyBoxPosition = MutableLiveData<Int>().apply {

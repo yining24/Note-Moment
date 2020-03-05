@@ -11,19 +11,19 @@
     <item
         android:id="@+id/listFragment"
         android:icon="@drawable/bottom_nav_item1_selector"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="" />
 
     <item
         android:id="@+id/mapFragment"
         android:icon="@drawable/bottom_nav_item2_selector"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="" />
 
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/bottom_nav_item3_selector"
         android:title=""
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

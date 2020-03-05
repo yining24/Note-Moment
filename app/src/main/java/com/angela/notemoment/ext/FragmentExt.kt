@@ -50,7 +50,7 @@ fun ViewModel.showToast(message: String){
 
     Toast.makeText(NoteApplication.instance, message, Toast.LENGTH_SHORT).apply {
         this.setGravity(Gravity.CENTER, 0, 0)
-        this.view = layout
+//        this.view = layout
         show()
     }
 
