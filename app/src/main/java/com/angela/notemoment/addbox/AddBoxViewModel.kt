@@ -58,66 +58,80 @@ class AddBoxViewModel (private val repository: NoteRepository,
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
-
-
     }
 
-    fun publishBoxResult(box: Box, photoUrl: Uri? = null) {
 
-        Logger.i("publishBoxResult, canAddBox=$canAddBox")
+    fun save(box: Box, photoUrl: Uri? = null) {
+
+        Logger.i("save, canAddBox=$canAddBox")
 
         if (canAddBox) {
-            Logger.i("publishBoxResult, box=$box")
 
-            coroutineScope.launch {
-                _status.value = LoadApiStatus.LOADING
-
-                if (box.id.isEmpty()) {
-                    when (val result = repository.publishBox(box, photoUrl)) {
-                        is Result.Success -> {
-                            _error.value = null
-                            _status.value = LoadApiStatus.DONE
-                            this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.add_success))
-                            navigateToList()
-                        }
-                        is Result.Fail -> {
-                            _error.value = result.error
-                            _status.value = LoadApiStatus.ERROR
-                        }
-                        is Result.Error -> {
-                            _error.value = result.exception.toString()
-                            _status.value = LoadApiStatus.ERROR
-                        }
-                        else -> {
-                            _error.value = NoteApplication.instance.getString(R.string.fail)
-                            _status.value = LoadApiStatus.ERROR
-                        }
-                    }
-                } else {
-                    when (val result = repository.updateBox(box, photoUrl)) {
-                        is Result.Success -> {
-                            _error.value = null
-                            _status.value = LoadApiStatus.DONE
-                            this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.edit_success))
-                            navigateToList()
-                        }
-                        is Result.Fail -> {
-                            _error.value = result.error
-                            _status.value = LoadApiStatus.ERROR
-                        }
-                        is Result.Error -> {
-                            _error.value = result.exception.toString()
-                            _status.value = LoadApiStatus.ERROR
-                        }
-                        else -> {
-                            _error.value = NoteApplication.instance.getString(R.string.fail)
-                            _status.value = LoadApiStatus.ERROR
-                        }
-                    }
-                }
+            if (box.id.isEmpty()) {
+                publishBox(box, photoUrl)
+            } else {
+                updateBox(box, photoUrl)
             }
         } else {
             this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.hint_no_box_name))
+        }
+    }
+
+    private fun publishBox(box: Box, photoUrl: Uri? = null) {
+        Logger.i("publishBox, box=$box")
+
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.publishBox(box, photoUrl)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.add_success))
+                    navigateToList()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = NoteApplication.instance.getString(R.string.fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+    private fun updateBox(box: Box, photoUrl: Uri? = null) {
+        Logger.i("updateBox, box=$box")
+
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.updateBox(box, photoUrl)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.edit_success))
+                    navigateToList()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = NoteApplication.instance.getString(R.string.fail)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
         }
     }
 

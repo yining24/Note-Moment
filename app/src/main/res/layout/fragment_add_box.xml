@@ -95,20 +95,11 @@
 
         <TextView
             android:id="@+id/add_box_button_save"
-            style="@style/textGeneralNoSpacing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/saveAndEditButton"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_button_save"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false : true}"
-            android:onClick="@{() -> viewModel.publishBoxResult(viewModel.box, viewModel.photoUrl)}"
-            android:paddingStart="12dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="5dp"
+            android:onClick="@{() -> viewModel.save(viewModel.box, viewModel.photoUrl)}"
             android:text="@string/save"
-            android:textAlignment="center"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/text_create_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_create_box" />

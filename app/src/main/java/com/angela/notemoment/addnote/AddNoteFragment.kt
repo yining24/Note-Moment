@@ -11,16 +11,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.angela.notemoment.Logger
+import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentAddNoteBinding
 import com.angela.notemoment.ext.getVmFactory
-import com.angela.notemoment.Logger
+import com.angela.notemoment.util.MyRequestCode
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -35,8 +40,11 @@ import java.io.IOException
 import java.util.*
 
 
-
 class AddNoteFragment  : Fragment() , PlaceSelectionListener {
+
+    companion object {
+        private const val TIME_PICKER_THEME = 3
+    }
 
     private var filePath: Uri? = null
 
@@ -53,39 +61,27 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         binding.viewModel = viewModel
 
 
-        binding.noteButtonBack.setOnClickListener {
+        binding.addNoteButtonBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
 
-
-//        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
-//        mainViewModel.showToolbarSave()
-//
-//        val save = (activity as MainActivity).binding.toolbar.findViewById<View>(R.id.toolbar_save)
-//        save.setOnClickListener {
-//            if (boxViewModel.note.value != null) {
-//                boxViewModel.publishNoteResult(boxViewModel.note.value!!, boxViewModel.photoUrl.value, boxViewModel.selectedBox)
-//            }
-//        }
-
-
-        //date dialog picker
+        //date picker
         val cal = Calendar.getInstance()
         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
             cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), 0)
         Logger.i("set date is :${cal.time}")
 
-        val myFormat = "yyyy/MM/dd" // mention the format you need
+        val myFormat = getString(R.string.format_date) // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
         binding.selectDate.text = sdf.format(cal.time)
 
-        binding.selectTime.text = SimpleDateFormat("HH:mm").format(cal.time)
+        binding.selectTime.text = SimpleDateFormat(getString(R.string.format_time)).format(cal.time)
 
         viewModel.onChangeNoteTime(cal.timeInMillis)
 
 
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -102,16 +98,8 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
                 cal.get(Calendar.DAY_OF_MONTH)).show()
         }
 
-//        binding.selectTime.setOnClickListener {
-//            val hour = cal.get(Calendar.HOUR_OF_DAY)
-//            val minute = cal.get(Calendar.MINUTE)
-//            TimePickerDialog(context!!, 3,{
-//                    _, hour, minute->
-//                binding.selectTime.text = String.format("%02d:%02d", hour, minute)
-//            }, hour, minute, true).show()
-//        }
 
-        val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
             cal.set(Calendar.MINUTE, minute)
             viewModel.onChangeNoteTime(cal.timeInMillis)
@@ -119,7 +107,7 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         }
 
         binding.selectTime.setOnClickListener {
-            TimePickerDialog(requireContext(), 3, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)
+            TimePickerDialog(requireContext(), TIME_PICKER_THEME, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)
             , true).show()
         }
 
@@ -129,7 +117,6 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
                 viewModel.onListNavigated()
             }
         })
-
 
 
 
@@ -163,52 +150,35 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
 
 
-
-
-
         //place AutocompleteSupportFragment
-
         val apiKey = getString(R.string.google_map_api)
 
         if (!Places.isInitialized()) {
-            Places.initialize(context!!, apiKey)
+            Places.initialize(requireContext(), apiKey)
         }
-        val placesClient = Places.createClient(context!!)
-
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment) as AutocompleteSupportFragment
 
+        autocompleteFragment
+            .setHint(getString(R.string.hint_autocomplete_location))
+            .setPlaceFields(listOf(Place.Field.ADDRESS, Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+            .setOnPlaceSelectedListener(this)
 
-        /*AutocompleteFilter filter = new AutocompleteFilter.Builder()
-                .setCountry("IN")
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
-                .build();
-        autocompleteFragment.setFilter(filter);*/
+        val autocompleteText = (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText)
+        autocompleteText.textSize = 14.0f
+        autocompleteText.setTextColor(NoteApplication.instance.getColor(R.color.black_3f3a3a))
+        autocompleteText.setHintTextColor(NoteApplication.instance.getColor(R.color.hint_text_color))
 
-        autocompleteFragment.setHint("* Location")
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.ADDRESS, Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
-        autocompleteFragment.setOnPlaceSelectedListener(this)
-        (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText).textSize = 14.0f
-        (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText)
-            .setHintTextColor(resources.getColor(R.color.hint_text_color))
-
-
+        val autocompleteIcon = autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button) as ImageView
+        autocompleteIcon.visibility = View.GONE
 
 
         //upload photo
-        binding.uploadImage.setOnClickListener { launchGallery() }
-
+        binding.addNoteUploadImage.setOnClickListener { launchGallery() }
 
         return binding.root
 
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//
-//        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
-//        mainViewModel.hideToolbarSave()
-//    }
 
     override fun onError(status: Status) {
         Logger.i("An error occurred:  $status")
@@ -222,14 +192,14 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
     private fun launchGallery() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = getString(R.string.launch_gallery_intent)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12)
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.launch_gallery_title)), MyRequestCode.LAUNCH_GALLERY.value)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == MyRequestCode.LAUNCH_GALLERY.value && resultCode == Activity.RESULT_OK) {
             if(data == null || data.data == null){
                 return
             }
@@ -238,15 +208,13 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
             try {
                 filePath = data.data
                 Glide.with(this).load(filePath).centerCrop()
-                    .into(upload_image)
+                    .into(add_note_upload_image)
 
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
     }
-
-
 }
 
 

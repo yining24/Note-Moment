@@ -15,7 +15,7 @@
         <item name="android:fontFamily">@font/berkshire_swash</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/color_high_blue</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">22dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.15</item>
     </style>
@@ -27,15 +27,15 @@
     </style>
 
     <style name="textGeneral12" parent="textGeneral">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
     <style name="textGeneral14" parent="textGeneral">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="textTitle15" parent="textGeneral">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">15dp</item>
     </style>
 
     <style name="TextInputHint" parent="TextAppearance.AppCompat.Small">
@@ -45,8 +45,32 @@
 
     <style name="textGeneralNoSpacing">
         <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
+    </style>
+
+
+    <style name="saveAndEditButton">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">@drawable/bg_button_save</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+
+    <style name="hintIcon">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:tint">@color/black_3f3a3a</item>
     </style>
 
 
