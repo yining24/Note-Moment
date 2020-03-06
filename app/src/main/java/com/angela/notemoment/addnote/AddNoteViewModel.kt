@@ -12,13 +12,16 @@ import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.ext.checkAndUpdateDate
+import com.angela.notemoment.ext.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class AddNoteViewModel (private val repository: NoteRepository,
-                        private val argument: Box?) : ViewModel() {
+class AddNoteViewModel(
+    private val repository: NoteRepository,
+    private val argument: Box?
+) : ViewModel() {
 
     private val _box = MutableLiveData<Box>().apply {
         value = argument
@@ -31,11 +34,8 @@ class AddNoteViewModel (private val repository: NoteRepository,
         .apply {
             value = Note()
         }
-
     val note: LiveData<Note>
         get() = _note
-
-    var content = MutableLiveData<String>()
 
 
     private val _boxes = MutableLiveData<List<Box>>()
@@ -43,20 +43,21 @@ class AddNoteViewModel (private val repository: NoteRepository,
     private val boxes: LiveData<List<Box>>
         get() = _boxes
 
+
     var keyBoxPosition = MutableLiveData<Int>().apply {
         value = -1
     }
 
-
-    private val _navigateToList = MutableLiveData<Boolean>()
-
-    val navigateToList: LiveData<Boolean>
-        get() = _navigateToList
+    var content = MutableLiveData<String>()
 
     var photoUrl = MutableLiveData<Uri>()
 
     var selectedBox = Box()
 
+    private val _navigateToList = MutableLiveData<Boolean>()
+
+    val navigateToList: LiveData<Boolean>
+        get() = _navigateToList
 
 
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -91,7 +92,7 @@ class AddNoteViewModel (private val repository: NoteRepository,
 
     fun publishNoteResult(note: Note, photoUrl: Uri? = null, selectedBox: Box) {
 
-        note.content = content.value?: ""
+        note.content = content.value ?: ""
 
         if (canAddNote) {
             coroutineScope.launch {
@@ -105,14 +106,14 @@ class AddNoteViewModel (private val repository: NoteRepository,
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
                         selectedBox.checkAndUpdateDate(repository)
-                        Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
+                        showToast(NoteApplication.instance.getString(R.string.add_success))
                         navigateToList()
 
                     }
                     is Result.Fail -> {
                         _error.value = result.error
                         _status.value = LoadApiStatus.ERROR
-                        Toast.makeText(NoteApplication.instance, "Fail", Toast.LENGTH_SHORT).show()
+                        showToast(NoteApplication.instance.getString(R.string.fail))
                     }
                     is Result.Error -> {
                         _error.value = result.exception.toString()
@@ -125,7 +126,7 @@ class AddNoteViewModel (private val repository: NoteRepository,
                 }
             }
         } else {
-            Toast.makeText(NoteApplication.instance, "-- Fields marked with * are required --", Toast.LENGTH_SHORT).show()
+            showToast(NoteApplication.instance.getString(R.string.hint_add_note_required_fields))
         }
     }
 
@@ -166,17 +167,16 @@ class AddNoteViewModel (private val repository: NoteRepository,
     }
 
 
-    val boxList = Transformations.map(boxes){
-        val boxTitleList = mutableListOf<String>()
-
-        for (box in it){
-            boxTitleList.add(box.title)
+    val boxList = Transformations.map(boxes) {
+        val boxesTitle = mutableListOf<String>()
+        for (box in it) {
+            boxesTitle.add(box.title)
         }
-        boxTitleList
+        boxesTitle
     }
 
 
-    fun findKeyBoxPosition(boxes: List<Box>) {
+    private fun findKeyBoxPosition(boxes: List<Box>) {
         val argBoxId = box.value?.id
 
         for ((index, box) in boxes.withIndex()) {
@@ -188,7 +188,7 @@ class AddNoteViewModel (private val repository: NoteRepository,
         Logger.i("box position === ${keyBoxPosition.value}")
     }
 
-    fun selectBoxPosition(position : Int){
+    fun selectBoxPosition(position: Int) {
         boxes.value?.let {
             selectedBox = it[position]
             note.value?.boxId = selectedBox.id
@@ -198,7 +198,7 @@ class AddNoteViewModel (private val repository: NoteRepository,
     }
 
 
-    fun selectedPlace(name : String, lat: Double, lng: Double) {
+    fun selectedPlace(name: String, lat: Double, lng: Double) {
         note.value?.locateName = name
         note.value?.lat = lat
         note.value?.lng = lng

@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.angela.notemoment.data.Result
+import com.google.firebase.auth.FirebaseAuth
 
 class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
 
@@ -70,7 +71,10 @@ class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getBoxesResult()
+        FirebaseAuth.getInstance().currentUser?.let {
+
+            getBoxesResult()
+        }
 
     }
 

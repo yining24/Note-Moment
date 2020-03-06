@@ -1,12 +1,9 @@
 package com.angela.notemoment.ext
 
-import android.app.Activity
-import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.angela.notemoment.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
@@ -17,7 +14,6 @@ import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.factory.ViewModelFactory
 import com.angela.notemoment.factory.BoxViewModelFactory
 import com.angela.notemoment.factory.DetailNoteViewModelFactory
-import kotlinx.coroutines.withContext
 
 
 fun Fragment.getVmFactory(): ViewModelFactory {
@@ -37,13 +33,13 @@ fun Fragment.getVmFactory(note: Note, box: Box): DetailNoteViewModelFactory {
 
 
 fun Fragment.showToast(message: String) {
-    Toast.makeText(NoteApplication.instance, message, Toast.LENGTH_SHORT).apply {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).apply {
         setGravity(Gravity.CENTER, 0, 0)
         show()
     }
 }
 
-fun ViewModel.showToast(message: String){
+fun showToast(message: String){
 
     val layoutInflater = LayoutInflater.from(NoteApplication.instance)
     val layout = layoutInflater.inflate(R.layout.item_list_note, null, false)

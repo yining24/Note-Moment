@@ -30,7 +30,8 @@ class AddBoxFragment : Fragment() {
 
     private val viewModel by viewModels<AddBoxViewModel> {
         getVmFactory(
-            AddBoxFragmentArgs.fromBundle(requireArguments()).BoxKey)
+            AddBoxFragmentArgs.fromBundle(requireArguments()).BoxKey
+        )
     }
 
     override fun onCreateView(
@@ -88,7 +89,12 @@ class AddBoxFragment : Fragment() {
         val intent = Intent()
         intent.type = getString(R.string.launch_gallery_intent)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.launch_gallery_title)), MyRequestCode.LAUNCH_GALLERY.value)
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                getString(R.string.launch_gallery_title)
+            ), MyRequestCode.LAUNCH_GALLERY.value
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

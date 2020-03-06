@@ -73,7 +73,7 @@ class AddBoxViewModel (private val repository: NoteRepository,
                 updateBox(box, photoUrl)
             }
         } else {
-            this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.hint_no_box_name))
+            showToast(NoteApplication.instance.getString(R.string.hint_no_box_name))
         }
     }
 
@@ -87,12 +87,13 @@ class AddBoxViewModel (private val repository: NoteRepository,
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.add_success))
+                    showToast(NoteApplication.instance.getString(R.string.add_success))
                     navigateToList()
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
+                    showToast(NoteApplication.instance.getString(R.string.fail))
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
@@ -116,7 +117,7 @@ class AddBoxViewModel (private val repository: NoteRepository,
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    this@AddBoxViewModel.showToast(NoteApplication.instance.getString(R.string.edit_success))
+                    showToast(NoteApplication.instance.getString(R.string.edit_success))
                     navigateToList()
                 }
                 is Result.Fail -> {

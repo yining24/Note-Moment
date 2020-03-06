@@ -40,7 +40,7 @@ import java.io.IOException
 import java.util.*
 
 
-class AddNoteFragment  : Fragment() , PlaceSelectionListener {
+class AddNoteFragment : Fragment(), PlaceSelectionListener {
 
     companion object {
         private const val TIME_PICKER_THEME = 3
@@ -48,7 +48,13 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
     private var filePath: Uri? = null
 
-    private val viewModel by viewModels<AddNoteViewModel> { getVmFactory(AddNoteFragmentArgs.fromBundle(requireArguments()).BoxKey) }
+    private val viewModel by viewModels<AddNoteViewModel> {
+        getVmFactory(
+            AddNoteFragmentArgs.fromBundle(
+                requireArguments()
+            ).BoxKey
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,8 +74,10 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
         //date picker
         val cal = Calendar.getInstance()
-        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
-            cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), 0)
+        cal.set(
+            cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+            cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), 0
+        )
         Logger.i("set date is :${cal.time}")
 
         val myFormat = getString(R.string.format_date) // mention the format you need
@@ -81,21 +89,24 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         viewModel.onChangeNoteTime(cal.timeInMillis)
 
 
-        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            viewModel.onChangeNoteTime(cal.timeInMillis)
+                viewModel.onChangeNoteTime(cal.timeInMillis)
 
-            binding.selectDate.text = sdf.format(cal.time)
-        }
+                binding.selectDate.text = sdf.format(cal.time)
+            }
 
         binding.selectDate.setOnClickListener {
-            DatePickerDialog(requireContext(), dateSetListener,
+            DatePickerDialog(
+                requireContext(), dateSetListener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)).show()
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
 
 
@@ -107,8 +118,15 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         }
 
         binding.selectTime.setOnClickListener {
-            TimePickerDialog(requireContext(), TIME_PICKER_THEME, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)
-            , true).show()
+            TimePickerDialog(
+                requireContext(),
+                TIME_PICKER_THEME,
+                timeSetListener,
+                cal.get(Calendar.HOUR_OF_DAY),
+                cal.get(Calendar.MINUTE)
+                ,
+                true
+            ).show()
         }
 
         viewModel.navigateToList.observe(viewLifecycleOwner, Observer {
@@ -119,22 +137,23 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         })
 
 
-
         // spinner listener
         val spinner = binding.selectBox
 
-        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 viewModel.selectBoxPosition(pos)
                 Logger.i("pos = $pos")
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
 
         viewModel.boxList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.selectBox.adapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_addnote_box_spinner, it) {
+                binding.selectBox.adapter = object :
+                    ArrayAdapter<String>(requireContext(), R.layout.item_addnote_box_spinner, it) {
 
                 }
             }
@@ -148,8 +167,6 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         })
 
 
-
-
         //place AutocompleteSupportFragment
         val apiKey = getString(R.string.google_map_api)
 
@@ -161,15 +178,24 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
 
         autocompleteFragment
             .setHint(getString(R.string.hint_autocomplete_location))
-            .setPlaceFields(listOf(Place.Field.ADDRESS, Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+            .setPlaceFields(
+                listOf(
+                    Place.Field.ADDRESS,
+                    Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.LAT_LNG
+                )
+            )
             .setOnPlaceSelectedListener(this)
 
-        val autocompleteText = (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText)
+        val autocompleteText =
+            (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText)
         autocompleteText.textSize = 14.0f
         autocompleteText.setTextColor(NoteApplication.instance.getColor(R.color.black_3f3a3a))
         autocompleteText.setHintTextColor(NoteApplication.instance.getColor(R.color.hint_text_color))
 
-        val autocompleteIcon = autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button) as ImageView
+        val autocompleteIcon =
+            autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button) as ImageView
         autocompleteIcon.visibility = View.GONE
 
 
@@ -186,7 +212,11 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
     }
 
     override fun onPlaceSelected(p0: Place) {
-        viewModel.selectedPlace(p0.name?:"" , p0.latLng?.latitude?: 0.0,  p0.latLng?.longitude?: 0.0)
+        viewModel.selectedPlace(
+            p0.name ?: "",
+            p0.latLng?.latitude ?: 0.0,
+            p0.latLng?.longitude ?: 0.0
+        )
         Logger.i("selected place :: ${p0.latLng}")
     }
 
@@ -194,13 +224,18 @@ class AddNoteFragment  : Fragment() , PlaceSelectionListener {
         val intent = Intent()
         intent.type = getString(R.string.launch_gallery_intent)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.launch_gallery_title)), MyRequestCode.LAUNCH_GALLERY.value)
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                getString(R.string.launch_gallery_title)
+            ), MyRequestCode.LAUNCH_GALLERY.value
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == MyRequestCode.LAUNCH_GALLERY.value && resultCode == Activity.RESULT_OK) {
-            if(data == null || data.data == null){
+            if (data == null || data.data == null) {
                 return
             }
             viewModel.photoUrl.value = data.data

@@ -1,7 +1,6 @@
 package com.angela.notemoment.data.source.remote
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.angela.notemoment.Logger
@@ -12,6 +11,7 @@ import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteDataSource
+import com.angela.notemoment.login.UserManager
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -19,72 +19,74 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import java.net.URI
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object NoteRemoteDataSource : NoteDataSource {
 
-    val user = MutableLiveData<User>()
+
     private const val PATH_USER = "users"
-    private const val PATH_BOX = "boxes"
+    private const val PATH_BOX  = "boxes"
     private const val PATH_NOTE = "notes"
+
+    private val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
+    private val currentUser = FirebaseAuth.getInstance().currentUser?.uid
+
 
     override fun getUser(id: String): LiveData<User> {
         val user = MutableLiveData<User>()
-            FirebaseFirestore.getInstance()
-                .collection(PATH_USER)
-                .document(id)
-                .addSnapshotListener { snapshot, e ->
-                    if (e != null) {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
-                        return@addSnapshotListener
-                    }
-                    if (snapshot != null && snapshot.exists()) {
-                        user.value = snapshot.toObject(User::class.java)!!
-                        Logger.i("getUser:::${user.value}")
-                    } else {
-                        Logger.d("Current data: null")
-                    }
+        FirebaseFirestore.getInstance()
+            .collection(PATH_USER)
+            .document(id)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
+                    return@addSnapshotListener
                 }
+                if (snapshot != null && snapshot.exists()) {
+                    user.value = snapshot.toObject(User::class.java)
+                    Logger.i("getUser:::${user.value}")
+                } else {
+                    Logger.d("Current data: null")
+                }
+            }
         return user
-        }
+    }
 
 
     override suspend fun updateUser(user: User): Result<Boolean> =
         suspendCoroutine { continuation ->
 
             val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
-            val currentUser= firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            val currentUser =
+                firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
 
             currentUser.set(user)
                 .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Logger.i("task is successful")
-                            Logger.i("update user = $user")
+                    if (task.isSuccessful) {
+                        Logger.i("task is successful")
+                        Logger.i("update user = $user")
 
-                            continuation.resume(Result.Success(true))
+                        continuation.resume(Result.Success(true))
 
-                        } else {
-                            task.exception?.let {
-                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                                continuation.resume(Result.Error(it))
-                                return@addOnCompleteListener
-                            }
-                            continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
                         }
-                                }
-                        }
-
-
+                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                    }
+                }
+        }
 
 
     override suspend fun getBox(): Result<List<Box>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
                 .collection(PATH_USER)
-                .document(FirebaseAuth.getInstance().currentUser?.uid ?:"")
+                .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
                 .collection(PATH_BOX)
                 .orderBy("endDate", Query.Direction.DESCENDING)
                 .get()
@@ -110,14 +112,13 @@ object NoteRemoteDataSource : NoteDataSource {
         }
 
 
-
-    override suspend fun getNote(boxId:String): Result<List<Note>> =
+    override suspend fun getNote(boxId: String): Result<List<Note>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
                 .collection(PATH_USER)
                 .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
                 .collection(PATH_NOTE)
-                .whereEqualTo("boxId",boxId)
+                .whereEqualTo("boxId", boxId)
                 .orderBy("time", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener { task ->
@@ -169,7 +170,6 @@ object NoteRemoteDataSource : NoteDataSource {
         }
 
 
-
     override suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean> =
         suspendCoroutine { continuation ->
 
@@ -217,11 +217,17 @@ object NoteRemoteDataSource : NoteDataSource {
                                             continuation.resume(Result.Error(it))
                                             return@addOnCompleteListener
                                         }
-                                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                                        continuation.resume(
+                                            Result.Fail(
+                                                NoteApplication.instance.getString(
+                                                    R.string.fail
+                                                )
+                                            )
+                                        )
                                     }
                                 }
                         }
-                    }.addOnFailureListener{
+                    }.addOnFailureListener {
                         Logger.i("task is Failure")
                     }
             } else {
@@ -290,11 +296,17 @@ object NoteRemoteDataSource : NoteDataSource {
                                             continuation.resume(Result.Error(it))
                                             return@addOnCompleteListener
                                         }
-                                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.fail)))
+                                        continuation.resume(
+                                            Result.Fail(
+                                                NoteApplication.instance.getString(
+                                                    R.string.fail
+                                                )
+                                            )
+                                        )
                                     }
                                 }
                         }
-                    }.addOnFailureListener{
+                    }.addOnFailureListener {
                         Logger.i("task is Failure")
                     }
             } else {
@@ -324,7 +336,7 @@ object NoteRemoteDataSource : NoteDataSource {
             val storageReference = FirebaseStorage.getInstance().reference
             val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
 
-            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid?:"")
+            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
             val noteDocument =
                 document.collection(PATH_NOTE).document(note.id)
 
@@ -370,7 +382,7 @@ object NoteRemoteDataSource : NoteDataSource {
                                     }
                                 }
                         }
-                    }.addOnFailureListener{
+                    }.addOnFailureListener {
                         Logger.i("task is Failure")
                     }
             } else {
@@ -391,22 +403,19 @@ object NoteRemoteDataSource : NoteDataSource {
                         }
                     }
             }
-            }
+        }
 
 
-
-
-
-    override suspend fun publishNote(note: Note, boxId:String, uri: Uri?): Result<Boolean> =
+    override suspend fun publishNote(note: Note, boxId: String, uri: Uri?): Result<Boolean> =
         suspendCoroutine { continuation ->
 
             val storageReference = FirebaseStorage.getInstance().reference
             val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
 
-        val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
             val noteDocument =
                 document
-                .collection(PATH_NOTE)
+                    .collection(PATH_NOTE)
                     .document()
 
             note.id = noteDocument.id
@@ -453,7 +462,7 @@ object NoteRemoteDataSource : NoteDataSource {
                                     }
                                 }
                         }
-                    }.addOnFailureListener{
+                    }.addOnFailureListener {
                         Logger.i("task is Failure")
                     }
             } else {

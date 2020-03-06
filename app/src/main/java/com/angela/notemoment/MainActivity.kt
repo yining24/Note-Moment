@@ -30,6 +30,7 @@ import android.animation.AnimatorListenerAdapter
 import android.view.animation.*
 import androidx.navigation.ui.setupWithNavController
 import com.angela.notemoment.data.source.NoteRepository
+import com.angela.notemoment.login.UserManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +56,10 @@ class MainActivity : AppCompatActivity() {
         //check login status
         val authListener: FirebaseAuth.AuthStateListener =
             FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
+
+                Logger.i("test user manager, UserManager.userId=${UserManager.userId}}")
+                Logger.i("test user manager, UserManager.isLogin=${UserManager.isLogin}}")
+
                 val user: FirebaseUser? = auth.currentUser
                 if (user == null) {
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalLoginFragment())
@@ -63,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     val user = FirebaseAuth.getInstance().currentUser
                     Logger.i("main login ${user?.displayName}")
                     viewModel.getUser(user?.uid?:"")
-                    viewModel.getBoxesResult()
+//                    viewModel.getBoxesResult()
 
                     viewModel.user.observe(this, Observer {
                         it.let {

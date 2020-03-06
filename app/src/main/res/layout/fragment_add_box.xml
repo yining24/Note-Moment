@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.angela.notemoment.addbox.AddBoxViewModel" />
-        <import type="com.angela.notemoment.LoadApiStatus"/>
-        <import type="android.view.View"/>
+
+        <import type="com.angela.notemoment.LoadApiStatus" />
+
+        <import type="android.view.View" />
 
     </data>
 
@@ -39,9 +42,9 @@
             android:layout_marginEnd="16dp"
             android:background="@color/transparent"
             android:hint="@string/hint_add_box_title"
-            android:paddingStart="10dp"
             android:imeOptions="actionDone"
             android:maxLength="20"
+            android:paddingStart="10dp"
             android:singleLine="true"
             android:text="@={viewModel.box.title}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,10 +68,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:visibility="@{viewModel.box.id.empty ? View.VISIBLE : View.GONE}"
-            app:ccp_contentColor="@color/black_3f3a3a"
-            app:ccpDialog_textColor="@color/black_3f3a3a"
             app:ccpDialog_showCloseIcon="true"
+            app:ccpDialog_textColor="@color/black_3f3a3a"
             app:ccp_autoDetectCountry="true"
+            app:ccp_contentColor="@color/black_3f3a3a"
             app:ccp_countryPreference="TW,US,JP"
             app:ccp_defaultLanguage="ENGLISH"
             app:ccp_defaultNameCode="TW"
@@ -139,15 +142,15 @@
             app:srcCompat="@drawable/icon_folder" />
 
         <ProgressBar
-            android:theme="@style/ProgressTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:theme="@style/ProgressTheme"
             android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-        </layout>
+</layout>
