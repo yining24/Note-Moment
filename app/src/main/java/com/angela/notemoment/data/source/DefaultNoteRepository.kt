@@ -7,6 +7,7 @@ import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.local.NoteLocalDataSource
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -20,6 +21,10 @@ class DefaultNoteRepository (private val remoteDataSource: NoteDataSource,
 
     override suspend fun updateUser(user: User): Result<Boolean>{
         return remoteDataSource.updateUser(user)
+    }
+
+    override suspend fun checkUser(id: String): Result<Boolean>{
+        return remoteDataSource.checkUser(id)
     }
 
     override suspend fun getBox(): Result<List<Box>> {

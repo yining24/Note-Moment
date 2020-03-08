@@ -8,6 +8,7 @@ import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteDataSource
+import com.google.firebase.auth.FirebaseUser
 
 class NoteLocalDataSource (val context: Context) : NoteDataSource {
 
@@ -17,6 +18,11 @@ class NoteLocalDataSource (val context: Context) : NoteDataSource {
 
     override suspend fun updateUser(user: User): Result<Boolean>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun checkUser(id: String): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override suspend fun getBox(): Result<List<Box>>{

@@ -15,6 +15,7 @@ import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.ext.showToast
+import com.angela.notemoment.login.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -115,6 +116,7 @@ class ProfileViewModel (private val repository: NoteRepository) : ViewModel() {
             isEditable.value = true
         } else {
             isEditable.value = false
+
             updateUserResult(user.value!!)
         }
 

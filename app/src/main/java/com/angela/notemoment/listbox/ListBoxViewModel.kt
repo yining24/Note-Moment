@@ -71,16 +71,10 @@ class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        FirebaseAuth.getInstance().currentUser?.let {
-
-            getBoxesResult()
-        }
-
     }
 
 
-
-    private fun getBoxesResult() {
+    fun getBoxesResult() {
 
         coroutineScope.launch {
 

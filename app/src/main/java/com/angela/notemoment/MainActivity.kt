@@ -35,11 +35,9 @@ import com.angela.notemoment.login.UserManager
 
 class MainActivity : AppCompatActivity() {
 
-    private val RC_SIGN_IN = 123
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     lateinit var binding: ActivityMainBinding
-
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,51 +48,13 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         setupBottomNav()
-
-
-
-        //check login status
-        val authListener: FirebaseAuth.AuthStateListener =
-            FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
-
-                Logger.i("test user manager, UserManager.userId=${UserManager.userId}}")
-                Logger.i("test user manager, UserManager.isLogin=${UserManager.isLogin}}")
-
-                val user: FirebaseUser? = auth.currentUser
-                if (user == null) {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalLoginFragment())
-
-                } else {
-                    val user = FirebaseAuth.getInstance().currentUser
-                    Logger.i("main login ${user?.displayName}")
-                    viewModel.getUser(user?.uid?:"")
-//                    viewModel.getBoxesResult()
-
-                    viewModel.user.observe(this, Observer {
-                        it.let {
-                            Logger.w("observe::${it}")
-                            binding.textToolbarTitle.text = it.title
-                        }
-                    })
-
-
-                }
-            }
-        FirebaseAuth.getInstance().addAuthStateListener(authListener)
-
         setupNavController()
-
-
 
     }
 
 
     private fun setupBottomNav() {
-//        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         binding.bottomNavView.itemIconTintList = null
-//        val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
-//        val itemView = menuView.getChildAt(2) as BottomNavigationItemView
-
     }
 
     private fun setupNavController() {

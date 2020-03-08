@@ -15,6 +15,7 @@ import com.angela.notemoment.login.UserManager
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
@@ -29,15 +30,14 @@ object NoteRemoteDataSource : NoteDataSource {
     private const val PATH_USER = "users"
     private const val PATH_BOX  = "boxes"
     private const val PATH_NOTE = "notes"
+    private const val APP_TITLE = "Spot Moment"
 
     private val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
-    private val currentUser = FirebaseAuth.getInstance().currentUser?.uid
 
 
     override fun getUser(id: String): LiveData<User> {
         val user = MutableLiveData<User>()
-        FirebaseFirestore.getInstance()
-            .collection(PATH_USER)
+        firebaseStore
             .document(id)
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
@@ -58,11 +58,9 @@ object NoteRemoteDataSource : NoteDataSource {
     override suspend fun updateUser(user: User): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
-            val currentUser =
-                firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-
-            currentUser.set(user)
+            firebaseStore
+                .document(user.id)
+                .set(user)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Logger.i("task is successful")
@@ -80,6 +78,58 @@ object NoteRemoteDataSource : NoteDataSource {
                     }
                 }
         }
+
+
+    override suspend fun checkUser(id: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            FirebaseAuth.getInstance().currentUser?.let { user ->
+                firebaseStore
+                    .document(id)
+                    .get()
+                    .addOnSuccessListener {
+                        Logger.w("check snap shot :: $it")
+                        if (!it.exists()) {
+                            firebaseStore
+                                .document(id)
+                                .set(
+                                    User(
+                                        user.uid,
+                                        user.displayName?:"",
+                                        APP_TITLE,
+                                        user.email?:""
+                                    )
+                                )
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Logger.w("First login is Successful set : ${user.displayName}")
+                                        continuation.resume(Result.Success(true))
+                                    } else {
+                                        task.exception?.let { e ->
+                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
+                                            continuation.resume(Result.Error(e))
+                                            return@addOnCompleteListener
+                                        }
+                                        continuation.resume(
+                                            Result.Fail(
+                                                NoteApplication.instance.getString(
+                                                    R.string.fail
+                                                )
+                                            )
+                                        )
+                                    }
+                                }
+
+                        } else {
+                            continuation.resume(Result.Success(true))
+                            Logger.w("[${this::class.simpleName}]Not first login : ${user.displayName}")
+                        }
+                    }
+            }
+                }
+
+
+
 
 
     override suspend fun getBox(): Result<List<Box>> =

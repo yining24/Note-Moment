@@ -6,12 +6,15 @@ import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.User
+import com.google.firebase.auth.FirebaseUser
 
 interface NoteDataSource {
 
     fun getUser(id: String): LiveData<User>
 
     suspend fun updateUser(user: User): Result<Boolean>
+
+    suspend fun checkUser(id: String): Result<Boolean>
 
     suspend fun getBox(): Result<List<Box>>
 

@@ -37,8 +37,6 @@ class ProfileFragment : Fragment() {
         }
 
 
-
-
         viewModel.isEditable.observe(viewLifecycleOwner, Observer {
                 Logger.i("isEditable::$it")
         })
