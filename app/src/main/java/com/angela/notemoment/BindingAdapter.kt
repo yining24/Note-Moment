@@ -60,11 +60,14 @@ fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
 @BindingAdapter("requestFocus")
 fun requestFocus(view: TextView, requestFocus: Boolean) {
     when (requestFocus) {
-        true -> {view.isFocusableInTouchMode = true
-        view.isFocusable = true}
-        false -> {view.isFocusableInTouchMode = false
-            view.isFocusable = false}
-
+        true -> {
+            view.isFocusableInTouchMode = true
+            view.isFocusable = true
+        }
+        false -> {
+            view.isFocusableInTouchMode = false
+            view.isFocusable = false
+        }
     }
 }
 
@@ -118,6 +121,20 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
+@BindingAdapter("imageUrlPlaceholderWide")
+fun bindImagePlaceholderWide(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions().centerCrop()
+                    .placeholder(R.drawable.placeholder_logo_wide)
+                    .error(R.drawable.placeholder_logo_wide))
+            .into(imgView)
+    }
+}
+
 
 @BindingAdapter("imageUrlAddBox")
 fun bindImageAddBox(imgView: ImageView, imgUrl: String?) {
@@ -132,8 +149,6 @@ fun bindImageAddBox(imgView: ImageView, imgUrl: String?) {
             .into(imgView)
     }
 }
-
-
 
 
 @BindingAdapter("imageUrlUser")

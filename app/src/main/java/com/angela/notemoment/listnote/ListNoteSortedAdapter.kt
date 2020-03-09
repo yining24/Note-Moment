@@ -30,7 +30,7 @@ class ListNoteSortedAdapter (val viewModel: ListNoteViewModel) : ListAdapter<Lis
 
     companion object DiffCallback : DiffUtil.ItemCallback<ListNoteSorted>() {
         override fun areItemsTheSame(oldItem: ListNoteSorted, newItem: ListNoteSorted): Boolean {
-            return oldItem === newItem
+            return oldItem.notes == newItem.notes
         }
 
         override fun areContentsTheSame(oldItem: ListNoteSorted, newItem: ListNoteSorted): Boolean {

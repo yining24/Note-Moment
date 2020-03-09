@@ -39,7 +39,11 @@ class DefaultNoteRepository (private val remoteDataSource: NoteDataSource,
         return remoteDataSource.getAllNote()
     }
 
-    override suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean>{
+    override fun getLiveNotes(boxId:String): LiveData<List<Note>>{
+        return remoteDataSource.getLiveNotes(boxId)
+    }
+
+        override suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean>{
         return remoteDataSource.publishBox(box, uri)
     }
 

@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.Logger
 import com.angela.notemoment.NavigationDirections
 import com.angela.notemoment.R
+import com.angela.notemoment.addnote.SelectBoxSpinnerAdapter
 import com.angela.notemoment.databinding.FragmentDetailNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.util.MyRequestCode
@@ -70,10 +71,8 @@ class DetailNoteFragment : Fragment() {
         binding.selectDate.text = sdfDate.format(viewModel.note.value?.time)
         binding.selectTime.text = sdfTime.format(viewModel.note.value?.time)
 
-//        binding.selectTime.text = SimpleDateFormat(getString(R.string.format_time)).format(viewModel.note.value?.time)
 
-
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -109,7 +108,6 @@ class DetailNoteFragment : Fragment() {
         // spinner listener
         val boxSpinner = binding.changeBox
 
-
         boxSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 viewModel.changeBoxPosition(pos)
@@ -121,8 +119,7 @@ class DetailNoteFragment : Fragment() {
 
         viewModel.allBoxList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.changeBox.adapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_detail_box_spinner, it) {
-                }
+                binding.changeBox.adapter = SelectBoxSpinnerAdapter(it)
             }
         })
 

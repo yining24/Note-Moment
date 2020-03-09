@@ -23,14 +23,14 @@
     <string name="hint_no_box_name">-- Enter box name --</string>
 
     <!-- Add Note -->
-    <string name="hint_add_note_title">* Title</string>
+    <string name="hint_add_note_title">Title*</string>
     <string name="hint_add_note_content">Content</string>
     <string name="text_create_note">Create Note</string>
     <string name="spinner_select_box">Select one box</string>
     <string name="hint_toolbar_search">請輸入關鍵字</string>
     <string name="format_date">yyyy/MM/dd</string>
     <string name="format_time">HH:mm</string>
-    <string name="hint_autocomplete_location">* Location</string>
+    <string name="hint_autocomplete_location">Location\u0020*</string>
     <string name="hint_add_note_required_fields">-- Fields marked with * are required --</string>
 
 

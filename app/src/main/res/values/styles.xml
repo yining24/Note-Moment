@@ -80,19 +80,25 @@
     </style>
 
     <style name="saveAndEditButton">
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:textColor">@color/black_3f3a3a</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:background">@drawable/bg_button_save</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
     </style>
+
+
+<!--    <style name="saveAndEditButton">-->
+<!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+<!--        <item name="android:textSize">14dp</item>-->
+<!--        <item name="android:textColor">@color/black_3f3a3a</item>-->
+<!--        <item name="android:paddingStart">12dp</item>-->
+<!--        <item name="android:paddingTop">5dp</item>-->
+<!--        <item name="android:paddingEnd">12dp</item>-->
+<!--        <item name="android:paddingBottom">5dp</item>-->
+<!--        <item name="android:background">@drawable/bg_frame_with_radius</item>-->
+<!--        <item name="android:layout_width">wrap_content</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:textAlignment">center</item>-->
+<!--        <item name="android:textStyle">bold</item>-->
+<!--    </style>-->
 
     <style name="hintIcon">
         <item name="android:layout_width">20dp</item>

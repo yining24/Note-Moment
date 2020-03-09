@@ -130,8 +130,6 @@ object NoteRemoteDataSource : NoteDataSource {
 
 
 
-
-
     override suspend fun getBox(): Result<List<Box>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
@@ -218,6 +216,33 @@ object NoteRemoteDataSource : NoteDataSource {
                     }
                 }
         }
+
+
+    override fun getLiveNotes(boxId:String): LiveData<List<Note>> {
+        val notes = MutableLiveData<List<Note>>()
+        FirebaseFirestore.getInstance()
+            .collection(PATH_USER)
+            .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            .collection(PATH_NOTE)
+            .whereEqualTo("boxId",boxId)
+            .orderBy("time", Query.Direction.ASCENDING)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
+                    return@addSnapshotListener
+                }
+                snapshot?.let {
+                    val list = mutableListOf<Note>()
+                    for (document in it) {
+                        Logger.d(document.id + " => " + document.data)
+                        val note = document.toObject(Note::class.java)
+                        list.add(note)
+                    }
+                    notes.value = list
+                }
+            }
+        return notes
+    }
 
 
     override suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean> =

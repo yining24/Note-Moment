@@ -29,7 +29,7 @@ class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, List
 
     companion object DiffCallback : DiffUtil.ItemCallback<Box>() {
         override fun areItemsTheSame(oldItem: Box, newItem: Box): Boolean {
-            return oldItem === newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Box, newItem: Box): Boolean {

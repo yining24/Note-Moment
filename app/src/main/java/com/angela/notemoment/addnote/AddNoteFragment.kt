@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.res.AssetManager
+import android.graphics.Typeface
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
@@ -15,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -44,6 +47,8 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
 
     companion object {
         private const val TIME_PICKER_THEME = 3
+        private const val HINT_TEXT_SIZE = 14.0f
+
     }
 
     private var filePath: Uri? = null
@@ -129,10 +134,10 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
             ).show()
         }
 
-        viewModel.navigateToList.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToListNote.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(AddNoteFragmentDirections.actionGlobalListFragment())
-                viewModel.onListNavigated()
+                viewModel.onListNoteNavigated()
             }
         })
 
@@ -152,10 +157,7 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
 
         viewModel.boxList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.selectBox.adapter = object :
-                    ArrayAdapter<String>(requireContext(), R.layout.item_addnote_box_spinner, it) {
-
-                }
+                binding.selectBox.adapter = SelectBoxSpinnerAdapter(it)
             }
         })
 
@@ -190,9 +192,12 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
 
         val autocompleteText =
             (autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input) as EditText)
-        autocompleteText.textSize = 14.0f
+        autocompleteText.textSize = HINT_TEXT_SIZE
+        autocompleteText.typeface = ResourcesCompat.getFont(requireContext(), R.font.noto_sans)
         autocompleteText.setTextColor(NoteApplication.instance.getColor(R.color.black_3f3a3a))
         autocompleteText.setHintTextColor(NoteApplication.instance.getColor(R.color.hint_text_color))
+
+
 
         val autocompleteIcon =
             autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button) as ImageView
@@ -207,8 +212,7 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
     }
 
     override fun onError(status: Status) {
-        Logger.i("An error occurred:  $status")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Logger.i("autocompleteFragment close:  $status")
     }
 
     override fun onPlaceSelected(p0: Place) {

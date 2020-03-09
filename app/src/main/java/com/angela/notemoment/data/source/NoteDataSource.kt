@@ -22,6 +22,8 @@ interface NoteDataSource {
 
     suspend fun getAllNote(): Result<List<Note>>
 
+    fun getLiveNotes(boxId:String): LiveData<List<Note>>
+
     suspend fun publishBox(box: Box, uri: Uri?): Result<Boolean>
 
     suspend fun updateBox(box: Box, uri: Uri?): Result<Boolean>

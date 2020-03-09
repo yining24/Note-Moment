@@ -11,10 +11,7 @@ import com.angela.notemoment.LoadApiStatus
 import com.angela.notemoment.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
-import com.angela.notemoment.data.Box
-import com.angela.notemoment.data.ListNoteSorted
-import com.angela.notemoment.data.Note
-import com.angela.notemoment.data.Result
+import com.angela.notemoment.data.*
 import com.angela.notemoment.data.source.NoteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,13 +29,10 @@ class ListNoteViewModel (private val repository: NoteRepository,
     val box: LiveData<Box>
         get() = _box
 
-    private val _noteSorted = MutableLiveData<List<ListNoteSorted>>()
-
-    val noteSorted: LiveData<List<ListNoteSorted>>
-        get() = _noteSorted
+    val noteSorted = MutableLiveData<List<ListNoteSorted>>()
 
 
-    private val _note = MutableLiveData<List<Note>>()
+    private val _note = repository.getLiveNotes(argument.id)
 
     val note: LiveData<List<Note>>
         get() = _note
@@ -91,44 +85,43 @@ class ListNoteViewModel (private val repository: NoteRepository,
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getNoteResult()
-
+//        _noteSorted.value = toListNoteSorted(note.value)
     }
 
 
-    private fun getNoteResult() {
-
-        coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
-
-            val result = repository.getNote(_box.value!!.id)
-
-            _note.value = when (result) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    _noteSorted.value = result.data.toListNoteSorted()
-                    result.data
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-                else -> {
-                    _error.value = NoteApplication.instance.getString(R.string.fail)
-                    _status.value = LoadApiStatus.ERROR
-                    null
-                }
-            }
-        }
-    }
+//    private fun getLiveNotesResult() {
+//
+//        coroutineScope.launch {
+//
+//            _status.value = LoadApiStatus.LOADING
+//
+//            val result = repository.getNote(_box.value!!.id)
+//
+//            _note.value = when (result) {
+//                is Result.Success -> {
+//                    _error.value = null
+//                    _status.value = LoadApiStatus.DONE
+//                    _noteSorted.value = result.data.toListNoteSorted()
+//                    result.data
+//                }
+//                is Result.Fail -> {
+//                    _error.value = result.error
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//                is Result.Error -> {
+//                    _error.value = result.exception.toString()
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//                else -> {
+//                    _error.value = NoteApplication.instance.getString(R.string.fail)
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//            }
+//        }
+//    }
 
 
     val notesSize = Transformations.map(_note){
@@ -154,12 +147,12 @@ class ListNoteViewModel (private val repository: NoteRepository,
 
 
     // sort notes by date
-    fun List<Note>?.toListNoteSorted(): List<ListNoteSorted> {
+    fun toListNoteSorted(notes : List<Note>): List<ListNoteSorted> {
 
         val sortedNotes = mutableListOf<ListNoteSorted>()
         var tempObj = ListNoteSorted()
 
-        this?.let {
+        notes.let {
 
             for (note in it) {
 
@@ -181,7 +174,6 @@ class ListNoteViewModel (private val repository: NoteRepository,
                 }
                 tempObj.notes.add(note)
                 Logger.i("sortedNotes=$sortedNotes")
-
             }
         }
         return sortedNotes

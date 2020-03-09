@@ -191,7 +191,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
 
 
 
-    val canUpdateNote
+    private val canUpdateNote
         get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.locateName.isNullOrEmpty()
 
 

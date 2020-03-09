@@ -54,10 +54,10 @@ class AddNoteViewModel(
 
     var selectedBox = Box()
 
-    private val _navigateToList = MutableLiveData<Boolean>()
+    private val _navigateToListNote = MutableLiveData<Boolean>()
 
-    val navigateToList: LiveData<Boolean>
-        get() = _navigateToList
+    val navigateToListNote: LiveData<Boolean>
+        get() = _navigateToListNote
 
 
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -107,8 +107,7 @@ class AddNoteViewModel(
                         _status.value = LoadApiStatus.DONE
                         selectedBox.checkAndUpdateDate(repository)
                         showToast(NoteApplication.instance.getString(R.string.add_success))
-                        navigateToList()
-
+                        navigateToListNote()
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -208,12 +207,12 @@ class AddNoteViewModel(
         get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.locateName.isNullOrEmpty()
 
 
-    private fun navigateToList() {
-        _navigateToList.value = true
+    private fun navigateToListNote() {
+        _navigateToListNote.value = true
     }
 
-    fun onListNavigated() {
-        _navigateToList.value = null
+    fun onListNoteNavigated() {
+        _navigateToListNote.value = null
     }
 
     fun onChangeNoteTime(time: Long) {

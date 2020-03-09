@@ -15,6 +15,7 @@ import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentListNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.ObjectStreamException
 
 
 class ListNoteFragment : Fragment() {
@@ -68,6 +69,10 @@ class ListNoteFragment : Fragment() {
         })
 
 
+
+        viewModel.note.observe(viewLifecycleOwner, Observer {
+            viewModel.noteSorted.value= viewModel.toListNoteSorted(it)
+        })
 
 
 

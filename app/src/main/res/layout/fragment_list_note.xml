@@ -15,40 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:theme="@style/ProgressTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:setupApiStatus="@{viewModel.status}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
 
         <ImageView
             android:id="@+id/list_box_image"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            app:imageUrl="@{viewModel.box.image}"
+            app:imageUrlPlaceholderWide="@{viewModel.box.image}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-<!--        <ImageView-->
-<!--            android:id="@+id/list_button_back"-->
-<!--            android:layout_width="15dp"-->
-<!--            android:layout_height="15dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            android:tint="@color/white"-->
-<!--            app:srcCompat="@drawable/icon_back_nocircle"-->
-<!--            android:shadowColor="#ff000000"-->
-<!--            android:shadowDx="3"-->
-<!--            android:shadowDy="3"-->
-<!--            android:shadowRadius="10"/>-->
 
 
         <View
@@ -105,16 +80,6 @@
             tools:text="2020/01/01-2020/01/01" />
 
 
-<!--        <View-->
-<!--            android:id="@+id/view_separation"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:background="@color/gray_cccccc"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/text_box_title"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/text_box_title"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/text_box_title" />-->
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_list_note_detail"
             android:layout_width="match_parent"
@@ -143,8 +108,9 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="24dp"
                 android:tint="#BFFFFFFF"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -157,15 +123,15 @@
                 style="@style/textTitle15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/bg_text_shadow"
                 android:fontFamily="@font/noto_sans"
                 android:text="點擊新增筆記"
                 android:textAlignment="center"
                 android:textColor="#B1B1B1"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/imageView2"
-                app:layout_constraintStart_toStartOf="@+id/imageView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

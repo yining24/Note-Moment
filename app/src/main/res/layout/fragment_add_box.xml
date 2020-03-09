@@ -27,7 +27,7 @@
             app:layout_constraintDimensionRatio="1.5:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_create_box"
+            app:layout_constraintTop_toBottomOf="@+id/add_box_button_back"
             app:srcCompat="@drawable/placeholder_logo_add_gray" />
 
 
@@ -94,21 +94,22 @@
             app:layout_constraintTop_toBottomOf="@+id/ccp" />
 
 
-        <TextView
+        <ImageView
             android:id="@+id/add_box_button_save"
-            style="@style/saveAndEditButton"
-            android:layout_marginEnd="8dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="16dp"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false : true}"
             android:onClick="@{() -> viewModel.save(viewModel.box, viewModel.photoUrl)}"
-            android:text="@string/save"
-            app:layout_constraintBottom_toBottomOf="@+id/text_create_box"
+            app:layout_constraintBottom_toBottomOf="@+id/add_box_button_back"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_create_box" />
+            app:layout_constraintTop_toTopOf="@+id/add_box_button_back"
+            app:srcCompat="@drawable/icon_send2" />
 
         <ImageView
             android:id="@+id/add_box_button_back"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,6 +141,7 @@
             app:srcCompat="@drawable/icon_folder" />
 
         <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/ProgressTheme"
