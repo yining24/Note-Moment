@@ -8,9 +8,7 @@
         <variable
             name="viewModel"
             type="com.angela.notemoment.addbox.AddBoxViewModel" />
-
         <import type="com.angela.notemoment.LoadApiStatus" />
-
         <import type="android.view.View" />
 
     </data>

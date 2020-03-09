@@ -3,7 +3,7 @@ package com.angela.notemoment
 import android.R
 
 
-//
+//0
 //class AutocompleteSupportFragment {
 //    var autocompleteFragment =
 //        getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment

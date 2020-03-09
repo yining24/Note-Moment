@@ -92,7 +92,8 @@ class ListBoxFragment : Fragment() {
                     Logger.i("listBox login ${user.displayName}")
 
 
-//                    MainViewModel.getMainUser(user.uid)
+                    val mainViewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+                    mainViewModel.getMainUser(user.uid)
 
                     viewModel.getBoxesResult()
                 }

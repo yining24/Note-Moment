@@ -1,36 +1,18 @@
 package com.angela.notemoment
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.angela.notemoment.data.User
+import androidx.navigation.ui.setupWithNavController
 import com.angela.notemoment.databinding.ActivityMainBinding
 import com.angela.notemoment.ext.getVmFactory
-import com.angela.notemoment.login.LoginFragment
 import com.angela.notemoment.util.CurrentFragmentType
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import android.animation.AnimatorListenerAdapter
-import android.view.animation.*
-import androidx.navigation.ui.setupWithNavController
-import com.angela.notemoment.data.source.NoteRepository
-import com.angela.notemoment.login.UserManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,6 +32,13 @@ class MainActivity : AppCompatActivity() {
         setupBottomNav()
         setupNavController()
 
+        viewModel.onUpdateViewModel.observe(this, Observer {
+            Logger.d("viewModel.onUpdateViewModel.observe, it=$it")
+            it?.let {
+                binding.viewModel = viewModel
+                viewModel.onViewModelUpdated()
+            }
+        })
     }
 
 
@@ -74,6 +63,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
 

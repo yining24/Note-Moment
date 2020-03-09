@@ -35,7 +35,6 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
-
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
@@ -45,14 +44,18 @@ class MainViewModel (private val repository: NoteRepository) : ViewModel() {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
-
-
     }
 
 
     fun getMainUser(id:String) {
         _user =  repository.getUser(id) as MutableLiveData<User>
+        onUpdateViewModel.value = true
     }
 
+    val onUpdateViewModel = MutableLiveData<Boolean>()
+
+    fun onViewModelUpdated() {
+        onUpdateViewModel.value = null
+    }
 
 }

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#f9f8ed</color>
     <color name="colorPrimaryDark">#f4e7d3</color>
     <color name="colorAccent">#0ea8b9</color>
+    <color name="colorGold">#E7DFBA</color>
     <color name="transparent">#01000000</color>
     <color name="color_high_blue">#0463CA</color>
     <color name="color_light_blue">#c8e6f5</color>

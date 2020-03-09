@@ -22,6 +22,7 @@ import com.angela.notemoment.NavigationDirections
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentDetailNoteBinding
 import com.angela.notemoment.ext.getVmFactory
+import com.angela.notemoment.util.MyRequestCode
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_detail_note.*
 import kotlinx.coroutines.CoroutineScope
@@ -52,7 +53,7 @@ class DetailNoteFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.navigateToAddNote.observe(this, Observer {
+        viewModel.navigateToAddNote.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.actionGlobalAddNoteFragment())
                 viewModel.onAddNoteNavigated()
@@ -63,11 +64,13 @@ class DetailNoteFragment : Fragment() {
         //set date picker
         val cal = Calendar.getInstance()
 
-        val myFormat = "yyyy/MM/dd" // mention the format you need
-        val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-        binding.selectDate.text = sdf.format(viewModel.note.value?.time)
+        val sdfDate = SimpleDateFormat(getString(R.string.format_date) , Locale.getDefault())
+        val sdfTime = SimpleDateFormat(getString(R.string.format_time) , Locale.getDefault())
 
-        binding.selectTime.text = SimpleDateFormat("HH:mm").format(viewModel.note.value?.time)
+        binding.selectDate.text = sdfDate.format(viewModel.note.value?.time)
+        binding.selectTime.text = sdfTime.format(viewModel.note.value?.time)
+
+//        binding.selectTime.text = SimpleDateFormat(getString(R.string.format_time)).format(viewModel.note.value?.time)
 
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -77,7 +80,7 @@ class DetailNoteFragment : Fragment() {
 
             viewModel.onChangeNoteTime(cal.timeInMillis)
 
-            binding.selectDate.text = sdf.format(cal.time)
+            binding.selectDate.text = sdfDate.format(cal.time)
         }
 
         binding.selectDate.setOnClickListener {
@@ -88,7 +91,7 @@ class DetailNoteFragment : Fragment() {
         }
 
 
-        val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
             cal.set(Calendar.MINUTE, minute)
             viewModel.onChangeNoteTime(cal.timeInMillis)
@@ -119,7 +122,6 @@ class DetailNoteFragment : Fragment() {
         viewModel.allBoxList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.changeBox.adapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_detail_box_spinner, it) {
-
                 }
             }
         })
@@ -130,8 +132,6 @@ class DetailNoteFragment : Fragment() {
                 Logger.d("observe setpos :: $it")
             }
         })
-
-
 
         //upload photo
         binding.detailNoteImage.setOnClickListener { launchGallery() }
@@ -144,14 +144,14 @@ class DetailNoteFragment : Fragment() {
 
     private fun launchGallery() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = getString(R.string.launch_gallery_intent)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12)
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.launch_gallery_title)), MyRequestCode.LAUNCH_GALLERY.value)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == MyRequestCode.LAUNCH_GALLERY.value && resultCode == Activity.RESULT_OK) {
             if(data == null || data.data == null){
                 return
             }
@@ -168,5 +168,4 @@ class DetailNoteFragment : Fragment() {
             }
         }
     }
-
 }
