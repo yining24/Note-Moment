@@ -3,6 +3,7 @@ package com.angela.notemoment.addnote
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Typeface
@@ -10,6 +11,8 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +20,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -24,6 +29,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.angela.notemoment.Logger
+import com.angela.notemoment.Manifest
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentAddNoteBinding
@@ -35,10 +41,12 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.protobuf.compiler.PluginProtos
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import java.io.IOException
 import java.util.*
 
@@ -48,10 +56,12 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
     companion object {
         private const val TIME_PICKER_THEME = 3
         private const val HINT_TEXT_SIZE = 14.0f
+        private const val CAMERA_AUTHORITY = "com.angela.notemoment.fileprovider"
 
     }
 
     private var filePath: Uri? = null
+    private lateinit var cameraPhotoPath: String
 
     private val viewModel by viewModels<AddNoteViewModel> {
         getVmFactory(
@@ -206,6 +216,7 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
 
         //upload photo
         binding.addNoteUploadImage.setOnClickListener { launchGallery() }
+        binding.addNoteUploadCamera.setOnClickListener { dispatchTakePictureIntent() }
 
         return binding.root
 
@@ -236,25 +247,105 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
         )
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == MyRequestCode.LAUNCH_GALLERY.value && resultCode == Activity.RESULT_OK) {
-            if (data == null || data.data == null) {
-                return
-            }
-            viewModel.photoUrl.value = data.data
 
-            try {
-                filePath = data.data
-                Glide.with(this).load(filePath).centerCrop()
-                    .into(add_note_upload_image)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                MyRequestCode.LAUNCH_GALLERY.value -> {
+                    if (data == null || data.data == null) {
+                        return
+                    }
+                    viewModel.photoUrl.value = data.data
 
-            } catch (e: IOException) {
-                e.printStackTrace()
+                    try {
+                        filePath = data.data
+                        Glide.with(this).load(filePath).centerCrop()
+                            .into(add_note_upload_image)
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+                MyRequestCode.LAUNCH_CAMERA.value -> {
+                    viewModel.photoUrl.value = filePath
+
+                    try {
+                        Glide.with(this).load(cameraPhotoPath).centerCrop()
+                            .into(add_note_upload_image)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                     }
+                }
             }
         }
     }
+
+
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        requireContext(),
+                        CAMERA_AUTHORITY,
+                        it
+                    )
+                    this.filePath = photoURI
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, MyRequestCode.LAUNCH_CAMERA.value)
+                }
+            }
+        }
+    }
+
+//    private fun loadCamera() {
+//        if (ContextCompat.checkSelfPermission(
+//                NoteApplication.instance,
+//                Manifest.permission.
+//            )
+//            != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            requestPermissions(
+//                arrayOf(
+//                    Manifest.permission.CAMERA
+//                ),
+//                PermissionCode.CAMERA.requestCode
+//            )
+//        } else {
+//            dispatchTakePictureIntent()
+//        }
+//    }
+
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            cameraPhotoPath = absolutePath
+        }
+    }
+
 }
+
+
 
 
 

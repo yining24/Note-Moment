@@ -49,12 +49,12 @@ fun bindRecyclerViewMarkerNotes(recyclerView: RecyclerView, noteItems: List<Note
         if (it.size > 1) {
             recyclerView.layoutParams = ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
-                500
+                (NoteApplication.instance.resources.getDimensionPixelSize(R.dimen.map_note_height).toFloat() * 1.5).toInt()
             )
         } else {
             recyclerView.layoutParams = ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
-                320
+                NoteApplication.instance.resources.getDimensionPixelSize(R.dimen.map_note_height)
             )
         }
     }

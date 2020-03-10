@@ -20,4 +20,7 @@
     <dimen name="standard_105">105dp</dimen>
     <dimen name="standard_155">155dp</dimen>
 
+
+    <dimen name="map_note_height">116dp</dimen>
+
 </resources>
