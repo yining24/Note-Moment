@@ -19,13 +19,13 @@
 
 
         <!--        <fragment-->
-<!--            android:id="@+id/place_autocomplete_fragment"-->
-<!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/detail_note_image" />-->
+        <!--            android:id="@+id/place_autocomplete_fragment"-->
+        <!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/detail_note_image" />-->
 
 
         <ImageView
@@ -49,10 +49,10 @@
             android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:gravity="center_vertical"
-            android:paddingStart="15dp"
-            android:maxLines="3"
             android:ellipsize="marquee"
+            android:gravity="center_vertical"
+            android:maxLines="3"
+            android:paddingStart="15dp"
             android:text="@={viewModel.note.locateName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_place"
@@ -65,15 +65,17 @@
             style="@style/textGeneral12"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginStart="50dp"
             android:clickable="@{viewModel.isEditable}"
             android:gravity="center_vertical"
-            android:paddingEnd="20dp"
-            tools:text="2020/01/01"
+            android:paddingEnd="16dp"
             android:textColor="@{viewModel.isEditable == false? @color/black_3f3a3a : @color/colorAccent}"
             app:layout_constraintBottom_toBottomOf="@+id/note_button_back"
+            app:layout_constraintEnd_toStartOf="@+id/select_time"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/note_button_back"
-            app:layout_constraintTop_toTopOf="@+id/note_button_back" />
+            app:layout_constraintTop_toTopOf="@+id/note_button_back"
+            tools:text="2020/01/01" />
 
         <TextView
             android:id="@+id/select_time"
@@ -84,6 +86,9 @@
             android:gravity="center_vertical"
             android:paddingEnd="16dp"
             android:textColor="@{viewModel.isEditable == false? @color/black_3f3a3a : @color/colorAccent}"
+            app:layout_constraintEnd_toStartOf="@+id/button_edit_note"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/select_date"
             app:layout_constraintTop_toTopOf="@+id/select_date"
             tools:text="10:10" />
@@ -96,9 +101,9 @@
             android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:clickable="@{viewModel.isEditable}"
+            android:paddingStart="8dp"
             android:prompt="@string/spinner_select_box"
             android:spinnerMode="dialog"
-            android:paddingStart="8dp"
             android:visibility="@{viewModel.isEditable == false? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/detail_note_place"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
@@ -111,16 +116,16 @@
             android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+            android:ellipsize="marquee"
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:singleLine="true"
-            android:ellipsize="marquee"
             android:text="@={viewModel.selectedBox.title}"
+            android:visibility="@{viewModel.isEditable == true ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/detail_note_place"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/detail_note_place"
-            tools:text="box title"
-            android:visibility="@{viewModel.isEditable == true ? View.INVISIBLE : View.VISIBLE}"/>
+            tools:text="box title" />
 
 
         <EditText
@@ -184,7 +189,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/icon_edit"
+            android:background="@{viewModel.isEditable() == true? @drawable/icon_send2 : @drawable/icon_edit}"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false : true}"
             android:letterSpacing="0.15"
             android:onClick="@{() -> viewModel.editNote()}"
@@ -195,7 +200,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/note_button_back" />
 
-<!--        android:text='@{viewModel.isEditable() == true? "DONE":"EDIT"}'-->
+        <!--        android:text='@{viewModel.isEditable() == true? "DONE":"EDIT"}'-->
 
 
         <ImageView
@@ -208,21 +213,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_back_nocircle" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/text_create_note"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:fontFamily="@font/berkshire_swash"-->
-<!--            android:letterSpacing="0.15"-->
-<!--            android:text="@{viewModel.box.title}"-->
-<!--            tools:text="Box Title"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="20sp"-->
-<!--            android:inputType="textCapWords"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/note_button_back"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/note_button_back" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/text_create_note"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:fontFamily="@font/berkshire_swash"-->
+        <!--            android:letterSpacing="0.15"-->
+        <!--            android:text="@{viewModel.box.title}"-->
+        <!--            tools:text="Box Title"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:textSize="20sp"-->
+        <!--            android:inputType="textCapWords"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/note_button_back"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/note_button_back" />-->
 
         <ImageView
             android:id="@+id/imageView3"
@@ -243,7 +248,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/detail_note_place"
             app:srcCompat="@drawable/icon_pin" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

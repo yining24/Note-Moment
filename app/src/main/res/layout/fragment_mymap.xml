@@ -16,6 +16,13 @@
         android:layout_height="match_parent">
 
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/my_map_guideline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.65"/>
+
         <com.google.android.gms.maps.MapView
             android:id="@+id/map_view"
             android:layout_width="fill_parent"
@@ -31,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{viewModel.showNotesWindow? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/map_view"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:elevation="5dp">
@@ -41,39 +48,48 @@
                 style="@style/textTitle15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.markerTitle}"
+                android:background="@drawable/bg_map_window"
+                android:maxLines="1"
                 android:paddingStart="16dp"
-                android:paddingBottom="8dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
-                android:maxLines="1"
+                android:paddingBottom="8dp"
+                android:text="@{viewModel.markerTitle}"
+                android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_map_window"
+                app:layout_constraintBottom_toTopOf="@+id/layout_recycler_map_note"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="taipei city" />
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_map_note"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_recycler_map_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/white"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map_location"
-                app:markerNotes="@{viewModel.markerNotes}"
-                tools:listitem="@layout/item_map_note">
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_map_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:markerNotes="@{viewModel.markerNotes}"
+                    tools:listitem="@layout/item_map_note">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -44,9 +45,23 @@ fun bindRecyclerViewNoteSorted(recyclerView: RecyclerView, noteItems: List<ListN
 
 @BindingAdapter("markerNotes")
 fun bindRecyclerViewMarkerNotes(recyclerView: RecyclerView, noteItems: List<Note>?) {
+    noteItems?.let {
+        if (it.size > 1) {
+            recyclerView.layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                500
+            )
+        } else {
+            recyclerView.layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                320
+            )
+        }
+    }
     val adapter = recyclerView.adapter as MyMapNoteAdapter
     adapter.submitList(noteItems)
 }
+
 
 @BindingAdapter("setupApiStatus")
 fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {

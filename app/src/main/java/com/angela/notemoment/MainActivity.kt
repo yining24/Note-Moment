@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.angela.notemoment.databinding.ActivityMainBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.util.CurrentFragmentType
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        setupBottomNav()
         setupNavController()
 
         viewModel.onUpdateViewModel.observe(this, Observer {
@@ -42,9 +42,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setupBottomNav() {
-        binding.bottomNavView.itemIconTintList = null
-    }
 
     private fun setupNavController() {
         binding.bottomNavView.setupWithNavController(findNavController(R.id.myNavHostFragment))

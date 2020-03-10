@@ -2,11 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/icon_drawer"
-        android:state_checked="false"
-        android:color = "@color/gray_888888"/>
+        android:state_checked="false"/>
     <item android:drawable="@drawable/icon_drawer_color"
-        android:color = "@color/bottom_navigation_item_selected"
         android:state_checked="true"/>
-
 
 </selector>

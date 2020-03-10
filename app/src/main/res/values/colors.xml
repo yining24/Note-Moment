@@ -21,7 +21,7 @@
     <color name="hint_text_color">#8B8B8B</color>
 
     <!-- Bottom Navigation -->
-    <color name="bottom_navigation_item_normal">@color/quantum_grey500</color>
+    <color name="bottom_navigation_item_normal">#990463CA</color>
     <color name="bottom_navigation_item_selected">#0463CA</color>
 
     <!-- Blue Series -->
