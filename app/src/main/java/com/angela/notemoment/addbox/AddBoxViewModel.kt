@@ -13,6 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.ext.showToast
+import com.angela.notemoment.util.Logger
 
 class AddBoxViewModel (private val repository: NoteRepository,
                        private val argument: Box?) : ViewModel() {

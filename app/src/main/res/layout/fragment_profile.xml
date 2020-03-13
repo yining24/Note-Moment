@@ -43,20 +43,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
                 android:background="@color/transparent"
-                app:requestFocus="@{viewModel.isEditable()}"
-                tools:text="Angelaaa"
+                android:fontFamily="@font/noto_sans"
+                android:imeOptions="actionDone"
+                android:letterSpacing="0.15"
+                android:singleLine="true"
                 android:text="@={viewModel.user.name}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/image_profile_avatar"
                 app:layout_constraintStart_toStartOf="@+id/image_profile_avatar"
                 app:layout_constraintTop_toBottomOf="@+id/image_profile_avatar"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                app:requestFocus="@{viewModel.isEditable()}"
+                tools:text="Angelaaa" />
 
             <TextView
                 android:id="@+id/text_profile_email"
@@ -65,13 +65,13 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans"
                 android:maxLines="1"
-                tools:text="aaa@hotmail.com"
                 android:text="@{viewModel.user.email}"
                 android:textColor="@color/black_3f3a3a"
                 app:layout_constraintEnd_toEndOf="@+id/text_profile_name"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_name"
                 app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="aaa@hotmail.com" />
 
             <EditText
                 android:id="@+id/text_profile_title"
@@ -79,13 +79,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
                 android:fontFamily="@font/noto_sans"
+                android:imeOptions="actionDone"
                 android:letterSpacing="0.15"
                 android:maxLines="2"
+                android:singleLine="true"
                 android:text="@={viewModel.user.title}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="18sp"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -105,20 +105,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <View
+                android:id="@+id/profile_view_separate"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray_cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_email" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<!--        <View-->
-<!--            android:id="@+id/profile_view_separate"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:background="@color/gray_cccccc"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.0"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layout_profile_header" />-->
+
 
 <!--        <TextView-->
 <!--            android:id="@+id/text_profile_share"-->

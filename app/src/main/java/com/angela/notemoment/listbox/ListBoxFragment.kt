@@ -10,18 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.angela.notemoment.*
 import com.angela.notemoment.databinding.FragmentListBoxBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.login.UserManager
+import com.angela.notemoment.util.Logger
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-
 
 
 class ListBoxFragment : Fragment() {

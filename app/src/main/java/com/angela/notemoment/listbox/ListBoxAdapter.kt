@@ -25,8 +25,6 @@ class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, List
         }
     }
 
-
-
     companion object DiffCallback : DiffUtil.ItemCallback<Box>() {
         override fun areItemsTheSame(oldItem: Box, newItem: Box): Boolean {
             return oldItem.id == newItem.id
@@ -49,7 +47,7 @@ class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, List
 
     override fun onBindViewHolder(holder: ListBoxViewHolder, position: Int) {
                 val item = getItem(position)
-                holder.itemView.layoutParams.height = getRandomIntInRange(550, 450)
+                holder.itemView.layoutParams.height = getRandomIntInRange(550, 500)
                 holder.bind(item, boxViewModel)
                 holder.itemView.setOnClickListener {
                     boxViewModel.selectBox(item)

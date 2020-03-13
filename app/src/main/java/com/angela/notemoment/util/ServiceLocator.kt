@@ -1,4 +1,4 @@
-package com.angela.notemoment
+package com.angela.notemoment.util
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting

@@ -4,7 +4,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.angela.notemoment.Logger
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.data.Box

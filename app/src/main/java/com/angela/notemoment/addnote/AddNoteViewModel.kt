@@ -13,6 +13,7 @@ import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.ext.checkAndUpdateDate
 import com.angela.notemoment.ext.showToast
+import com.angela.notemoment.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

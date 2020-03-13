@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.angela.notemoment.databinding.ActivityMainBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.angela.notemoment.util.CurrentFragmentType
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.angela.notemoment.util.Logger
 
 
 class MainActivity : AppCompatActivity() {

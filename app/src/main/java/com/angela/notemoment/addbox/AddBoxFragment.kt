@@ -16,7 +16,7 @@ import androidx.fragment.app.viewModels
 import com.angela.notemoment.ext.getVmFactory
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.angela.notemoment.Logger
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.util.MyRequestCode
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_add_box.*

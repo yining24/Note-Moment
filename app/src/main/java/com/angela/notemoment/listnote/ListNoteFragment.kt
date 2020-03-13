@@ -9,13 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.angela.notemoment.Logger
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.NavigationDirections
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentListNoteBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.io.ObjectStreamException
 
 
 class ListNoteFragment : Fragment() {

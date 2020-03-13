@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.angela.notemoment.LoadApiStatus
-import com.angela.notemoment.Logger
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.data.Box
@@ -16,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.angela.notemoment.data.Result
-import com.google.firebase.auth.FirebaseAuth
 
 class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
 

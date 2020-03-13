@@ -1,21 +1,17 @@
 package com.angela.notemoment.profile
 
-import android.content.Context
-import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.angela.notemoment.LoadApiStatus
-import com.angela.notemoment.Logger
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteRepository
-import com.angela.notemoment.ext.showToast
-import com.angela.notemoment.login.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

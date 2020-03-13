@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteRepository
 import com.angela.notemoment.util.CurrentFragmentType
+import com.angela.notemoment.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

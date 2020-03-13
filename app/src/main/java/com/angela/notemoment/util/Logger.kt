@@ -1,6 +1,7 @@
-package com.angela.notemoment
+package com.angela.notemoment.util
 
 import android.util.Log
+import com.angela.notemoment.BuildConfig
 
 object Logger {
 

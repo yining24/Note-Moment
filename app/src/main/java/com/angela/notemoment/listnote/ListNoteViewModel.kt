@@ -1,22 +1,17 @@
 package com.angela.notemoment.listnote
 
 import android.icu.text.SimpleDateFormat
-import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.angela.notemoment.LoadApiStatus
-import com.angela.notemoment.Logger
-import com.angela.notemoment.NoteApplication
-import com.angela.notemoment.R
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.data.*
 import com.angela.notemoment.data.source.NoteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.util.*
 
 class ListNoteViewModel (private val repository: NoteRepository,

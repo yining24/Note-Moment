@@ -8,11 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.angela.notemoment.Logger
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentProfileBinding
 import com.angela.notemoment.ext.getVmFactory
-import com.angela.notemoment.ext.showToast
 import com.google.firebase.auth.FirebaseAuth
 
 

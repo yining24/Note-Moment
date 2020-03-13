@@ -15,10 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent"
-        android:paddingTop="8dp"
-        android:paddingEnd="4dp"
-        android:paddingStart="4dp"
-        android:paddingBottom="8dp">
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,9 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:onClick="@{() -> viewModel.navigateToAddBox()}"
-            android:visibility="@{viewModel.boxes == null? View.GONE : viewModel.boxes.size != 0 ? View.GONE : View.VISIBLE}"
-            tools:layout_editor_absoluteX="-12dp"
-            tools:layout_editor_absoluteY="-62dp">
+            android:visibility="@{viewModel.boxes == null? View.GONE : viewModel.boxes.size != 0 ? View.GONE : View.VISIBLE}">
 
             <ImageView
                 android:id="@+id/imageView2"

@@ -1,12 +1,10 @@
 package com.angela.notemoment.addnote
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.content.res.AssetManager
-import android.graphics.Typeface
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
@@ -17,10 +15,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
@@ -28,8 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.angela.notemoment.Logger
-import com.angela.notemoment.Manifest
+import com.angela.notemoment.util.Logger
 import com.angela.notemoment.NoteApplication
 import com.angela.notemoment.R
 import com.angela.notemoment.databinding.FragmentAddNoteBinding
@@ -41,7 +36,6 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.google.protobuf.compiler.PluginProtos
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -215,8 +209,7 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
 
 
         //upload photo
-        binding.addNoteUploadImage.setOnClickListener { launchGallery() }
-        binding.addNoteUploadCamera.setOnClickListener { dispatchTakePictureIntent() }
+        binding.addNoteUploadImage.setOnClickListener { showSelectPhotoDialog() }
 
         return binding.root
 
@@ -341,6 +334,20 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
             // Save a file: path for use with ACTION_VIEW intents
             cameraPhotoPath = absolutePath
         }
+    }
+
+    private fun showSelectPhotoDialog() {
+        val pictureDialog = AlertDialog.Builder(context)
+        pictureDialog.setTitle("Select Action")
+        val pictureDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
+        pictureDialog.setItems(pictureDialogItems
+        ) { dialog, which ->
+            when (which) {
+                0 -> launchGallery()
+                1 -> dispatchTakePictureIntent()
+            }
+        }
+        pictureDialog.show()
     }
 
 }

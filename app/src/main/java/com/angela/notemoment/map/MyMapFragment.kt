@@ -1,5 +1,6 @@
 package com.angela.notemoment.map
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,20 +9,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.angela.notemoment.data.Note
 import com.angela.notemoment.databinding.FragmentMymapBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.GoogleMap
-import com.angela.notemoment.*
 import com.angela.notemoment.R
+import com.angela.notemoment.util.Logger
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
+
+
 
 
 class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
@@ -50,15 +51,12 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
     }
 
 
-
     override fun onMapReady(googleMap: GoogleMap) {
         myGoogleMap = googleMap
-//        val lan1 = LatLng(25.039321, 121.567173)  //50嵐 微風松高店
 
 //        myGoogleMap.uiSettings.isZoomControlsEnabled = true
 //        myGoogleMap.uiSettings.isMyLocationButtonEnabled=true
         myGoogleMap.uiSettings.isMapToolbarEnabled = false
-
 
 
         //map marker
@@ -67,7 +65,7 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
                 notesList.forEach {
                     val latlng = LatLng(it.lat, it.lng)
                     myGoogleMap.addMarker(MarkerOptions().position(latlng).title(it.locateName))
-                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .setIcon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.drawable.icon_red_pin)))
                     Logger.i("marker latlng = $latlng")
                 }
             }
