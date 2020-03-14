@@ -1,8 +1,7 @@
 # Spot Moment 旅遊筆記
 Spot Moment 為一款紀錄旅遊足跡的應用程式，將每趟旅行或口袋名單建立各自的盒子，在旅遊途中可以隨時輕鬆記錄景點、文字、照片的筆記，透過筆記分類於不同的盒子，方便管理和保存每一刻的回憶。
 
-![downloads](https://img.shields.io/github/downloads/atom/atom/total.svg)
-
+<a href='https://play.google.com/store/apps/details?id=com.angela.notemoment&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 ## 功能特色
 * 為旅行或口袋名單建立不同的盒子
