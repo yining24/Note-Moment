@@ -53,5 +53,5 @@ Gradle 5.4.1+
 1.0.2 - 2020/03/02
 
 ## 聯絡方式
-Angela Chang
+Angela Chang  
 yiningc10@gmail.com
