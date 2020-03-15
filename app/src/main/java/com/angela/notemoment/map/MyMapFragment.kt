@@ -9,10 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.angela.notemoment.NavigationDirections
 import com.angela.notemoment.databinding.FragmentMymapBinding
 import com.angela.notemoment.ext.getVmFactory
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -23,10 +24,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 
 
-
-
-class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+class MyMapFragment : Fragment(), GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
     override fun onMarkerClick(p0: Marker?): Boolean {
+        Logger.i("map onMarkerClick :: $p0")
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -35,10 +35,7 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
     lateinit var mapView: MapView
     lateinit var myGoogleMap: GoogleMap
     lateinit var binding: FragmentMymapBinding
-
-
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    val MAPVIEW_BUNDLE_KEY: String? = "MapViewBundleKey"
+    private val MAPVIEW_BUNDLE_KEY: String? = "MapViewBundleKey"
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -53,9 +50,6 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
 
     override fun onMapReady(googleMap: GoogleMap) {
         myGoogleMap = googleMap
-
-//        myGoogleMap.uiSettings.isZoomControlsEnabled = true
-//        myGoogleMap.uiSettings.isMyLocationButtonEnabled=true
         myGoogleMap.uiSettings.isMapToolbarEnabled = false
 
 
@@ -65,7 +59,14 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
                 notesList.forEach {
                     val latlng = LatLng(it.lat, it.lng)
                     myGoogleMap.addMarker(MarkerOptions().position(latlng).title(it.locateName))
-                    .setIcon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.drawable.icon_red_pin)))
+                        .setIcon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                BitmapFactory.decodeResource(
+                                    resources,
+                                    R.drawable.icon_red_pin
+                                )
+                            )
+                        )
                     Logger.i("marker latlng = $latlng")
                 }
             }
@@ -74,7 +75,12 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
         myGoogleMap.setOnMarkerClickListener { marker ->
             viewModel.markerTitle.value = marker.title
             val cameraRatio = 15F
-            myGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, cameraRatio))
+            myGoogleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    marker.position,
+                    cameraRatio
+                )
+            )
 
             viewModel.getMarkerNote(marker.position)
             viewModel.showNotesWindow()
@@ -87,7 +93,6 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
         }
 
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,46 +109,24 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
         binding.recyclerMapNote.adapter = adapter
 
 
-
         // Gets the MapView from the XML layout and creates it
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
-        // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
         try {
             MapsInitializer.initialize(this.activity)
         } catch (e: GooglePlayServicesNotAvailableException) {
             e.printStackTrace()
         }
-//
-//        // Updates the location and zoom of the MapView
-//        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-//            LatLng(43.1, -87.9), 10F
-//        )
-//        myGoogleMap.animateCamera(cameraUpdate)
 
 
-//
-//        myGoogleMap.setOnMarkerClickListener { marker ->
-//            marker.showInfoWindow()
-//            // 用吐司顯示註解
-//            Toast.makeText(
-//                getApplication(),
-//                marker.title + "\n" + marker.snippet,
-//                Toast.LENGTH_LONG
-//            ).show()
-//            true
-//        }
-
-
-//            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-//            previousMarker = marker
-//
-//            marker.isInfoWindowShown()
-
-
-
+        viewModel.navigateToDetailNote.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.actionGlobalDetailNoteFragment(it))
+                viewModel.onSelectNoteToDetail()
+            }
+        })
 
         return binding.root
     }
@@ -163,82 +146,6 @@ class MyMapFragment : Fragment(),GoogleMap.OnMarkerClickListener, OnMapReadyCall
         super.onLowMemory()
         mapView.onLowMemory()
     }
-
-
-
-
-
-
-
-
-//    private fun queryMapNear(myLocation: LatLng?, queryRadius: Int, googleMap: GoogleMap) {
-//        googleMap.clear()
-//        val lan1 = LatLng(25.039321, 121.567173)  //50嵐 微風松高店
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient((activity as MainActivity) )
-//        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-//            val newLocation = LatLng(it.latitude,it.longitude)
-//            Logger.d("fusedLocationProviderClient = ${it.latitude}")
-//            val lat = 0.009043717
-//            val lon = 0.008983112/cos(newLocation.latitude)
-//            val lowerLat = it.latitude - (lat * queryRadius)
-//            val lowerLon = it.longitude - (lon * queryRadius)
-//            val greaterLat = it.latitude + (lat * queryRadius)
-//            val greaterLon = it.longitude + (lon * queryRadius)
-//            val lesserGeopoint = GeoPoint(lowerLat, lowerLon)
-//            val greaterGeopoint = GeoPoint(greaterLat, greaterLon)
-//            val db = FirebaseFirestore.getInstance()
-//            db.collection("stores")
-//                .document("50lan")
-//                .collection("branch")
-//                .whereGreaterThan("geo",lesserGeopoint)
-//                .whereLessThan("geo",greaterGeopoint)
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    for (document in result) {
-//                        Log.d("queryMapNear", "${document.id} => ${document.data}")
-//                        Log.d("queryMapNear", "${document.id} => ${document.getGeoPoint("geo")!!.latitude}")
-//                        document.getGeoPoint("geo")?.let {
-//                            //icon size
-//                            val height = 100
-//                            val width = 100
-//                            // if (isAdded) to avoid fragment not attach context
-//                            @Suppress("DEPRECATION")
-//                            val iconDraw = if (isAdded){
-//                                val bitmapdraw = resources.getDrawable(R.drawable.drink_map_icon_1)
-//                                val b = bitmapdraw.toBitmap()
-//                                val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-//                                BitmapDescriptorFactory.fromBitmap(smallMarker)
-//                            }else{
-//                                BitmapDescriptorFactory.defaultMarker()
-//                            }
-//                            val queryResult = LatLng(it.latitude,it.longitude)
-//                            googleMap.addMarker(MarkerOptions().position(queryResult)
-//                                .title("${document.data["branchName"]}")
-//                                .snippet("${document.data["storeName"]}")
-////                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bottom_navigation_home_1))
-//                                .icon(iconDraw)
-//                            )
-//                        }
-//                    }
-//                    val cameraRatio = 16F - queryRadius
-//                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newLocation,cameraRatio.toFloat()))
-//                    val circleOptions = CircleOptions()
-//                    circleOptions.center(newLocation)
-//                        .radius(queryRadius.toDouble()*1000)
-//                        .fillColor(Color.argb(70,150,50,50))
-//                        .strokeWidth(3F)
-//                        .strokeColor(Color.RED)
-//                    googleMap.addCircle(circleOptions)
-////                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds())
-////                val aa = LatLngBounds(lan1,lan1)
-////                googleMap.setLatLngBoundsForCameraTarget(aa)
-//                }
-//                .addOnFailureListener { exception ->
-//                    Log.w("queryMapNear", "Error getting documents.", exception)
-//                }
-//        }
-//    }
-
 
 }
 

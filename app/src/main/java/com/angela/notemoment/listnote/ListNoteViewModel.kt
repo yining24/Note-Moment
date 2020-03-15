@@ -51,13 +51,11 @@ class ListNoteViewModel (private val repository: NoteRepository,
         get() = _navigateToDetailNote
 
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
     private val _error = MutableLiveData<String>()
 
     val error: LiveData<String>

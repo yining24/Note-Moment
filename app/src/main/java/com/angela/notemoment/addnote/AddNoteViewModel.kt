@@ -100,7 +100,7 @@ class AddNoteViewModel(
 
                 _status.value = LoadApiStatus.LOADING
 
-                Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
+                Toast.makeText(NoteApplication.instance, NoteApplication.instance.getString(R.string.uploading), Toast.LENGTH_SHORT).show()
 
                 when (val result = repository.publishNote(note, note.boxId, photoUrl)) {
                     is Result.Success -> {
@@ -126,7 +126,7 @@ class AddNoteViewModel(
                 }
             }
         } else {
-            showToast(NoteApplication.instance.getString(R.string.hint_add_note_required_fields))
+            showToast(NoteApplication.instance.getString(R.string.hint_note_required_fields))
         }
     }
 

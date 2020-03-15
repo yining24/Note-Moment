@@ -20,9 +20,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DetailNoteViewModel (private val repository: NoteRepository,
-                           private val arguments: Note,
-                           private val argumentsBox: Box
+class DetailNoteViewModel(
+    private val repository: NoteRepository,
+    private val arguments: Note,
+    private val argumentsBox: Box?
 ) : ViewModel() {
 
     private val _note = MutableLiveData<Note>().apply {
@@ -105,7 +106,6 @@ class DetailNoteViewModel (private val repository: NoteRepository,
     }
 
 
-
     fun updateNoteResult(note: Note, photoUrl: Uri?) {
 
         if (canUpdateNote) {
@@ -113,17 +113,25 @@ class DetailNoteViewModel (private val repository: NoteRepository,
 
                 _status.value = LoadApiStatus.LOADING
 
-                Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    NoteApplication.instance,
+                    NoteApplication.instance.getString(R.string.uploading),
+                    Toast.LENGTH_SHORT
+                ).show()
 
                 when (val result = repository.updateNote(note, photoUrl)) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
-                        Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            NoteApplication.instance,
+                            NoteApplication.instance.getString(R.string.edit_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                        _box.value?.let {box ->
+                        _box.value?.let { box ->
                             box.checkAndUpdateDate(repository)
-                            _selectedBox.value?.let {  selectedBox ->
+                            _selectedBox.value?.let { selectedBox ->
                                 if (selectedBox != box) {
                                     selectedBox.checkAndUpdateDate(repository)
                                 }
@@ -133,7 +141,11 @@ class DetailNoteViewModel (private val repository: NoteRepository,
                     is Result.Fail -> {
                         _error.value = result.error
                         _status.value = LoadApiStatus.ERROR
-                        Toast.makeText(NoteApplication.instance, "Fail", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            NoteApplication.instance,
+                            NoteApplication.instance.getString(R.string.fail),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     is Result.Error -> {
                         _error.value = result.exception.toString()
@@ -147,7 +159,11 @@ class DetailNoteViewModel (private val repository: NoteRepository,
             }
 
         } else {
-            Toast.makeText(NoteApplication.instance, "-- Fields marked with * are required --", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                NoteApplication.instance,
+                NoteApplication.instance.getString(R.string.hint_note_required_fields),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
@@ -164,7 +180,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    findKeyBoxPosition(result.data)
+                    checkBoxValue(result.data)
                     result.data
                 }
                 is Result.Fail -> {
@@ -187,12 +203,22 @@ class DetailNoteViewModel (private val repository: NoteRepository,
         }
     }
 
-
+    private fun checkBoxValue(boxes: List<Box>) {
+        if (argumentsBox == null) {
+            for (boxOfNote in boxes) {
+                if (boxOfNote.id == note.value?.boxId) {
+                    _box.value = boxOfNote
+                    _selectedBox.value = boxOfNote
+                    break
+                }
+            }
+        }
+        findKeyBoxPosition(boxes)
+    }
 
 
     private val canUpdateNote
         get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.locateName.isNullOrEmpty()
-
 
 
     fun navigateToAddNote() {
@@ -209,7 +235,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
     }
 
     fun editNote() {
-        if (isEditable.value == false){
+        if (isEditable.value == false) {
             isEditable.value = true
         } else {
             isEditable.value = false
@@ -218,17 +244,16 @@ class DetailNoteViewModel (private val repository: NoteRepository,
     }
 
 
-
-    val allBoxList = Transformations.map(allBoxes){
+    val allBoxList = Transformations.map(allBoxes) {
         val boxTitleList = mutableListOf<String>()
-        for (box in it){
+        for (box in it) {
             boxTitleList.add(box.title)
         }
         boxTitleList
     }
 
 
-    fun changeBoxPosition(position : Int) {
+    fun changeBoxPosition(position: Int) {
         allBoxes.value?.let {
             note.value?.boxId = it[position].id
             _selectedBox.value = it[position]
@@ -237,7 +262,7 @@ class DetailNoteViewModel (private val repository: NoteRepository,
     }
 
 
-    fun findKeyBoxPosition(boxes: List<Box>) {
+    private fun findKeyBoxPosition(boxes: List<Box>) {
         val argBoxId = box.value?.id
 
         for ((index, box) in boxes.withIndex()) {
@@ -246,7 +271,6 @@ class DetailNoteViewModel (private val repository: NoteRepository,
                 break
             }
         }
-//        val position = boxes.indexOf(boxes.filter { it.id == argBoxId }[0])
         Logger.i("box position === ${keyBoxPosition.value}")
     }
 

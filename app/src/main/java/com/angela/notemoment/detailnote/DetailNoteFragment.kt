@@ -133,7 +133,6 @@ class DetailNoteFragment : Fragment() {
         binding.detailNoteImage.setOnClickListener { launchGallery() }
 
 
-
         return binding.root
     }
 
@@ -152,7 +151,6 @@ class DetailNoteFragment : Fragment() {
                 return
             }
             viewModel.newPhotoUrl.value = data.data
-//            viewModel.note.value?.images = data.data.toString()
 
             try {
                 var filePath = data.data

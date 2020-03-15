@@ -32,21 +32,22 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
     var markerTitle = MutableLiveData<String>()
 
-//    var markerLatlng = MutableLiveData<LatLng>()
-
     private val _showNotesWindow = MutableLiveData<Boolean>()
 
     val showNotesWindow: LiveData<Boolean>
         get() = _showNotesWindow
 
+    private val _navigateToDetailNote = MutableLiveData<Note>()
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
+    val navigateToDetailNote: LiveData<Note>
+        get() = _navigateToDetailNote
+
+
     private val _status = MutableLiveData<LoadApiStatus>()
 
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
     private val _error = MutableLiveData<String>()
 
     val error: LiveData<String>
@@ -55,7 +56,6 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
     private var viewModelJob = Job()
 
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
@@ -125,6 +125,14 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
     fun closeNotesWindow() {
         _showNotesWindow.value = null
+    }
+
+    fun selectNoteToDetail(note: Note) {
+        _navigateToDetailNote.value = note
+    }
+
+    fun onSelectNoteToDetail() {
+        _navigateToDetailNote.value = null
     }
 
 

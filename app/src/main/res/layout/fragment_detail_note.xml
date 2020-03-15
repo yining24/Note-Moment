@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <!--        <fragment-->
         <!--            android:id="@+id/place_autocomplete_fragment"-->
         <!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
@@ -26,7 +25,6 @@
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toBottomOf="@+id/detail_note_image" />-->
-
 
         <ImageView
             android:id="@+id/detail_note_image"
@@ -171,7 +169,7 @@
             android:layout_marginEnd="24dp"
             android:background="@color/transparent"
             android:gravity="top"
-            android:hint="No content"
+            android:hint="@string/no_content"
             android:maxLength="500"
             android:paddingTop="8dp"
             android:singleLine="false"
@@ -195,12 +193,9 @@
             android:onClick="@{() -> viewModel.editNote()}"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/note_button_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/note_button_back" />
-
-        <!--        android:text='@{viewModel.isEditable() == true? "DONE":"EDIT"}'-->
 
 
         <ImageView
@@ -213,21 +208,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_back_nocircle" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/text_create_note"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:fontFamily="@font/berkshire_swash"-->
-        <!--            android:letterSpacing="0.15"-->
-        <!--            android:text="@{viewModel.box.title}"-->
-        <!--            tools:text="Box Title"-->
-        <!--            android:textColor="@color/black"-->
-        <!--            android:textSize="20sp"-->
-        <!--            android:inputType="textCapWords"-->
-        <!--            app:layout_constraintBottom_toBottomOf="@+id/note_button_back"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="@+id/note_button_back" />-->
 
         <ImageView
             android:id="@+id/imageView3"

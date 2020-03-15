@@ -94,7 +94,8 @@
         <argument
             android:name="BoxKey"
             app:argType="com.angela.notemoment.data.Box"
-            app:nullable="false"/>
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <action android:id="@+id/action_global_detailNoteFragment"
         app:destination="@id/detailNoteFragment"

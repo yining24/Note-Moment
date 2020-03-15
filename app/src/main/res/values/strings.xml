@@ -12,17 +12,21 @@
     <string name="launch_gallery_intent">image/*</string>
     <string name="fail">Fail</string>
     <string name="save">SAVE</string>
+    <string name="uploading">Uploading</string>
+    <string name="add_success">Add Success</string>
+    <string name="edit_success">Edit Success</string>
+    <string name="upload_photo">Upload Photo from</string>
+    <string name="album">Album</string>
+    <string name="camera">Camera</string>
 
 
-    <!-- Add Box -->
+    <!-- Box -->
     <string name="add_box_create">Create Box</string>
     <string name="add_box_edit_box">Edit Box</string>
     <string name="hint_add_box_title">Enter box name</string>
-    <string name="add_success">Add Success</string>
-    <string name="edit_success">Edit Success</string>
     <string name="hint_no_box_name">-- Enter box name --</string>
 
-    <!-- Add Note -->
+    <!-- Note -->
     <string name="hint_add_note_title">Title*</string>
     <string name="hint_add_note_content">Content</string>
     <string name="text_create_note">Create Note</string>
@@ -31,7 +35,8 @@
     <string name="format_date">yyyy/MM/dd</string>
     <string name="format_time">HH:mm</string>
     <string name="hint_autocomplete_location">Location\u0020*</string>
-    <string name="hint_add_note_required_fields">-- Fields marked with * are required --</string>
+    <string name="hint_note_required_fields">-- Fields marked with * are required --</string>
+    <string name="no_content">No content</string>
 
 
 </resources>

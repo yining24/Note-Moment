@@ -19,8 +19,6 @@ class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, List
         fun bind(box: Box, viewModel: ListBoxViewModel) {
             binding.box = box
             binding.viewModel = viewModel
-            // This is important, because it forces the data binding to execute immediately,
-            // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
         }
     }

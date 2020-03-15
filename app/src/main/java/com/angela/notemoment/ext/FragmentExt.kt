@@ -26,7 +26,7 @@ fun Fragment.getVmFactory(box: Box?): BoxViewModelFactory {
     return BoxViewModelFactory(repository, box)
 }
 
-fun Fragment.getVmFactory(note: Note, box: Box): DetailNoteViewModelFactory {
+fun Fragment.getVmFactory(note: Note, box: Box?): DetailNoteViewModelFactory {
     val repository = (requireContext().applicationContext as NoteApplication).noteRepository
     return DetailNoteViewModelFactory(repository, note, box)
 }
@@ -39,7 +39,7 @@ fun Fragment.showToast(message: String) {
     }
 }
 
-fun showToast(message: String){
+fun showToast(message: String) {
 
     val layoutInflater = LayoutInflater.from(NoteApplication.instance)
     val layout = layoutInflater.inflate(R.layout.item_list_note, null, false)
@@ -51,8 +51,6 @@ fun showToast(message: String){
     }
 
 }
-
-
 
 
 suspend fun Box.checkAndUpdateDate(repository: NoteRepository) {
@@ -68,7 +66,7 @@ suspend fun Box.checkAndUpdateDate(repository: NoteRepository) {
         if (it.first().time != this.startDate || it.last().time != this.endDate) {
             this.startDate = it.first().time
             this.endDate = it.last().time
-            repository.updateBox(this ,null)
+            repository.updateBox(this, null)
             Logger.i("update box start time to ::${it.first().time}")
             Logger.i("update box end time to ::${it.last().time}")
         }

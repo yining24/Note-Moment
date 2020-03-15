@@ -1,10 +1,12 @@
 package com.angela.notemoment.addnote
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
@@ -17,6 +19,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
@@ -51,7 +54,7 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
         private const val TIME_PICKER_THEME = 3
         private const val HINT_TEXT_SIZE = 14.0f
         private const val CAMERA_AUTHORITY = "com.angela.notemoment.fileprovider"
-
+        private const val IMAGE_FILE_TIME_STAMP = "yyyyMMdd_HHmmss"
     }
 
     private var filePath: Uri? = null
@@ -89,7 +92,7 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
         )
         Logger.i("set date is :${cal.time}")
 
-        val myFormat = getString(R.string.format_date) // mention the format you need
+        val myFormat = getString(R.string.format_date)
         val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
         binding.selectDate.text = sdf.format(cal.time)
 
@@ -202,7 +205,6 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
         autocompleteText.setHintTextColor(NoteApplication.instance.getColor(R.color.hint_text_color))
 
 
-
         val autocompleteIcon =
             autocompleteFragment.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button) as ImageView
         autocompleteIcon.visibility = View.GONE
@@ -214,6 +216,74 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
         return binding.root
 
     }
+
+    private fun getStoragePermissions() {
+        val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        when (ContextCompat.checkSelfPermission(
+            NoteApplication.instance,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )) {
+            PackageManager.PERMISSION_GRANTED -> {
+                launchGallery()
+            }
+            else -> {
+                requestPermissions(
+                    permissions,
+                    MyRequestCode.LAUNCH_GALLERY.value
+                )
+
+            }
+        }
+    }
+
+    private fun getCameraPermissions() {
+        val permissions = arrayOf(Manifest.permission.CAMERA)
+        when (ContextCompat.checkSelfPermission(
+            NoteApplication.instance,
+            Manifest.permission.CAMERA
+        )) {
+            PackageManager.PERMISSION_GRANTED -> {
+                dispatchTakePictureIntent()
+            }
+            else -> {
+                requestPermissions(
+                    permissions,
+                    MyRequestCode.LAUNCH_CAMERA.value
+                )
+
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            MyRequestCode.LAUNCH_GALLERY.value ->
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    try {
+                        launchGallery()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            MyRequestCode.LAUNCH_CAMERA.value ->
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    try {
+                        dispatchTakePictureIntent()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    return
+                }
+        }
+    }
+
 
     override fun onError(status: Status) {
         Logger.i("autocompleteFragment close:  $status")
@@ -227,19 +297,6 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
         )
         Logger.i("selected place :: ${p0.latLng}")
     }
-
-    private fun launchGallery() {
-        val intent = Intent()
-        intent.type = getString(R.string.launch_gallery_intent)
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(
-                intent,
-                getString(R.string.launch_gallery_title)
-            ), MyRequestCode.LAUNCH_GALLERY.value
-        )
-    }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -270,24 +327,35 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
                             .into(add_note_upload_image)
                     } catch (e: IOException) {
                         e.printStackTrace()
-                     }
+                    }
                 }
             }
         }
     }
 
+    private fun launchGallery() {
+        val intent = Intent()
+        intent.type = getString(R.string.launch_gallery_intent)
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                getString(R.string.launch_gallery_title)
+            ), MyRequestCode.LAUNCH_GALLERY.value
+        )
+    }
+
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            // Ensure that there's a camera activity to handle the intent
+
             takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
-                // Create the File where the photo should go
                 val photoFile: File? = try {
                     createImageFile()
                 } catch (ex: IOException) {
                     null
                 }
-                // Continue only if the File was successfully created
+
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                         requireContext(),
@@ -302,49 +370,29 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
         }
     }
 
-//    private fun loadCamera() {
-//        if (ContextCompat.checkSelfPermission(
-//                NoteApplication.instance,
-//                Manifest.permission.
-//            )
-//            != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            requestPermissions(
-//                arrayOf(
-//                    Manifest.permission.CAMERA
-//                ),
-//                PermissionCode.CAMERA.requestCode
-//            )
-//        } else {
-//            dispatchTakePictureIntent()
-//        }
-//    }
-
-
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val timeStamp: String = SimpleDateFormat(IMAGE_FILE_TIME_STAMP).format(Date())
         val storageDir: File? = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
             storageDir /* directory */
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
             cameraPhotoPath = absolutePath
         }
     }
 
     private fun showSelectPhotoDialog() {
         val pictureDialog = AlertDialog.Builder(context)
-        pictureDialog.setTitle("Select Action")
-        val pictureDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
-        pictureDialog.setItems(pictureDialogItems
-        ) { dialog, which ->
+        pictureDialog.setTitle(getString(R.string.upload_photo))
+        val pictureDialogItems = arrayOf(getString(R.string.album), getString(R.string.camera))
+        pictureDialog.setItems(
+            pictureDialogItems
+        ) { _, which ->
             when (which) {
-                0 -> launchGallery()
-                1 -> dispatchTakePictureIntent()
+                0 -> getStoragePermissions()
+                1 -> getCameraPermissions()
             }
         }
         pictureDialog.show()

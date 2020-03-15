@@ -18,8 +18,6 @@ class MyMapNoteAdapter (val viewModel: MyMapViewModel) : ListAdapter<Note, MyMap
 
         fun bind(note: Note) {
             binding.note = note
-            // This is important, because it forces the data binding to execute immediately,
-            // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
         }
     }
@@ -42,6 +40,9 @@ class MyMapNoteAdapter (val viewModel: MyMapViewModel) : ListAdapter<Note, MyMap
     override fun onBindViewHolder(holder: NoteItemViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+        holder.itemView.setOnClickListener {
+            viewModel.selectNoteToDetail(item)
+        }
     }
 
 }
