@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="com.angela.notemoment.profile.ProfileViewModel" />
+        <import type="com.angela.notemoment.LoadApiStatus"/>
 
     </data>
 
@@ -26,31 +27,28 @@
 
             <ImageView
                 android:id="@+id/image_profile_avatar"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="80dp"
                 android:background="@drawable/icon_user"
-                android:scaleType="centerCrop"
                 app:imageUrlUser="@{viewModel.userPhoto}"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_profile_title" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <EditText
                 android:id="@+id/text_profile_name"
+                style="@style/textTitle15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@color/transparent"
-                android:fontFamily="@font/noto_sans"
                 android:imeOptions="actionDone"
-                android:letterSpacing="0.15"
                 android:singleLine="true"
                 android:text="@={viewModel.user.name}"
-                android:textColor="@color/black_3f3a3a"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="@+id/image_profile_avatar"
                 app:layout_constraintStart_toStartOf="@+id/image_profile_avatar"
                 app:layout_constraintTop_toBottomOf="@+id/image_profile_avatar"
@@ -58,66 +56,55 @@
                 app:requestFocus="@{viewModel.isEditable()}"
                 tools:text="Angelaaa" />
 
-            <TextView
-                android:id="@+id/text_profile_email"
-                style="@style/textGeneral12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans"
-                android:maxLines="1"
-                android:text="@{viewModel.user.email}"
-                android:textColor="@color/black_3f3a3a"
-                app:layout_constraintEnd_toEndOf="@+id/text_profile_name"
-                app:layout_constraintStart_toStartOf="@+id/text_profile_name"
-                app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="aaa@hotmail.com" />
+<!--            <TextView-->
+<!--                android:id="@+id/text_profile_email"-->
+<!--                style="@style/textGeneral12"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/noto_sans"-->
+<!--                android:maxLines="1"-->
+<!--                android:text="@{viewModel.user.email}"-->
+<!--                android:textColor="@color/black_3f3a3a"-->
+<!--                app:layout_constraintEnd_toEndOf="@+id/text_profile_name"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/text_profile_name"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/text_profile_name"-->
+<!--                app:layout_constraintVertical_chainStyle="packed"-->
+<!--                tools:text="aaa@hotmail.com" />-->
 
             <EditText
                 android:id="@+id/text_profile_title"
-                android:layout_width="wrap_content"
+                style="@style/textTitle15"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:fontFamily="@font/noto_sans"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:imeOptions="actionDone"
-                android:letterSpacing="0.15"
-                android:maxLines="2"
+                android:maxLength="20"
                 android:singleLine="true"
                 android:text="@={viewModel.user.title}"
-                android:textColor="@color/black_3f3a3a"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_edit"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
                 app:requestFocus="@{viewModel.isEditable()}"
                 tools:text="Moment note" />
 
             <Button
                 android:id="@+id/button_profile_edit"
-                android:layout_width="59dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_frame_with_radius"
-                android:clickable="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="32dp"
+                android:background="@{viewModel.isEditable() == true? @drawable/icon_send2 : @drawable/icon_edit}"
+                android:clickable="@{viewModel.status == LoadApiStatus.LOADING? false : true}"
                 android:onClick="@{() -> viewModel.editProfile()}"
                 android:text='@{viewModel.isEditable() == true? "DONE":"EDIT"}'
+                app:layout_constraintBottom_toBottomOf="@+id/text_profile_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/profile_view_separate"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/gray_cccccc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_profile_email" />
+                app:layout_constraintTop_toTopOf="@+id/text_profile_title" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 

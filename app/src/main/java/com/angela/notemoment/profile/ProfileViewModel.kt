@@ -12,6 +12,7 @@ import com.angela.notemoment.R
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteRepository
+import com.angela.notemoment.util.Util
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,11 +20,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
-class ProfileViewModel (private val repository: NoteRepository) : ViewModel() {
+class ProfileViewModel(private val repository: NoteRepository) : ViewModel() {
 
     private var _user = MutableLiveData<User>()
 
-    val user : LiveData<User>
+    val user: LiveData<User>
         get() = _user
 
     var userPhoto = MutableLiveData<Uri>()
@@ -45,10 +46,8 @@ class ProfileViewModel (private val repository: NoteRepository) : ViewModel() {
         get() = _error
 
 
-
     private var viewModelJob = Job()
 
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
@@ -68,47 +67,57 @@ class ProfileViewModel (private val repository: NoteRepository) : ViewModel() {
     }
 
 
-    fun getUser(id:String) {
+    fun getUser(id: String) {
         _user = repository.getUser(id) as MutableLiveData<User>
 
     }
 
-    fun updateUserResult(user: User) {
+    private fun updateUserResult(user: User) {
 
-            coroutineScope.launch {
+        coroutineScope.launch {
 
-                _status.value = LoadApiStatus.LOADING
-                Toast.makeText(NoteApplication.instance, "Uploading", Toast.LENGTH_SHORT).show()
+            _status.value = LoadApiStatus.LOADING
+            Toast.makeText(
+                NoteApplication.instance,
+                Util.getString(R.string.uploading),
+                Toast.LENGTH_SHORT
+            ).show()
 
-                when (val result = repository.updateUser(user)) {
-                    is Result.Success -> {
-                        _error.value = null
-                        _status.value = LoadApiStatus.DONE
-                        Toast.makeText(NoteApplication.instance, "Success", Toast.LENGTH_SHORT).show()
-                    }
-                    is Result.Fail -> {
-                        _error.value = result.error
-                        _status.value = LoadApiStatus.ERROR
-                        Toast.makeText(NoteApplication.instance, "Fail", Toast.LENGTH_SHORT).show()
-                    }
-                    is Result.Error -> {
-                        _error.value = result.exception.toString()
-                        _status.value = LoadApiStatus.ERROR
-                    }
-                    else -> {
-                        _error.value = NoteApplication.instance.getString(R.string.fail)
-                        _status.value = LoadApiStatus.ERROR
-                    }
+            when (val result = repository.updateUser(user)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    Toast.makeText(
+                        NoteApplication.instance,
+                        Util.getString(R.string.edit_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    Toast.makeText(
+                        NoteApplication.instance,
+                        Util.getString(R.string.fail),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = NoteApplication.instance.getString(R.string.fail)
+                    _status.value = LoadApiStatus.ERROR
                 }
             }
-
         }
 
-
+    }
 
 
     fun editProfile() {
-        if (isEditable.value == false){
+        if (isEditable.value == false) {
             isEditable.value = true
         } else {
             isEditable.value = false
