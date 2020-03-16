@@ -45,9 +45,9 @@ src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web
 * Google Places API
 
 ## 開發環境
-Android Studio 3.5.2
-Android SDK 26+
-Gradle 5.4.1+
+Android Studio 3.5.2  
+Android SDK 26+  
+Gradle 5.4.1+  
 
 ## 版本更新
 
