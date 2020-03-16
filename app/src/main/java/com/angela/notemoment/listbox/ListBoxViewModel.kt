@@ -39,14 +39,11 @@ class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
     val navigateToListNote: LiveData<Box>
         get() = _navigateToListNote
 
-
-    // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
     val status: LiveData<LoadApiStatus>
         get() = _status
 
-    // error: The internal MutableLiveData that stores the error of the most recent request
     private val _error = MutableLiveData<String>()
 
     val error: LiveData<String>
@@ -55,7 +52,6 @@ class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
 
     private var viewModelJob = Job()
 
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
@@ -103,7 +99,6 @@ class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
                     null
                 }
             }
-//            _refreshStatus.value = false
         }
     }
 
@@ -114,7 +109,6 @@ class ListBoxViewModel(private val repository: NoteRepository) : ViewModel() {
         val end = sdf.format(endDate)
         return "$start-$end"
     }
-
 
     fun selectBox(box: Box) {
         _navigateToListNote.value = box

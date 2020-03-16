@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.angela.notemoment.NoteApplication
+import com.angela.notemoment.R
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.databinding.ItemListDrawerBinding
-import kotlin.random.Random
 
 
-class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, ListBoxAdapter.ListBoxViewHolder>(DiffCallback) {
+class ListBoxAdapter(private val boxViewModel: ListBoxViewModel) : ListAdapter<Box, ListBoxAdapter.ListBoxViewHolder>(DiffCallback) {
 
 
     class ListBoxViewHolder(private var binding: ItemListDrawerBinding) :
@@ -45,14 +46,15 @@ class ListBoxAdapter(val boxViewModel: ListBoxViewModel) : ListAdapter<Box, List
 
     override fun onBindViewHolder(holder: ListBoxViewHolder, position: Int) {
                 val item = getItem(position)
-                holder.itemView.layoutParams.height = getRandomIntInRange(550, 500)
+                holder.itemView.layoutParams.height = if ((item as Box).image.isNotEmpty()) {
+                    NoteApplication.instance.resources.getDimensionPixelSize(R.dimen.list_box_with_image)
+                } else {
+                    NoteApplication.instance.resources.getDimensionPixelSize(R.dimen.list_box_no_image)
+                }
                 holder.bind(item, boxViewModel)
                 holder.itemView.setOnClickListener {
                     boxViewModel.selectBox(item)
                 }
             }
 
-    private fun getRandomIntInRange(max: Int, min: Int): Int {
-        return Random.nextInt(max - min + 30) + min
-    }
 }

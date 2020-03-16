@@ -5,15 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.angela.notemoment.data.ListNoteSorted
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.databinding.ItemListNoteBinding
 
-class ListNoteItemAdapter (val viewModel: ListNoteViewModel) : ListAdapter<Note, ListNoteItemAdapter.ListNoteItemViewHolder>(DiffCallback) {
+class ListNoteItemAdapter(val viewModel: ListNoteViewModel) :
+    ListAdapter<Note, ListNoteItemAdapter.ListNoteItemViewHolder>(DiffCallback) {
 
-
-
-    class ListNoteItemViewHolder(private var binding: ItemListNoteBinding): RecyclerView.ViewHolder(binding.root) {
+    class ListNoteItemViewHolder(private var binding: ItemListNoteBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: Note) {
             binding.note = note
@@ -32,7 +31,13 @@ class ListNoteItemAdapter (val viewModel: ListNoteViewModel) : ListAdapter<Note,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListNoteItemViewHolder {
-        return ListNoteItemViewHolder(ItemListNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ListNoteItemViewHolder(
+            ItemListNoteBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
 

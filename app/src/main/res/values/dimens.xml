@@ -20,7 +20,9 @@
     <dimen name="standard_105">105dp</dimen>
     <dimen name="standard_155">155dp</dimen>
 
-
+    <!-- list -->
     <dimen name="map_note_height">116dp</dimen>
+    <dimen name="list_box_no_image">180dp</dimen>
+    <dimen name="list_box_with_image">210dp</dimen>
 
 </resources>

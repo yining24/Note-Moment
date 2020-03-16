@@ -5,7 +5,6 @@ import com.angela.notemoment.NoteApplication
 
 object Util {
 
-
     fun getString(resourceId: Int): String {
         return NoteApplication.instance.getString(resourceId)
     }
@@ -13,9 +12,5 @@ object Util {
     fun getColor(resourceId: Int): Int {
         return NoteApplication.instance.getColor(resourceId)
     }
-
-
-
-
 
 }

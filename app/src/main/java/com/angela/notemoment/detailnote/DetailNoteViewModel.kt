@@ -106,7 +106,7 @@ class DetailNoteViewModel(
     }
 
 
-    fun updateNoteResult(note: Note, photoUrl: Uri?) {
+    private fun updateNoteResult(note: Note, photoUrl: Uri?) {
 
         if (canUpdateNote) {
             coroutineScope.launch {

@@ -59,7 +59,4 @@ class DefaultNoteRepository (private val remoteDataSource: NoteDataSource,
         return remoteDataSource.publishNote(note, boxId, uri)
     }
 
-    override suspend fun delete(box: Box): Result<Boolean> {
-        return remoteDataSource.delete(box)
-    }
 }

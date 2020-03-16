@@ -6,7 +6,6 @@
     <string name="facebook_application_id">625515361608804</string>
     <string name="google_map_api">AIzaSyCYuykbAsTXQWNGJIlxrdV0r3mJrgKpz54</string>
 
-
     <!-- Global -->
     <string name="launch_gallery_title">Select Photo</string>
     <string name="launch_gallery_intent">image/*</string>
@@ -18,7 +17,7 @@
     <string name="upload_photo">Upload Photo from</string>
     <string name="album">Album</string>
     <string name="camera">Camera</string>
-
+    <string name="login_first">Please login first</string>
 
     <!-- Box -->
     <string name="add_box_create">Create Box</string>
@@ -37,6 +36,5 @@
     <string name="hint_autocomplete_location">Location\u0020*</string>
     <string name="hint_note_required_fields">-- Fields marked with * are required --</string>
     <string name="no_content">No content</string>
-
 
 </resources>

@@ -30,21 +30,16 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-
         FirebaseAuth.getInstance().currentUser?.uid?.let {
             viewModel.getUser(it)
         }
 
-
         viewModel.isEditable.observe(viewLifecycleOwner, Observer {
-                Logger.i("isEditable::$it")
+            Logger.i("isEditable::$it")
         })
-
-
 
         return binding.root
     }
-
 
 
 }

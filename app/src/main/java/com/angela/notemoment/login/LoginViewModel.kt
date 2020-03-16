@@ -62,7 +62,6 @@ class LoginViewModel(private val repository: NoteRepository) : ViewModel() {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    Logger.w("checkUserResult Success :: $id")
                     navigateToListBox()
                 }
                 is Result.Fail -> {

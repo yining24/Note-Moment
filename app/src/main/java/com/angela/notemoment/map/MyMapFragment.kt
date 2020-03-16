@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.Marker
 
 
 class MyMapFragment : Fragment(), GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+
     override fun onMarkerClick(p0: Marker?): Boolean {
         Logger.i("map onMarkerClick :: $p0")
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -32,17 +33,17 @@ class MyMapFragment : Fragment(), GoogleMap.OnMarkerClickListener, OnMapReadyCal
 
     private val viewModel by viewModels<MyMapViewModel> { getVmFactory() }
 
-    lateinit var mapView: MapView
-    lateinit var myGoogleMap: GoogleMap
+    private lateinit var mapView: MapView
+    private lateinit var myGoogleMap: GoogleMap
+    private val mapBundleKey: String = "MapViewBundleKey"
     lateinit var binding: FragmentMymapBinding
-    private val MAPVIEW_BUNDLE_KEY: String? = "MapViewBundleKey"
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        var mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY)
+        var mapViewBundle = outState.getBundle(mapBundleKey)
         if (mapViewBundle == null) {
             mapViewBundle = Bundle()
-            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle)
+            outState.putBundle(mapBundleKey, mapViewBundle)
         }
         mapView.onSaveInstanceState(mapViewBundle)
     }
@@ -104,12 +105,9 @@ class MyMapFragment : Fragment(), GoogleMap.OnMarkerClickListener, OnMapReadyCal
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-
         val adapter = MyMapNoteAdapter(viewModel)
         binding.recyclerMapNote.adapter = adapter
 
-
-        // Gets the MapView from the XML layout and creates it
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)

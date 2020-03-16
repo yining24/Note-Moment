@@ -6,9 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.angela.notemoment.LoadApiStatus
+import com.angela.notemoment.R
 import com.angela.notemoment.util.Logger
 import com.angela.notemoment.data.*
 import com.angela.notemoment.data.source.NoteRepository
+import com.angela.notemoment.util.Util.getString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -78,44 +80,7 @@ class ListNoteViewModel (private val repository: NoteRepository,
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-//        _noteSorted.value = toListNoteSorted(note.value)
     }
-
-
-//    private fun getLiveNotesResult() {
-//
-//        coroutineScope.launch {
-//
-//            _status.value = LoadApiStatus.LOADING
-//
-//            val result = repository.getNote(_box.value!!.id)
-//
-//            _note.value = when (result) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    _noteSorted.value = result.data.toListNoteSorted()
-//                    result.data
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                else -> {
-//                    _error.value = NoteApplication.instance.getString(R.string.fail)
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//            }
-//        }
-//    }
-
 
     val notesSize = Transformations.map(_note){
         when (it.size) {
@@ -127,7 +92,7 @@ class ListNoteViewModel (private val repository: NoteRepository,
 
 
     fun displayBoxDate(): String {
-        val sdf = SimpleDateFormat("yyyy/MM/dd")
+        val sdf = SimpleDateFormat(getString(R.string.format_date))
         val start = sdf.format(_box.value?.startDate)
         val end = sdf.format(_box.value?.endDate)
         return if (_box.value?.startDate == 0L || _box.value?.endDate == 0L) {
@@ -136,7 +101,6 @@ class ListNoteViewModel (private val repository: NoteRepository,
             "$start-$end"
         }
     }
-
 
 
     // sort notes by date
@@ -150,14 +114,13 @@ class ListNoteViewModel (private val repository: NoteRepository,
             for (note in it) {
 
                 fun getDateByTime(time: Long): String {
-                    val myFormat = "yyyy/MM/dd"
+                    val myFormat = getString(R.string.format_date)
                     val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
 
                     return sdf.format(time)
                 }
 
                 val date = getDateByTime(note.time)
-                Logger.i("date=$date")
 
                 if (date != tempObj.date) {
                     Logger.i("create ListNoteSorted")
@@ -166,7 +129,6 @@ class ListNoteViewModel (private val repository: NoteRepository,
                     sortedNotes.add(tempObj)
                 }
                 tempObj.notes.add(note)
-                Logger.i("sortedNotes=$sortedNotes")
             }
         }
         return sortedNotes

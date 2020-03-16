@@ -11,6 +11,7 @@ import com.angela.notemoment.data.Note
 import com.angela.notemoment.data.Result
 import com.angela.notemoment.data.User
 import com.angela.notemoment.data.source.NoteDataSource
+import com.angela.notemoment.login.UserManager
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -26,9 +27,10 @@ object NoteRemoteDataSource : NoteDataSource {
 
 
     private const val PATH_USER = "users"
-    private const val PATH_BOX  = "boxes"
+    private const val PATH_BOX = "boxes"
     private const val PATH_NOTE = "notes"
     private const val APP_TITLE = "Spot Moment"
+    private const val UPLOADS = "uploads/"
 
     private val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
 
@@ -93,9 +95,9 @@ object NoteRemoteDataSource : NoteDataSource {
                                 .set(
                                     User(
                                         user.uid,
-                                        user.displayName?:"",
+                                        user.displayName ?: "",
                                         APP_TITLE,
-                                        user.email?:""
+                                        user.email ?: ""
                                     )
                                 )
                                 .addOnCompleteListener { task ->
@@ -124,45 +126,47 @@ object NoteRemoteDataSource : NoteDataSource {
                         }
                     }
             }
-                }
-
+        }
 
 
     override suspend fun getBox(): Result<List<Box>> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance()
-                .collection(PATH_USER)
-                .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-                .collection(PATH_BOX)
-                .orderBy("endDate", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val list = mutableListOf<Box>()
-                        for (document in task.result!!) {
-                            Logger.d(document.id + " => " + document.data)
+            if (UserManager.isLogin) {
+                firebaseStore
+                    .document(UserManager.userId!!)
+                    .collection(PATH_BOX)
+                    .orderBy("endDate", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val list = mutableListOf<Box>()
+                            for (document in task.result!!) {
+                                Logger.d(document.id + " => " + document.data)
 
-                            val box = document.toObject(Box::class.java)
-                            list.add(box)
+                                val box = document.toObject(Box::class.java)
+                                list.add(box)
+                            }
+                            continuation.resume(Result.Success(list))
+                        } else {
+                            task.exception?.let {
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.app_name)))
                         }
-                        continuation.resume(Result.Success(list))
-                    } else {
-                        task.exception?.let {
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
-                        }
-                        continuation.resume(Result.Fail(NoteApplication.instance.getString(R.string.app_name)))
                     }
-                }
+            } else {
+                continuation.resume(Result.Fail("User not logged in"))
+            }
+
         }
 
 
     override suspend fun getNote(boxId: String): Result<List<Note>> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance()
-                .collection(PATH_USER)
-                .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            firebaseStore
+                .document(UserManager.userId?: "")
                 .collection(PATH_NOTE)
                 .whereEqualTo("boxId", boxId)
                 .orderBy("time", Query.Direction.ASCENDING)
@@ -190,9 +194,8 @@ object NoteRemoteDataSource : NoteDataSource {
 
     override suspend fun getAllNote(): Result<List<Note>> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance()
-                .collection(PATH_USER)
-                .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+            firebaseStore
+                .document(UserManager.userId?: "")
                 .collection(PATH_NOTE)
                 .get()
                 .addOnCompleteListener { task ->
@@ -216,13 +219,12 @@ object NoteRemoteDataSource : NoteDataSource {
         }
 
 
-    override fun getLiveNotes(boxId:String): LiveData<List<Note>> {
+    override fun getLiveNotes(boxId: String): LiveData<List<Note>> {
         val notes = MutableLiveData<List<Note>>()
-        FirebaseFirestore.getInstance()
-            .collection(PATH_USER)
-            .document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
+        firebaseStore
+            .document(UserManager.userId?: "")
             .collection(PATH_NOTE)
-            .whereEqualTo("boxId",boxId)
+            .whereEqualTo("boxId", boxId)
             .orderBy("time", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
@@ -247,18 +249,16 @@ object NoteRemoteDataSource : NoteDataSource {
         suspendCoroutine { continuation ->
 
             val storageReference = FirebaseStorage.getInstance().reference
-            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
-            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-            Logger.w("publish box uid::::${FirebaseAuth.getInstance().currentUser!!.uid}")
 
-            val boxDocument = document
+            val boxDocument = firebaseStore
+                .document(UserManager.userId ?: "")
                 .collection(PATH_BOX)
                 .document()
 
             box.id = boxDocument.id
 
             if (uri != null) {
-                val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
+                val ref = storageReference.child(UPLOADS + UUID.randomUUID().toString())
                 val uploadTask = ref.putFile(uri)
                 uploadTask.continueWithTask(
                     Continuation<UploadTask.TaskSnapshot, Task<Uri>> { taskImage ->
@@ -272,7 +272,6 @@ object NoteRemoteDataSource : NoteDataSource {
                     })
                     .addOnCompleteListener { taskImage ->
                         if (taskImage.isSuccessful) {
-                            Logger.i("task is successful")
                             Logger.i(" box taskImage = ${taskImage.result}")
 
                             box.image = taskImage.result.toString()
@@ -328,16 +327,14 @@ object NoteRemoteDataSource : NoteDataSource {
         suspendCoroutine { continuation ->
 
             val storageReference = FirebaseStorage.getInstance().reference
-            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
-            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
             Logger.w("update box uid::::${box.id}")
 
-            val boxDocument = document
+            val boxDocument = firebaseStore.document(UserManager.userId ?:"")
                 .collection(PATH_BOX)
                 .document(box.id)
 
             if (uri != null) {
-                val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
+                val ref = storageReference.child(UPLOADS + UUID.randomUUID().toString())
                 val uploadTask = ref.putFile(uri)
                 uploadTask.continueWithTask(
                     Continuation<UploadTask.TaskSnapshot, Task<Uri>> { taskImage ->
@@ -407,14 +404,14 @@ object NoteRemoteDataSource : NoteDataSource {
         suspendCoroutine { continuation ->
 
             val storageReference = FirebaseStorage.getInstance().reference
-            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
 
-            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-            val noteDocument =
-                document.collection(PATH_NOTE).document(note.id)
+            val noteDocument = firebaseStore
+                .document(UserManager.userId ?: "")
+                .collection(PATH_NOTE)
+                .document(note.id)
 
             if (uri != null) {
-                val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
+                val ref = storageReference.child(UPLOADS + UUID.randomUUID().toString())
                 val uploadTask = ref.putFile(uri)
                 uploadTask.continueWithTask(
                     Continuation<UploadTask.TaskSnapshot, Task<Uri>> { taskImage ->
@@ -483,18 +480,16 @@ object NoteRemoteDataSource : NoteDataSource {
         suspendCoroutine { continuation ->
 
             val storageReference = FirebaseStorage.getInstance().reference
-            val firebaseStore = FirebaseFirestore.getInstance().collection(PATH_USER)
 
-            val document = firebaseStore.document(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-            val noteDocument =
-                document
-                    .collection(PATH_NOTE)
-                    .document()
+            val noteDocument = firebaseStore
+                .document(UserManager.userId ?: "")
+                .collection(PATH_NOTE)
+                .document()
 
             note.id = noteDocument.id
 
             if (uri != null) {
-                val ref = storageReference.child("uploads/" + UUID.randomUUID().toString())
+                val ref = storageReference.child(UPLOADS + UUID.randomUUID().toString())
                 val uploadTask = ref.putFile(uri)
                 uploadTask.continueWithTask(
                     Continuation<UploadTask.TaskSnapshot, Task<Uri>> { taskImage ->
@@ -557,34 +552,4 @@ object NoteRemoteDataSource : NoteDataSource {
                     }
             }
         }
-
-
-    override suspend fun delete(box: Box): Result<Boolean> =
-        suspendCoroutine { continuation ->
-
-            when {
-                box.title == "waynechen323"
-                        && box.title.toLowerCase(Locale.TAIWAN) != "test"
-                        && box.title.trim().isNotEmpty() -> {
-
-                    continuation.resume(Result.Fail("You know nothing!! ${box.title}"))
-                }
-                else -> {
-                    FirebaseFirestore.getInstance()
-                        .collection("users")
-                        .document(box.id)
-                        .delete()
-                        .addOnSuccessListener {
-                            Logger.i("Delete: $box")
-
-                            continuation.resume(Result.Success(true))
-                        }.addOnFailureListener {
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                        }
-                }
-            }
-
-        }
-
 }

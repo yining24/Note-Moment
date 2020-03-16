@@ -32,5 +32,4 @@ interface NoteDataSource {
 
     suspend fun publishNote(note: Note, boxId:String, uri: Uri?): Result<Boolean>
 
-    suspend fun delete(box: Box): Result<Boolean>
 }

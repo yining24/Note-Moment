@@ -36,9 +36,10 @@ class ListNoteFragment : Fragment() {
         binding.recyclerListNoteDetail.adapter = adapter
 
         binding.lifecycleOwner = this
+        fabNote = binding.fabNote
 
 
-        viewModel.note.observe(this, Observer {
+        viewModel.note.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Logger.i("note size = ${it.size}")
             }
@@ -72,12 +73,6 @@ class ListNoteFragment : Fragment() {
         viewModel.note.observe(viewLifecycleOwner, Observer {
             viewModel.noteSorted.value= viewModel.toListNoteSorted(it)
         })
-
-
-
-        //fab setting
-        fabNote = binding.fabNote
-
 
 
         return binding.root

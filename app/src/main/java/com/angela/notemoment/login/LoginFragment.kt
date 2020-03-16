@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
                 val response = IdpResponse.fromResultIntent(data)
                 if (response == null) {
                     // back button is pressed
-                    this.showToast("尚未登入")
+                    this.showToast(getString(R.string.login_first))
                     (activity as MainActivity).finish()
                 }
             } else {

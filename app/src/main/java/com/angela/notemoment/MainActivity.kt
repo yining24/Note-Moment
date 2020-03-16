@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun setupNavController() {
         binding.bottomNavView.setupWithNavController(findNavController(R.id.myNavHostFragment))
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->

@@ -11,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.angela.notemoment.NoteApplication.Companion.instance
 import com.angela.notemoment.data.Box
 import com.angela.notemoment.data.ListNoteSorted
 import com.angela.notemoment.data.Note
@@ -20,8 +19,6 @@ import com.angela.notemoment.listnote.ListNoteSortedAdapter
 import com.angela.notemoment.map.MyMapNoteAdapter
 import com.angela.notemoment.util.GlideApp
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
@@ -85,11 +82,6 @@ fun requestFocus(view: TextView, requestFocus: Boolean) {
         }
     }
 }
-
-
-/**
- * Uses the Glide library to load an image by URL into an [ImageView]
- */
 
 /**
  * Uses the Glide library to load an image by URL into an [ImageView]

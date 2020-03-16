@@ -9,17 +9,18 @@ import com.angela.notemoment.data.ListNoteSorted
 import com.angela.notemoment.data.Note
 import com.angela.notemoment.databinding.ItemListNoteSortedBinding
 
-class ListNoteSortedAdapter (val viewModel: ListNoteViewModel) : ListAdapter<ListNoteSorted, ListNoteSortedAdapter.ListNoteViewHolder>(DiffCallback) {
+class ListNoteSortedAdapter(val viewModel: ListNoteViewModel) :
+    ListAdapter<ListNoteSorted, ListNoteSortedAdapter.ListNoteViewHolder>(DiffCallback) {
 
 
-
-    class ListNoteViewHolder(private var binding: ItemListNoteSortedBinding): RecyclerView.ViewHolder(binding.root) {
+    class ListNoteViewHolder(private var binding: ItemListNoteSortedBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(listNoteSorted: ListNoteSorted, viewModel: ListNoteViewModel) {
             binding.listNoteSorted = listNoteSorted
             binding.viewModel = viewModel
 
-            val adapter= ListNoteItemAdapter(viewModel)
+            val adapter = ListNoteItemAdapter(viewModel)
             binding.recyclerListNote.adapter = adapter
 
             adapter.submitList(listNoteSorted.notes)
@@ -39,7 +40,13 @@ class ListNoteSortedAdapter (val viewModel: ListNoteViewModel) : ListAdapter<Lis
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListNoteViewHolder {
-        return ListNoteViewHolder(ItemListNoteSortedBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ListNoteViewHolder(
+            ItemListNoteSortedBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
 
