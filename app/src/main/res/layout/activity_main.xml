@@ -28,17 +28,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/toolbar_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:gravity="center_vertical"
-                app:menu="@menu/toolbar_menu"
-                app:queryHint="@string/hint_toolbar_search"
-                android:clickable="false">
+<!--            <androidx.appcompat.widget.SearchView-->
+<!--                android:id="@+id/toolbar_search"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:gravity="center_vertical"-->
+<!--                app:menu="@menu/toolbar_menu"-->
+<!--                app:queryHint="@string/hint_toolbar_search"-->
+<!--                android:clickable="false">-->
 
-            </androidx.appcompat.widget.SearchView>
+<!--            </androidx.appcompat.widget.SearchView>-->
 
         </androidx.appcompat.widget.Toolbar>
 
