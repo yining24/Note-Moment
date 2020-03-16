@@ -11,6 +11,7 @@ src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web
 * 專屬自己的旅遊地圖：將去過的景點標上圖釘，點擊圖釘顯示筆記
 * 可以客製化自己的旅遊筆記名稱
 
+<img src="https://firebasestorage.googleapis.com/v0/b/note-40d4a.appspot.com/o/uploads%2Fscreenshot_home.png?alt=media&token=178b5155-d53a-4401-b9a1-2dd7824d51a1" width="150"/> <img src="https://firebasestorage.googleapis.com/v0/b/note-40d4a.appspot.com/o/uploads%2Fscreenshot_notes.png?alt=media&token=05105a00-f622-4e6b-aaba-cb8bb67c7f56" width="150"/> <img src="https://firebasestorage.googleapis.com/v0/b/note-40d4a.appspot.com/o/uploads%2Fscreenshot_add_note.png?alt=media&token=f8ddac4a-e9b4-4773-b455-90135a448635" width="150"/> <img src="https://firebasestorage.googleapis.com/v0/b/note-40d4a.appspot.com/o/uploads%2Fscreenshot_map.png?alt=media&token=1e738162-4d52-4c41-a1ac-78af8784747e" width="150"/> <img src="https://firebasestorage.googleapis.com/v0/b/note-40d4a.appspot.com/o/uploads%2Fscreenshot_profile.png?alt=media&token=570f71b3-0ef2-48f3-9387-a73fa7af3371" width="150"/>
 
 ## 實作技術
 ### Design Patterns
