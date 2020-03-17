@@ -114,7 +114,8 @@ class AddNoteFragment : Fragment(), PlaceSelectionListener {
 
         binding.selectDate.setOnClickListener {
             DatePickerDialog(
-                requireContext(), dateSetListener,
+                requireContext()
+                , dateSetListener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
