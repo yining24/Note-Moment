@@ -53,6 +53,19 @@ class MyMapFragment : Fragment(), GoogleMap.OnMarkerClickListener, OnMapReadyCal
         myGoogleMap = googleMap
         myGoogleMap.uiSettings.isMapToolbarEnabled = false
 
+        viewModel.notes.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val focusMarker = viewModel.getFocusMarker(it)
+                val initCameraRatio = 1F
+                myGoogleMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        focusMarker,
+                        initCameraRatio
+                    )
+                )
+            }
+        })
+
 
         //map marker
         viewModel.notes.observe(this, Observer { list ->
@@ -82,7 +95,6 @@ class MyMapFragment : Fragment(), GoogleMap.OnMarkerClickListener, OnMapReadyCal
                     cameraRatio
                 )
             )
-
             viewModel.getMarkerNote(marker.position)
             viewModel.showNotesWindow()
 
@@ -123,6 +135,7 @@ class MyMapFragment : Fragment(), GoogleMap.OnMarkerClickListener, OnMapReadyCal
             it?.let {
                 findNavController().navigate(NavigationDirections.actionGlobalDetailNoteFragment(it))
                 viewModel.onSelectNoteToDetail()
+                viewModel.closeNotesWindow()
             }
         })
 

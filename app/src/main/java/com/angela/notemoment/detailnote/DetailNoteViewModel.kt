@@ -66,10 +66,10 @@ class DetailNoteViewModel(
     }
 
 
-    private val _navigateToAddNote = MutableLiveData<Boolean>()
+    private val _navigateToListNote = MutableLiveData<Boolean>()
 
-    val navigateToAddNote: LiveData<Boolean>
-        get() = _navigateToAddNote
+    val navigateToListNote: LiveData<Boolean>
+        get() = _navigateToListNote
 
 
     var content = MutableLiveData<String>()
@@ -137,6 +137,7 @@ class DetailNoteViewModel(
                                 }
                             }
                         }
+                        navigateToListNote()
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -221,12 +222,12 @@ class DetailNoteViewModel(
         get() = !note.value?.title.isNullOrEmpty() && note.value?.time != 1L && !note.value?.locateName.isNullOrEmpty()
 
 
-    fun navigateToAddNote() {
-        _navigateToAddNote.value = true
+    fun navigateToListNote() {
+        _navigateToListNote.value = true
     }
 
-    fun onAddNoteNavigated() {
-        _navigateToAddNote.value = null
+    fun onListNoteNavigated() {
+        _navigateToListNote.value = null
     }
 
     fun onChangeNoteTime(time: Long) {

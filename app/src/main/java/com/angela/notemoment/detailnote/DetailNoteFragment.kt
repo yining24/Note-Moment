@@ -53,10 +53,10 @@ class DetailNoteFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.navigateToAddNote.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToListNote.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.actionGlobalAddNoteFragment())
-                viewModel.onAddNoteNavigated()
+                findNavController().navigateUp()
+                viewModel.onListNoteNavigated()
             }
         })
 

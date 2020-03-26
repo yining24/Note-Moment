@@ -197,6 +197,7 @@ object NoteRemoteDataSource : NoteDataSource {
             firebaseStore
                 .document(UserManager.userId?: "")
                 .collection(PATH_NOTE)
+                .orderBy("time", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

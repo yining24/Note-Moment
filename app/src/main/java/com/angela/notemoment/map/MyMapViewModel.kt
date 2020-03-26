@@ -32,10 +32,12 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
 
     var markerTitle = MutableLiveData<String>()
 
-    private val _showNotesWindow = MutableLiveData<Boolean>()
-
+    private val _showNotesWindow = MutableLiveData<Boolean>().apply {
+        value = false
+    }
     val showNotesWindow: LiveData<Boolean>
         get() = _showNotesWindow
+
 
     private val _navigateToDetailNote = MutableLiveData<Note>()
 
@@ -124,7 +126,7 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
     }
 
     fun closeNotesWindow() {
-        _showNotesWindow.value = null
+        _showNotesWindow.value = false
     }
 
     fun selectNoteToDetail(note: Note) {
@@ -135,5 +137,9 @@ class MyMapViewModel (private val repository: NoteRepository) : ViewModel() {
         _navigateToDetailNote.value = null
     }
 
+    fun getFocusMarker (notes: List<Note>) : LatLng{
+
+        return LatLng(notes.last().lat, notes.last().lng)
+    }
 
 }

@@ -63,13 +63,17 @@ suspend fun Box.checkAndUpdateDate(repository: NoteRepository) {
     }
 
     list?.let {
-        if (it.first().time != this.startDate || it.last().time != this.endDate) {
+        if (it.isEmpty()) {
+            this.startDate = 0
+            this.endDate = 0
+            Logger.i("list is empty ::${it}")
+        }
+        else if (it.first().time != this.startDate || it.last().time != this.endDate) {
             this.startDate = it.first().time
             this.endDate = it.last().time
-            repository.updateBox(this, null)
             Logger.i("update box start time to ::${it.first().time}")
             Logger.i("update box end time to ::${it.last().time}")
         }
+        repository.updateBox(this, null)
     }
-
 }
